@@ -1,0 +1,27 @@
+A   {text-decoration: none; color:blue}
+A:hover {text-decoration: underline}
+
+TABLE {border-collapse: collapse; border:0px solid black;}
+TABLE[name="vystup"] {border:2px solid black;}
+TH {background-color:#FFCC99;}
+TD {padding: 3; border:1px solid black;}
+
+#vystup {margin-left:300px; top:0px; border-style:none; min-width:40%;}
+
+#filtr {float:left; padding:5px; border:0px dashed black; max-width:350px;}
+
+#pokr {float:right; padding:5px; border:1px dashed black;}
+
+.chybi {border:1px solid red;}
+
+.help {color:rgb(144,144,144); font-style:italic; font-size:small;}
+
+LABEL {font-size:large; line-height:30px;}
+
+P {text-indent:10px;}
+
+INPUT[type='number'] {width:60px;}
+
+H4 {margin-bottom:5px;}
+
+FIELDSET {max-width:50%;}
