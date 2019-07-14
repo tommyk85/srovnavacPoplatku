@@ -18,9 +18,9 @@ die ("neoprávněný přístup");
 ?>
 
 
-<a href='/admin_page/admin.php'>RESET</a>
-| <a href='/admin_page/admin.php?ucet=36&nazevUctu=mKonto&kodBanky=6210&r_cena_d=0&s_popl_karty=Spravovat+poplatky+karet+k+%C3%BA%C4%8Dtu+%282%29&id=81&ucet_vzor=0&platnostOd=2017-05-02&zrizeniUctu=0.00&zrizeniIB=0.00&zrizeniMB=0.00&zrizeniTB=0.00&zrizeniTP_IB=0.00&zrizeniTP_MB=0.00&zrizeniTP_TB=40.00&zruseniUctu=0.00&koment_JP=no+comment&vedeniUctu_podm=0&vedeniUctu=0.00&vedeniIB=0.00&vedeniMB=0.00&vedeniTB=0.00&vypisE=0.00&vypisP=50.00&koment_PP=no+comment&prichozi1=0.00&prichozi2=0.00&odchoziTP1=0.00&odchoziTP2=0.00&odchoziOn1=0.00&odchozi1_IB=0.00&odchozi1_MB=0.00&odchozi1_TB=40.00&odchozi2_IB=0.00&odchozi2_MB=0.00&odchozi2_TB=40.00&odchoziP=&koment_trans=no+comment&inkSvoleni=0.00&inkOdch=0.00&koment_ink=no+comment&kontZrizeni=0.00&kontVedeni=0.00&kontZruseni=0.00&koment_kont=no+comment'>TEST</a>                                     
-| <a href=/srovnavac/bezne_ucty>SROVNÁVAČ</a>
+<a href='/srovnavacPoplatku/admin_page/admin.php' accesskey='r'>RESET</a>
+| <a href='/srovnavacPoplatku/admin_page/admin.php?ucet=36&nazevUctu=mKonto&kodBanky=6210&r_cena_d=0&s_popl_karty=Spravovat+poplatky+karet+k+%C3%BA%C4%8Dtu+%282%29&id=81&ucet_vzor=0&platnostOd=2017-05-02&zrizeniUctu=0.00&zrizeniIB=0.00&zrizeniMB=0.00&zrizeniTB=0.00&zrizeniTP_IB=0.00&zrizeniTP_MB=0.00&zrizeniTP_TB=40.00&zruseniUctu=0.00&koment_JP=no+comment&vedeniUctu_podm=0&vedeniUctu=0.00&vedeniIB=0.00&vedeniMB=0.00&vedeniTB=0.00&vypisE=0.00&vypisP=50.00&koment_PP=no+comment&prichozi1=0.00&prichozi2=0.00&odchoziTP1=0.00&odchoziTP2=0.00&odchoziOn1=0.00&odchozi1_IB=0.00&odchozi1_MB=0.00&odchozi1_TB=40.00&odchozi2_IB=0.00&odchozi2_MB=0.00&odchozi2_TB=40.00&odchoziP=&koment_trans=no+comment&inkSvoleni=0.00&inkOdch=0.00&koment_ink=no+comment&kontZrizeni=0.00&kontVedeni=0.00&kontZruseni=0.00&koment_kont=no+comment'>TEST</a>                                     
+| <a href='/srovnavacPoplatku/srovnavac/bezne_ucty'>SROVNÁVAČ</a>
 
 
 <?php
@@ -175,7 +175,7 @@ ID poplatků: <INPUT type='text' name='id' value=<?php echo $_GET['id']; ?> size
 echo "<INPUT type='submit' name='oprava_karty' value='".(isset($_GET['oprava_karty']) && $_GET['oprava_karty'] == "Provést změny v kartách" ? "Uložit změny v kartách" : "Provést změny v kartách")."'".($pocet_karet == 0 || (isset($_GET['oprava_karty']) && $_GET['oprava_karty'] == "Přidat novou kartu") ? " disabled" : "").">"; 
 
 $nova_karta = isset($_GET['oprava_karty']) && $_GET['oprava_karty'] == "Přidat novou kartu" ? "Uložit novou kartu" : "Přidat novou kartu";
-echo " <INPUT type='submit' name='oprava_karty' value='$nova_karta'".(isset($_GET['oprava_karty']) && $_GET['oprava_karty'] == "Provést změny v kartách" ? " disabled" : "").">";
+echo " <INPUT type='submit' name='oprava_karty' value='$nova_karta'".(isset($_GET['oprava_karty']) && $_GET['oprava_karty'] == "Provést změny v kartách" ? " disabled" : "")." accesskey='n'>";
 
 echo (isset($_GET['oprava_karty']) && $_GET['oprava_karty'] == "Přidat novou kartu" ? " <INPUT type='submit' name='s_popl_karty' value='Neukládat'>" : "");
 

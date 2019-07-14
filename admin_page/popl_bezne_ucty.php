@@ -252,12 +252,12 @@ echo $pocet_zaznamu_cena_d == 0 ? "První zadání. K tomuto účtu zatím nebyl
   elseif($_GET['id'] > 0){
   //echo "<INPUT type='hidden' name='vyber_ucet' value=''>";
   echo "<INPUT type='submit' name='oprava_popl' value='Provést změny v poplatcích'>
-   <INPUT type='submit' name='s_popl_karty' value='Spravovat poplatky karet k účtu (".mysql_result($cena_d, $radek, 'pocet_karet').")'>";
+   <INPUT type='submit' name='s_popl_karty' value='Spravovat poplatky karet k účtu (".mysql_result($cena_d, $radek, 'pocet_karet').")' accesskey='k'>";
   echo "<span style='letter-spacing:50'> <INPUT type='submit' name='s_ucet' value='Spravovat účet'></span>
-  <BR><a href='../admin_page/admin.php?kodBanky=".$_GET['kodBanky']."&ucet=".$_GET['ucet']."&nazevUctu=".$_GET['nazevUctu']."&id=0&vyber_id='>Zadat nové poplatky</a>";
+  <BR><a href='../admin_page/admin.php?kodBanky=".$_GET['kodBanky']."&ucet=".$_GET['ucet']."&nazevUctu=".$_GET['nazevUctu']."&id=0&vyber_id=' accesskey='n'>Zadat nové poplatky</a>";
   }
   else {
-  echo "<INPUT type='submit' name='vlozeni_popl' value='Vložit poplatky'".(!isset($_GET['ucet_vzor']) ? " disabled" : "").">";
+  echo "<INPUT type='submit' name='vlozeni_popl' value='Vložit poplatky'".(!isset($_GET['ucet_vzor']) ? " disabled" : "")." accesskey='v'>";
   echo "<INPUT type='checkbox' name='vloz_popl_vc_vyj' value=1 />Vložit včetně výjimek ze vzoru";
   }
 
@@ -296,7 +296,7 @@ echo "<SELECT name='ucet_vzor'><OPTION value=0>0 - žádný</OPTION>";
   echo "<OPTION value=".$radek_vzory['cena_id'].">".$radek_vzory['cena_id']." - ".$radek_vzory['ucet_nazev']." - platnost od ".$radek_vzory['cena_platnost_od']."</OPTION>";
   }
 echo "</SELECT>";
-die (" <INPUT type='submit' name='vyber_ucet' value='Potvrdit'>");
+die (" <INPUT type='submit' name='vyber_ucet' value='Potvrdit' accesskey='p'>");
 }                                                                           
 elseif(isset($_GET['ucet_vzor']) && $_GET['ucet_vzor'] > 0){
 echo "<INPUT type='hidden' name='ucet_vzor' value=".$_GET['ucet_vzor'].">";
