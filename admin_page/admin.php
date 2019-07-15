@@ -50,6 +50,7 @@ die ("neoprávněný přístup");
 
 <?php
 include "../pripojeni_sql.php";
+include "../sql_queries.php";
 
 $footer = "<BR>
 <div style='background-color:red; text-align:center; position:fixed; color:white; bottom:0px; width:100%; font-size:small'>&copy;2013+, Nulovepoplatky.cz, Všechna práva vyhrazena. Optimalizováno pro Google Chrome (<a href='http://www.google.com/chrome' target='_blank'>zde</a> ke stažení) v rozlišení 1280 x 1024 px.</div>";
@@ -130,7 +131,7 @@ while($radek_ucty_banky = mysql_fetch_assoc($ucty_banky))
 <OPTION value="new" <?php echo(isset($_GET['ucet']) && $_GET['ucet'] == "new" ? "selected" : ""); ?>>VYTVOŘIT NOVÝ ÚČET</OPTION>
 </SELECT>
 <INPUT type="submit" name="vyber_ucet" value="Vybrat">
-<a href='/admin_page/admin.php?banka=<?php echo isset($_GET['kodBanky']) ? $_GET['kodBanky'] : $_GET['banka']; ?>&vyber_banku=Vybrat'>vybrat jiný</a>
+<a href='/srovnavacPoplatku/admin_page/admin.php?banka=<?php echo isset($_GET['kodBanky']) ? $_GET['kodBanky'] : $_GET['banka']; ?>&vyber_banku=Vybrat'>vybrat jiný</a>
 <?php
 
 if(!isset($_GET['ucet']) || $_GET['ucet'] == "" || isset($_GET['vyber_banku']))
@@ -194,7 +195,7 @@ ucet_active = ".$_GET['aktiv'].",
 WHERE ucet_ID=".$_GET['ucet'];
 $zmena_uctu = vystup_sql($sql_zmena_uctu);
 
-echo "<meta http-equiv='refresh' content='0;url=/admin_page/admin.php?banka=".$_GET['kodBanky']."&ucet=".$_GET['ucet']."&note=Změny účtu uloženy.'>";
+echo "<meta http-equiv='refresh' content='0;url=/srovnavacPoplatku/admin_page/admin.php?banka=".$_GET['kodBanky']."&ucet=".$_GET['ucet']."&note=Změny účtu uloženy.'>";
 }
 
 else{
@@ -225,7 +226,7 @@ $sporPovBez = mysql_result($ucet_d, 0, 13);
 }
 
 $ucet_readonly = !isset($_GET['oprava_ucet']) && $_GET['ucet'] <> "new" ? " readonly" : "";
-$vyj_url = "/admin_page/vyjimky.php?kodBanky=$banka&ucet=$ucetID";
+$vyj_url = "/srovnavacPoplatku/admin_page/vyjimky.php?kodBanky=$banka&ucet=$ucetID";
 ?>
 
 <H3>Detaily účtu</H3>
@@ -294,7 +295,7 @@ echo " disabled>";
 $sql_max_id = "SELECT max(ucet_ID) FROM ucty";
 $max_id = vystup_sql($sql_max_id);
 $ucetID = mysql_result($max_id, 0, 0);
-echo "<meta http-equiv='refresh' content='0;url=/admin_page/admin.php?banka=".$_GET['kodBanky']."&ucet=$ucetID&note=Účet založen.#poplatky'>";
+echo "<meta http-equiv='refresh' content='0;url=/srovnavacPoplatku/admin_page/admin.php?banka=".$_GET['kodBanky']."&ucet=$ucetID&note=Účet založen.#poplatky'>";
 }
 
 elseif($_GET['ucet'] == "new")

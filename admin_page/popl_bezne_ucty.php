@@ -83,15 +83,15 @@ $sql_ulozit_banking = "UPDATE ceny_banking SET $ib_sql $mb_sql $tb_sql WHERE ID 
 $ulozit_banking = vystup_sql($sql_ulozit_banking);}
 
 
-if(isset($_GET['vloz_popl_vc_vyj']) && $_GET['vloz_popl_vc_vyj'] == 1){
-echo $sql_kopie_vyjimek = "INSERT INTO vyjimky (`ucet_id`,`cena_id`,`pole`,`podminka`,`vysledek`,`koment`)
-SELECT ucet_id, $max_id as cena_id, pole, podminka, vysledek, koment FROM vyjimky WHERE cena_id=".$_GET['ucet_vzor']." and karta_id is null;
-";
-$kopie_vyjimek = vystup_sql($sql_kopie_vyjimek);
+if(isset($_GET['vloz_popl_vc_vyj']) && $_GET['vloz_popl_vc_vyj'] == 1) {
+copyVyjimky($_GET['ucet_vzor'], $max_id, 'cena');
 }
 
+if(isset($_GET['vloz_popl_vc_karty']) && $_GET['vloz_popl_vc_karty'] == 1) {
+copyKarty($_GET['ucet_vzor'], $max_id);
+}
 
-echo "<meta http-equiv='refresh' content='0;url=/admin_page/admin.php?kodBanky=".$_GET['kodBanky']."&ucet=".$_GET['ucet']."&nazevUctu=".$_GET['nazevUctu']."&id=$max_id&r_cena_d=".$_GET['r_cena_d']."&note=Poplatky vloženy - ID $max_id. Můžeš vložit první kartu.#poplatky'>";
+echo "<meta http-equiv='refresh' content='0;url=/srovnavacPoplatku/admin_page/admin.php?kodBanky=".$_GET['kodBanky']."&ucet=".$_GET['ucet']."&nazevUctu=".$_GET['nazevUctu']."&id=$max_id&r_cena_d=".$_GET['r_cena_d']."&note=Poplatky vloženy - ID $max_id. Můžeš vložit první kartu.#poplatky'>";
 }
 
 if(isset($_GET['ulozeni_popl'])){                      // ULOZENÍ ZMEN POPLATKu
@@ -131,7 +131,7 @@ $sql_ulozit_banking = "UPDATE ceny_banking SET $ib_sql $mb_sql $tb_sql WHERE ID 
 $ulozit_banking = vystup_sql($sql_ulozit_banking);
 
 
-echo "<meta http-equiv='refresh' content='0;url=/admin_page/admin.php?kodBanky=".$_GET['kodBanky']."&ucet=".$_GET['ucet']."&nazevUctu=".$_GET['nazevUctu']."&id=".$_GET['id']."&r_cena_d=".$_GET['r_cena_d']."&note=Změny v poplatcích uloženy.#poplatky'>";
+echo "<meta http-equiv='refresh' content='0;url=/srovnavacPoplatku/admin_page/admin.php?kodBanky=".$_GET['kodBanky']."&ucet=".$_GET['ucet']."&nazevUctu=".$_GET['nazevUctu']."&id=".$_GET['id']."&r_cena_d=".$_GET['r_cena_d']."&note=Změny v poplatcích uloženy.#poplatky'>";
 }
 
 
@@ -258,7 +258,9 @@ echo $pocet_zaznamu_cena_d == 0 ? "První zadání. K tomuto účtu zatím nebyl
   }
   else {
   echo "<INPUT type='submit' name='vlozeni_popl' value='Vložit poplatky'".(!isset($_GET['ucet_vzor']) ? " disabled" : "")." accesskey='v'>";
-  echo "<INPUT type='checkbox' name='vloz_popl_vc_vyj' value=1 />Vložit včetně výjimek ze vzoru";
+  echo "<br/> Zkopírovat <INPUT type='checkbox' name='vloz_popl_vc_vyj' value=1 />výjimky,
+  <INPUT type='checkbox' name='vloz_popl_vc_karty' value=1 />karty,
+  <INPUT type='checkbox' name='vloz_popl_vc_bal' value=1 />balíčky ze vzoru";
   }
 
 /*if($_GET['id'] == 0) 
@@ -510,7 +512,7 @@ Popis balíčku: <TEXTAREA name="novy_bal_koment" cols=80 rows=6<?php echo $popl
 <?php
 if(isset($_POST['novy_bal'])){
 vystup_sql("INSERT INTO balicky (bal_cena_id, bal_nazev, bal_cena, bal_koment) VALUES (".$_GET['id'].", '".$_POST['novy_bal_nazev']."', ".$_POST['novy_bal_cena'].", '".$_POST['novy_bal_koment']."')");
-echo "<meta http-equiv='refresh' content='0;url=/admin_page/admin.php?kodBanky=".$_GET['kodBanky']."&ucet=".$_GET['ucet']."&nazevUctu=".$_GET['nazevUctu']."&id=".$_GET['id']."&r_cena_d=".$_GET['r_cena_d']."&note=Balíček ".$_POST['novy_bal_nazev']." přidán.#poplatky'>";
+echo "<meta http-equiv='refresh' content='0;url=/srovnavacPoplatku/admin_page/admin.php?kodBanky=".$_GET['kodBanky']."&ucet=".$_GET['ucet']."&nazevUctu=".$_GET['nazevUctu']."&id=".$_GET['id']."&r_cena_d=".$_GET['r_cena_d']."&note=Balíček ".$_POST['novy_bal_nazev']." přidán.#poplatky'>";
 }
 
 
@@ -553,7 +555,7 @@ echo "</p>";
 
 if(isset($_POST["nova_polozka$id"])){
 vystup_sql("INSERT INTO bal_polozky (bal_id, bal_pole, bal_popis, bal_pocet_trans, bal_pocet_vyber, bal_podm_vyber) VALUES (".$r_balicky['bal_id'].", '".$_POST["bal_pol_pole$id"]."', '".$_POST["bal_pol_popis$id"]."', ".$_POST["bal_pol_pocet$id"].", ".$_POST["bal_pol_vyber$id"].", '".$_POST["bal_pol_vyber_podm$id"]."')");
-echo "<meta http-equiv='refresh' content='0;url=/admin_page/admin.php?kodBanky=".$_GET['kodBanky']."&ucet=".$_GET['ucet']."&nazevUctu=".$_GET['nazevUctu']."&id=".$_GET['id']."&r_cena_d=".$_GET['r_cena_d']."&note=Nová položka do balíčku ".$r_balicky['bal_nazev']." přidána.#poplatky'>";
+echo "<meta http-equiv='refresh' content='0;url=/srovnavacPoplatku/admin_page/admin.php?kodBanky=".$_GET['kodBanky']."&ucet=".$_GET['ucet']."&nazevUctu=".$_GET['nazevUctu']."&id=".$_GET['id']."&r_cena_d=".$_GET['r_cena_d']."&note=Nová položka do balíčku ".$r_balicky['bal_nazev']." přidána.#poplatky'>";
 }
 
 
@@ -593,7 +595,7 @@ $i++;
 }
 
 if(isset($_POST['zmena_bal'])){
-echo "<meta http-equiv='refresh' content='0;url=/admin_page/admin.php?kodBanky=".$_GET['kodBanky']."&ucet=".$_GET['ucet']."&nazevUctu=".$_GET['nazevUctu']."&id=".$_GET['id']."&r_cena_d=".$_GET['r_cena_d']."&note=Změny v balíčcích provedeny.#poplatky'>";
+echo "<meta http-equiv='refresh' content='0;url=/srovnavacPoplatku/admin_page/admin.php?kodBanky=".$_GET['kodBanky']."&ucet=".$_GET['ucet']."&nazevUctu=".$_GET['nazevUctu']."&id=".$_GET['id']."&r_cena_d=".$_GET['r_cena_d']."&note=Změny v balíčcích provedeny.#poplatky'>";
 }
 
 ?>

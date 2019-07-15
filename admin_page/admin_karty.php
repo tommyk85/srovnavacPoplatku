@@ -11,6 +11,7 @@
 
 <?php
 include 'f_karty.php';
+include '../sql_queries.php';
 
 session_start(); 
 if($_SESSION['login']!=true)
@@ -58,7 +59,7 @@ WHERE karta_cena_ID = ".$_GET['id']." ORDER BY karta_id ASC";
 $karta_d = vystup_sql($sql_karta_d);     
 //$pocet_karet = (mysql_num_rows($karta_d)); 
 
-$pocet_karet = pocetKaretPoplatku($_GET['id']);
+echo $pocet_karet = pocetKaretPoplatku($_GET['id']);
 
 $smazano_karet = isset($_GET['oprava_karty']) && $_GET['oprava_karty'] <> "Potvrdit" && isset($_GET['pocet_karet']) ? $_GET['pocet_karet'] - $pocet_karet : 0;
 echo ($smazano_karet > 0 ? "<span style='color:red; font-weight:bold'>Smazáno karet: $smazano_karet</span>" : Null);
@@ -74,29 +75,10 @@ echo ($smazano_karet > 0 ? "<span style='color:red; font-weight:bold'>Smazáno k
   
   elseif(isset($_GET['oprava_karty']) && $_GET['oprava_karty'] == "Potvrdit"){
     if($_GET['karty_vzor'] <> ''){
-    $sql_karty_copy = "INSERT INTO ceny_karty (karta_cena_id, karta_ID, karta_nazev, karta_druh, karta_typ, kartaH_vedeni, kartaH_vyber1, kartaH_vyber2, kartaH_vyber3, kartaH_cashback, kartaH_vklad, kartaD_vedeni, kartaD_vyber1, kartaD_vyber2, kartaD_vyber3, kartaD_cashback, kartaD_vklad, kartaH_koment, kartaD_koment, kartaH_vydani, kartaD_vydani, karta_original_id) 
-    SELECT ".$_GET['id'].", karta_ID, karta_nazev, karta_druh, karta_typ, kartaH_vedeni, kartaH_vyber1, kartaH_vyber2, kartaH_vyber3, kartaH_cashback, kartaH_vklad, kartaD_vedeni, kartaD_vyber1, kartaD_vyber2, kartaD_vyber3, kartaD_cashback, kartaD_vklad, kartaH_koment, kartaD_koment, kartaH_vydani, kartaD_vydani, id
-    FROM ceny_karty WHERE karta_cena_id = ".$_GET['karty_vzor'];
-    $karty_copy = vystup_sql($sql_karty_copy);
+    $copyDetail = copyKarty($_GET['karty_vzor'], $_GET['id']);
     
-    $sql_vzor_karty_koment = "SELECT cena_koment_karta FROM ucty_ceny WHERE cena_id = ".$_GET['karty_vzor'];
-    $vzor_karty_koment = vystup_sql($sql_vzor_karty_koment);
-        
-    $sql_karty_koment = "UPDATE ucty_ceny SET cena_koment_karta = '".(mysql_result($vzor_karty_koment, 0))."' WHERE cena_id = ".$_GET['id'];
-    $karty_koment = vystup_sql($sql_karty_koment);
-    
-    $sql_vyj_k_pocet = "SELECT * FROM vyjimky WHERE cena_id=".$_GET['karty_vzor']." and not karta_id is null";
-    $vyj_k_pocet = mysql_num_rows(vystup_sql($sql_vyj_k_pocet));
-      if($vyj_k_pocet > 0){
-      $sql_karty_vyjimky = "INSERT INTO vyjimky (`ucet_id`,`cena_id`,`karta_id`,`pole`,`podminka`,`vysledek`,`koment`)
-      SELECT ".$_GET['ucet'].", ck.karta_cena_id, ck.id, vyjimky.pole, vyjimky.podminka, vyjimky.vysledek, vyjimky.koment 
-      FROM vyjimky INNER JOIN ceny_karty ck ON vyjimky.karta_id=ck.karta_original_id 
-      WHERE cena_id=".$_GET['karty_vzor'];
-      $karty_vyjimky = vystup_sql($sql_karty_vyjimky);
-      }
-    
-    echo "<meta http-equiv='refresh' content='0;url=/admin_page/admin_karty.php?kodBanky=".$_GET['kodBanky']."&ucet=".$_GET['ucet']."&ucetTyp=".$_GET['ucetTyp']."
-    &nazevUctu=".$_GET['nazevUctu']."&r_cena_d=".$_GET['r_cena_d']."&id=".$_GET['id']."&oprava_karty=&note=Karty zkopírovány ($vyj_k_pocet výjimek).#karty'>";
+    echo "<meta http-equiv='refresh' content='0;url=/srovnavacPoplatku/admin_page/admin_karty.php?kodBanky=".$_GET['kodBanky']."&ucet=".$_GET['ucet']."&ucetTyp=".$_GET['ucetTyp']."
+    &nazevUctu=".$_GET['nazevUctu']."&r_cena_d=".$_GET['r_cena_d']."&id=".$_GET['id']."&oprava_karty=&note=Karty zkopírovány (".$copyDetail['pocetVyjimek']." výjimek).#karty'>";
     }
     else
     echo "<span style='color:red; font-weight:bold'>Akce se nezdařila, nebyl vybrán účet ke zkopírování karet.</span>";
@@ -159,7 +141,7 @@ echo ($smazano_karet > 0 ? "<span style='color:red; font-weight:bold'>Smazáno k
   	$ulozit_kartuD = vystup_sql($sql_ulozit_kartuD);	
     }
   
-  echo "<meta http-equiv='refresh' content='0;url=/admin_page/admin_karty.php?kodBanky=".$_GET['kodBanky']."&ucet=".$_GET['ucet']."&ucetTyp=".$_GET['ucetTyp']."&nazevUctu=".$_GET['nazevUctu']."&r_cena_d=".$_GET['r_cena_d']."&id=".$_GET['id']."&oprava_karty=&note=Nová karta uložena.#karty'>";
+  echo "<meta http-equiv='refresh' content='0;url=/srovnavacPoplatku/admin_page/admin_karty.php?kodBanky=".$_GET['kodBanky']."&ucet=".$_GET['ucet']."&ucetTyp=".$_GET['ucetTyp']."&nazevUctu=".$_GET['nazevUctu']."&r_cena_d=".$_GET['r_cena_d']."&id=".$_GET['id']."&oprava_karty=&note=Nová karta uložena.#karty'>";
   }
 ?>
 
@@ -334,7 +316,7 @@ Komentář k dodatkové kartě: <BR><TEXTAREA name='komentD$i' cols=80 rows=5$ka
 
 echo "</form>";
  
-echo (isset($_GET['oprava_karty']) && $_GET['oprava_karty'] == "Uložit změny v kartách") ? "<meta http-equiv='refresh' content='0;url=/admin_page/admin_karty.php?kodBanky=".$_GET['kodBanky']."&ucet=".$_GET['ucet']."&ucetTyp=".$_GET['ucetTyp']."&nazevUctu=".$_GET['nazevUctu']."&r_cena_d=".$_GET['r_cena_d']."&id=".$_GET['id']."&oprava_karty=&pocet_karet=$pocet_karet&note=Změny v kartách uloženy.'>" : "";
+echo (isset($_GET['oprava_karty']) && $_GET['oprava_karty'] == "Uložit změny v kartách") ? "<meta http-equiv='refresh' content='0;url=/srovnavacPoplatku/admin_page/admin_karty.php?kodBanky=".$_GET['kodBanky']."&ucet=".$_GET['ucet']."&ucetTyp=".$_GET['ucetTyp']."&nazevUctu=".$_GET['nazevUctu']."&r_cena_d=".$_GET['r_cena_d']."&id=".$_GET['id']."&oprava_karty=&pocet_karet=$pocet_karet&note=Změny v kartách uloženy.'>" : "";
 
 // }
 // 
