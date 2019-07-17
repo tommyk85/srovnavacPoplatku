@@ -142,7 +142,6 @@ elseif(isset($_GET['zalozeni']))
 {
 //echo 'ucet zalozit';
 $ucetID = $_GET['ucet'];
-//$cena_ID = Null;
 $kodBanky = $_GET['kodBanky'];
 $nazevUctu = $_GET['nazevUctu'];
 $ucetTyp = $_GET['ucetTyp'];
@@ -162,7 +161,6 @@ elseif($_GET['ucet'] == "new")
 {
 //echo 'ucet new';
 $ucetID = 0;
-//$kodBanky = $banka;
 $nazevUctu = Null;
 $ucetTyp = Null;
 $mena = Null;
@@ -210,8 +208,7 @@ $ucet_d = vystup_sql($sql_ucet_d);
 
 $ucetID = mysql_result($ucet_d, 0, 0);
 $banka = mysql_result($ucet_d, 0, 1);
-$nazevUctu = mysql_result($ucet_d, 0, 2); // isset($_GET['kodBanky']) ? $_GET['kodBanky'] : Null;
-// = isset($_GET['nazevUctu']) ? $_GET['nazevUctu'] : Null;
+$nazevUctu = mysql_result($ucet_d, 0, 2);
 $ucetTyp = mysql_result($ucet_d, 0, 3);
 $mena = mysql_result($ucet_d, 0, 4);
 $minLimit = mysql_result($ucet_d, 0, 5);
@@ -312,13 +309,6 @@ echo " disabled>";
   
   else
   die ("<INPUT type='submit' name='ulozit_ucet' value='Uložit změny účtu'>");
-/*echo "<BR><SELECT name='id'>";
-echo "<OPTION value=".mysql_result($ucet_d, 0, 9).">".mysql_result($ucet_d, 0, 9)." - platnost od ".mysql_result($ucet_d, 0, 11)."</OPTION>";
-while($radek_ucet_d = mysql_fetch_assoc($ucet_d)){
-echo "<OPTION value=".$radek_ucet_d['cena_id'].">".$radek_ucet_d['cena_id']." - platnost od ".$radek_ucet_d['cena_platnost_od']."</OPTION>";
-}
-echo "<OPTION value=0>0 - založit nové poplatky</OPTION>";
-echo "</SELECT>";       */
 echo "<INPUT type='hidden' name='id' value=".(mysql_result($ucet_d, 0, 16) != Null ? mysql_result($ucet_d, 0, 16) : 0).">";
 echo "<INPUT type='hidden' name='r_cena_d' value=0>";
 

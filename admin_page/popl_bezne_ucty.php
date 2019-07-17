@@ -59,10 +59,7 @@ VALUES (".$_GET['ucet'].", '".$_GET['platnostOd']."',
 .($_GET['odchoziTP1'] == "" ? "Null, " : $_GET['odchoziTP1'].", ")
 .($_GET['odchoziTP2'] == "" ? "Null, " : $_GET['odchoziTP2'].", ")
 .($_GET['odchoziOn1'] == "" ? "Null, " : $_GET['odchoziOn1'].", ")
-//.($_GET['odchoziOn2'] == "" ? "Null, " : $_GET['odchoziOn2'].", ")
 .($_GET['odchoziP'] == "" ? "Null, " : $_GET['odchoziP'].", ")
-//.($_GET['balicek'] == "" ? "Null, " : $_GET['balicek'].", ") 
-//.$_GET['balicekTyp'].", "
 .($_GET['inkSvoleni'] == "" ? "Null, " : $_GET['inkSvoleni'].", ")
 .($_GET['inkOdch'] == "" ? "Null, " : $_GET['inkOdch'].", ")
 .($_GET['kontZrizeni'] == "" ? "Null, " : $_GET['kontZrizeni'].", ")
@@ -89,6 +86,10 @@ copyVyjimky($_GET['ucet_vzor'], $max_id, 'cena');
 
 if(isset($_GET['vloz_popl_vc_karty']) && $_GET['vloz_popl_vc_karty'] == 1) {
 copyKarty($_GET['ucet_vzor'], $max_id);
+}
+
+if(isset($_GET['vloz_popl_vc_bal']) && $_GET['vloz_popl_vc_bal'] == 1) {
+copyBalicky($_GET['ucet_vzor'], $max_id);
 }
 
 echo "<meta http-equiv='refresh' content='0;url=/srovnavacPoplatku/admin_page/admin.php?kodBanky=".$_GET['kodBanky']."&ucet=".$_GET['ucet']."&nazevUctu=".$_GET['nazevUctu']."&id=$max_id&r_cena_d=".$_GET['r_cena_d']."&note=Poplatky vloženy - ID $max_id. Můžeš vložit první kartu.#poplatky'>";
@@ -233,12 +234,8 @@ $zrizeniUctu = $zruseniUctu = $vedeniUctu = $vedeniUctu_podm = $vypisE = $vypisP
 $koment_JP = $koment_PP = $koment_trans = $koment_ink = $koment_kont = "no comment";
 }
 
-
 $popl_read_only = $_GET['id'] > 0 && !isset($_GET['oprava_popl']) ? " readonly" : "";
 
-
-//$note = isset($_GET['note']) ? $_GET['note'] : "";
-//echo "<span style='color:green; font-weight:bold; font-size:small'>$note</span>";
 echo $pocet_zaznamu_cena_d == 0 ? "První zadání. K tomuto účtu zatím nebyly vloženy žádné poplatky." : "";
 ?>
 
@@ -246,11 +243,9 @@ echo $pocet_zaznamu_cena_d == 0 ? "První zadání. K tomuto účtu zatím nebyl
 <?php 
 
   if(isset($_GET['oprava_popl'])){
-  //echo "<INPUT type='hidden' name='vyber_ucet' value=''>";
   echo "<INPUT type='submit' name='ulozeni_popl' value='Uložit změny v poplatcích'>";
   }
   elseif($_GET['id'] > 0){
-  //echo "<INPUT type='hidden' name='vyber_ucet' value=''>";
   echo "<INPUT type='submit' name='oprava_popl' value='Provést změny v poplatcích'>
    <INPUT type='submit' name='s_popl_karty' value='Spravovat poplatky karet k účtu (".mysql_result($cena_d, $radek, 'pocet_karet').")' accesskey='k'>";
   echo "<span style='letter-spacing:50'> <INPUT type='submit' name='s_ucet' value='Spravovat účet'></span>
@@ -263,21 +258,9 @@ echo $pocet_zaznamu_cena_d == 0 ? "První zadání. K tomuto účtu zatím nebyl
   <INPUT type='checkbox' name='vloz_popl_vc_bal' value=1 />balíčky ze vzoru";
   }
 
-/*if($_GET['id'] == 0) 
-echo "<INPUT type='submit' name='rychla_volba' value='Vyplnit testovací ceny'".(!isset($_GET['ucet_vzor']) ? " disabled" : "").">"; */
- 
-
 ?>
 <P>
 ID poplatků: <INPUT type='text' name='id' value=<?php echo ($_GET['id'] > 0 && !isset($_GET['nove_popl']) ? mysql_result($cena_d, $radek, 0) : 0); ?> size=2 readonly>
-<?php    
-/*
-for($i = 0; $i < $pocet_zaznamu_cena_d; $i++)
-    {
-    echo "<OPTION value=".mysql_result($cena_d, $i, 0).(mysql_result($cena_d, $i, 0) == $_GET['id'] ? " selected" : "").">".mysql_result($cena_d, $i, 0)." - platnost od ".mysql_result($cena_d, $i, 2)."</OPTION>";
-    }
-echo "<OPTION value=0".($_GET['id'] == 0 ? " selected" : "")." disabled>0 - nové poplatky</OPTION></SELECT>";   */
-?>
 
 <INPUT type='submit' name='vyber_id' value='<'<?php echo ($radek == 0 || $_GET['id'] == 0 || isset($_GET['oprava_popl']) ? " disabled" : ""); ?>>
 <INPUT type='submit' name='vyber_id' value='>'<?php echo ($radek == $pocet_zaznamu_cena_d - 1 || $_GET['id'] == 0 || isset($_GET['oprava_popl']) ? " disabled" : ""); ?>>
@@ -286,7 +269,6 @@ Vzorové ceny ID:
 <?php
 //echo $cena_ID;
 if($_GET['id'] == 0 && !isset($_GET['ucet_vzor'])){
-//$vzor_cenaID = isset($_GET['ucet_vzor']) && $_GET['ucet_vzor'] > 0 ? "AND cena_id = ".$_GET['ucet_vzor'] : "";
 
 $sql_vzory = "SELECT * FROM ucty 
 INNER JOIN ucty_ceny ON ucty.ucet_ID = ucty_ceny.cena_ucet_ID
@@ -310,7 +292,6 @@ $vzor = vystup_sql($sql_vzor);
 
 echo mysql_result($vzor, 0, 0)."<span class='help'> - ".mysql_result($vzor, 0, 'ucet_nazev').", platnost od ".mysql_result($vzor, 0, 2)."</span>";
 
-//$platnostOd_vzor = mysql_result($vzor, 0, 2);
 $zrizeniUctu_vzor = $zrizeniUctu = mysql_result($vzor, 0, 'cena_zrizeni');
 $zruseniUctu_vzor = $zruseniUctu = mysql_result($vzor, 0, 'cena_zruseni');
 
@@ -336,8 +317,6 @@ $kontZrizeni_vzor = $kontZrizeni = mysql_result($vzor, 0, 'cena_kontokorent_zriz
 $kontVedeni_vzor = $kontVedeni = mysql_result($vzor, 0, 'cena_kontokorent_vedeni');
 $kontZruseni_vzor = $kontZruseni = mysql_result($vzor, 0, 'cena_kontokorent_zruseni');
 $koment_kont_vzor = $koment_kont = mysql_result($vzor, 0, 'cena_koment_kontokorent');
-//$balicek_vzor = $balicek = "<span class='help'>Balíček: ".mysql_result($vzor, 0, 'cena_trans_bal').", typ ".mysql_result($vzor, 0, 'cena_trans_bal_typ')."</span><BR>";
-//$balicekTyp = mysql_result($vzor, 0, 24);
 $koment_JP_vzor = $koment_JP = mysql_result($vzor, 0, 'cena_koment_JP');
 $koment_PP_vzor = $koment_PP = mysql_result($vzor, 0, 'cena_koment_PP');
 $koment_trans_vzor = $koment_trans = mysql_result($vzor, 0, 'cena_koment_trans');
@@ -453,18 +432,6 @@ echo ($_GET['id'] > 0 ? "<a href='$vyj_url&vyj_pole=p_odch_std_vyj&vyj_name=odch
 <?php echo $odchozi2_vzor; ?>
 Prioritní odchozí: <INPUT <?php echo ($odchoziP == "" ? "class='chybi' " : ""); ?>type="number" name="odchoziP" value="<?php echo $odchoziP; ?>" style="text-align:right; width:60"<?php echo $popl_read_only; ?>><?php echo "<span class='help'>$odchoziP_vzor</span>"; ?><br />
 
-
-<!-- Balíček transakcí: <INPUT <?php echo ($balicek == "" && $balicekTyp > 0 ? "class='chybi' " : ""); ?>type="number" name="balicek" value="<?php echo $balicek; ?>"  style="text-align:right; width:60"<?php echo $popl_read_only; ?>>
-Typ balíčku:
-<SELECT name="balicekTyp" <?php echo ($_GET['id'] > 0 && !isset($_GET['oprava_popl']) ? " disabled" : ""); ?>>
-<OPTION value=0>0 - žádný</OPTION>
-<OPTION value=1<?php echo ($balicekTyp == 1 ? " selected" : ""); ?>>1 - zahrnuje všechny transakce</OPTION>
-<OPTION value=2<?php echo ($balicekTyp == 2 ? " selected" : ""); ?>>2 - zahrnuje pouze odchozí, včetne TP</OPTION>
-<OPTION value=3<?php echo ($balicekTyp == 3 ? " selected" : ""); ?>>3 - zahrnuje pouze odchozí, bez TP</OPTION>
-<OPTION value=4<?php echo ($balicekTyp == 4 ? " selected" : ""); ?>>4 - zahrnuje pouze příchozí</OPTION>
-</SELECT>                                                                    
-<a href="<?php echo $vyj_url; ?>&vyj_pole=trans_bal_typ&vyj_name=odchozí_platby&vyj_puv=<?php echo $balicek; ?>#vyj" tabindex='-1'>[výjimka]</a><BR>
-<?php echo $balicek_vzor; ?>                                                  -->
 Komentář: <TEXTAREA name="koment_trans" cols=80 rows=6<?php echo $popl_read_only; ?>><?php echo $koment_trans; ?></TEXTAREA> 
 <?php echo "<br><span class='help'>$koment_trans_vzor</span>"; ?>            
 

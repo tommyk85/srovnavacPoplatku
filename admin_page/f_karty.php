@@ -1,5 +1,4 @@
 <?php
-//include '../pripojeni_sql.php';
 
 function pocetKaretPoplatku($id_poplatku) {
   $req = "select * from ceny_karty where karta_cena_id=$id_poplatku";

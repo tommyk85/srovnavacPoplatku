@@ -39,10 +39,7 @@ $note = isset($_GET['note']) ? $_GET['note'] : "";
 echo "<p style='color:green; font-weight:bold; font-size:small'>$note</p>";
 
 
-
-
 //    V Ý J I M K Y
-
 
 if(isset($_GET['ucet']) && $_GET['ucet'] <> "" && isset($_GET['vyj_name']))
 {
@@ -101,11 +98,6 @@ $sql_vyj_podm_vypis = "SELECT * FROM vyj_podminky WHERE podm_parametr = 1 ORDER 
 $sql_vyj_list = "SELECT * FROM vyjimky WHERE ucet_id=".$_GET['ucet']." AND pole='".$_GET['vyj_pole']."'".(isset($_GET['id']) ? " AND cena_id=".$_GET['id'] : "").(isset($_GET['karta_id']) ? " AND karta_id=".$_GET['karta_id'] : "");
 $vyj_list = vystup_sql($sql_vyj_list);
 
-//echo "<form action='' method='GET'>   <select name='urok_vyj_zmena'>";
-
-
-
-
                   
 $y = 0;
 $vyj_pocet = mysql_num_rows($vyj_list);
@@ -116,15 +108,10 @@ while($y<3 + $vyj_pocet)                                     // ŘÁDKY
 {
 
 $vyj_id = $y<$vyj_pocet ? mysql_result($vyj_list,$y,'vyj_id') : 0;
-// $vyj_podm = array();
 
 echo "<div style='padding:3".($y<$vyj_pocet ? ";background-color:lightskyblue" : ";background-color:#F4F4F4")."'>"; 
 echo "<span style='font-size:20;font-weight:bold'>".($y+1) .".</span>".($y<$vyj_pocet ? " (".$r = $vyj_id.") " : " (". $r = 0 .") ");
 
-  //$vyj_list = vystup_sql($sql_vyj_list);
-      
-  
-  //echo "<p style='text-indent:10;background-color:silver;max-width:95%'>".$r_vyj_list['podminka']." = ".$r_vyj_list['vysledek']."% <br>(".$r_vyj_list['koment'].")</p>";
   if($y<$vyj_pocet){
   $vyj_podm_edit = explode(" AND ", mysql_result($vyj_list,$y,'podminka'));
   $vyj_vysl_edit = mysql_result($vyj_list,$y,'vysledek');

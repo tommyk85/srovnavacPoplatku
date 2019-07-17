@@ -30,17 +30,6 @@ include "../pripojeni_sql.php";
 $footer = "<BR>
 <div style='background-color:red; text-align:center; position:fixed; color:white; bottom:0px; width:100%; font-size:small'>&copy;2013+, Nulovepoplatky.cz, Všechna práva vyhrazena. Optimalizováno pro Google Chrome (<a href='http://www.google.com/chrome' target='_blank'>zde</a> ke stažení) v rozlišení 1280 x 1024 px.</div>";
 
-//mysql_query("SET NAMES 'utf8'");
-
-
-//-- NASTAVENÍ BANKY A DETAILŮ ÚČTU
-
-// $sql_banky = "SELECT kod_banky, nazev_banky, count(ucet_ID) as pocet_uctu FROM banky LEFT JOIN ucty ON banky.kod_banky = ucty.ucet_kod_banky
-// WHERE banky.active=1 
-// GROUP BY kod_banky 
-// ORDER BY nazev_banky ASC";
-// $banky = vystup_sql($sql_banky);
-
 ?>
 <H1>ADMINISTRACE</H1>
 
@@ -59,7 +48,7 @@ WHERE karta_cena_ID = ".$_GET['id']." ORDER BY karta_id ASC";
 $karta_d = vystup_sql($sql_karta_d);     
 //$pocet_karet = (mysql_num_rows($karta_d)); 
 
-echo $pocet_karet = pocetKaretPoplatku($_GET['id']);
+$pocet_karet = pocetKaretPoplatku($_GET['id']);
 
 $smazano_karet = isset($_GET['oprava_karty']) && $_GET['oprava_karty'] <> "Potvrdit" && isset($_GET['pocet_karet']) ? $_GET['pocet_karet'] - $pocet_karet : 0;
 echo ($smazano_karet > 0 ? "<span style='color:red; font-weight:bold'>Smazáno karet: $smazano_karet</span>" : Null);
@@ -197,7 +186,6 @@ if(isset($_GET['oprava_karty']) && $_GET['oprava_karty'] == "Provést změny v k
 
 
 for($i=1; $i<=$pocet_karet; ++$i){ 
-//while($radek_karta = mysql_fetch_assoc($karta_d)){
 
 $radek = $i - 1;
 
@@ -317,24 +305,6 @@ Komentář k dodatkové kartě: <BR><TEXTAREA name='komentD$i' cols=80 rows=5$ka
 echo "</form>";
  
 echo (isset($_GET['oprava_karty']) && $_GET['oprava_karty'] == "Uložit změny v kartách") ? "<meta http-equiv='refresh' content='0;url=/srovnavacPoplatku/admin_page/admin_karty.php?kodBanky=".$_GET['kodBanky']."&ucet=".$_GET['ucet']."&ucetTyp=".$_GET['ucetTyp']."&nazevUctu=".$_GET['nazevUctu']."&r_cena_d=".$_GET['r_cena_d']."&id=".$_GET['id']."&oprava_karty=&pocet_karet=$pocet_karet&note=Změny v kartách uloženy.'>" : "";
-
-// }
-// 
-// else
-// echo "neznámý odkaz";
-
-
-
-
-
-
-
-
-//    V Ý J I M K Y
-
-
-if(isset($_GET['ucet']) && $_GET['ucet'] <> "" && isset($_GET['vyj_name']))
-{}
 
 
 if($id_spojeni)
