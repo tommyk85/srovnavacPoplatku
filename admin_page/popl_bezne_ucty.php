@@ -253,9 +253,6 @@ echo $pocet_zaznamu_cena_d == 0 ? "První zadání. K tomuto účtu zatím nebyl
   }
   else {
   echo "<INPUT type='submit' name='vlozeni_popl' value='Vložit poplatky'".(!isset($_GET['ucet_vzor']) ? " disabled" : "")." accesskey='v'>";
-  echo "<br/> Zkopírovat <INPUT type='checkbox' name='vloz_popl_vc_vyj' value=1 />výjimky,
-  <INPUT type='checkbox' name='vloz_popl_vc_karty' value=1 />karty,
-  <INPUT type='checkbox' name='vloz_popl_vc_bal' value=1 />balíčky ze vzoru";
   }
 
 ?>
@@ -291,6 +288,10 @@ WHERE cena_id = ".$_GET['ucet_vzor'];
 $vzor = vystup_sql($sql_vzor);
 
 echo mysql_result($vzor, 0, 0)."<span class='help'> - ".mysql_result($vzor, 0, 'ucet_nazev').", platnost od ".mysql_result($vzor, 0, 2)."</span>";
+
+echo "<br/> Zkopírovat <INPUT type='checkbox' name='vloz_popl_vc_vyj' value=1 ".(existujiVyjimkyCen($_GET['ucet_vzor']) ? 'checked' : 'disabled')." />výjimky,
+  <INPUT type='checkbox' name='vloz_popl_vc_karty' value=1 ".(existujiKarty($_GET['ucet_vzor']) ? 'checked' : 'disabled')." />karty,
+  <INPUT type='checkbox' name='vloz_popl_vc_bal' value=1 ".(existujiBalicky($_GET['ucet_vzor']) ? 'checked' : 'disabled')." />balíčky ze vzoru";
 
 $zrizeniUctu_vzor = $zrizeniUctu = mysql_result($vzor, 0, 'cena_zrizeni');
 $zruseniUctu_vzor = $zruseniUctu = mysql_result($vzor, 0, 'cena_zruseni');

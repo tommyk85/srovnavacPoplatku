@@ -69,7 +69,7 @@ function copyVyjimky($_cenaIdVzor, $_cenaIdNove, $_vyjTyp) {
 
     case 'cena':
     $sql_kopie_vyjimek = "INSERT INTO vyjimky (`ucet_id`,`cena_id`,`pole`,`podminka`,`vysledek`,`koment`)
-      SELECT ucet_id, $max_id as cena_id, pole, podminka, vysledek, koment FROM vyjimky WHERE cena_id=".$_GET['ucet_vzor']." and karta_id is null";
+      SELECT ucet_id, $_cenaIdNove as cena_id, pole, podminka, vysledek, koment FROM vyjimky WHERE cena_id=$_cenaIdVzor and karta_id is null";
     break;
 
     default:
@@ -81,9 +81,9 @@ function copyVyjimky($_cenaIdVzor, $_cenaIdNove, $_vyjTyp) {
 
 function copyBalicky($_cenaIdVzor, $_cenaIdNove) {
   $balicky = vystup_sql("SELECT * FROM balicky WHERE bal_cena_id=$_cenaIdVzor");
-  while($r_balicky = mysql_fetch_row($balicky)) {
+  while($r_balicky = mysql_fetch_assoc($balicky)) {
     vystup_sql("INSERT INTO balicky (bal_cena_id, bal_nazev, bal_polozek, bal_cena, bal_koment, bal_volitelny)
-      SELECT $_cenaIdNove, bal_nazev, bal_polozek, bal_cena, bal_koment, bal_volitelny FROM balicky WHERE bal_cena_id=$_cenaIdVzor");
+      SELECT $_cenaIdNove, bal_nazev, bal_polozek, bal_cena, bal_koment, bal_volitelny FROM balicky WHERE bal_id=".$r_balicky['bal_id']);
 
     $nove_bal_id = mysql_result(vystup_sql("SELECT max(bal_id) FROM balicky"), 0, 0);
     vystup_sql("INSERT INTO bal_polozky (bal_id, bal_pole, bal_popis, bal_pocet_trans, bal_pocet_vyber, bal_podm_vyber)
@@ -95,4 +95,20 @@ function getUcetId($_cenaId) {
   $ucet = vystup_sql("SELECT DISTINCT cena_ucet_id FROM ucty_ceny WHERE cena_id=$_cenaId");
   return mysql_result($ucet, 0, 0);
 }
+
+function existujiVyjimkyCen($_cenaId) {
+  $vyjimky = vystup_sql("SELECT count(*) FROM vyjimky WHERE cena_id=$_cenaId and karta_id is null");
+  return mysql_result($vyjimky, 0, 0) > 0;
+}
+
+function existujiKarty($_cenaId) {
+  $karty = vystup_sql("SELECT count(*) FROM ceny_karty WHERE karta_cena_id=$_cenaId");
+  return mysql_result($karty, 0, 0) > 0;
+}
+
+function existujiBalicky($_cenaId) {
+  $balicky = vystup_sql("SELECT count(*) FROM balicky WHERE bal_cena_id=$_cenaId");
+  return mysql_result($balicky, 0, 0) > 0;
+}
+
 ?>
