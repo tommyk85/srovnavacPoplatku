@@ -17,9 +17,9 @@ die ("neoprávněný přístup");
 
 
 
-<a href='/admin_page/admin.php'>RESET</a>
-| <a href='/admin_page/admin.php?ucet=36&nazevUctu=mKonto&kodBanky=6210&r_cena_d=0&s_popl_karty=Spravovat+poplatky+karet+k+%C3%BA%C4%8Dtu+%282%29&id=81&ucet_vzor=0&platnostOd=2017-05-02&zrizeniUctu=0.00&zrizeniIB=0.00&zrizeniMB=0.00&zrizeniTB=0.00&zrizeniTP_IB=0.00&zrizeniTP_MB=0.00&zrizeniTP_TB=40.00&zruseniUctu=0.00&koment_JP=no+comment&vedeniUctu_podm=0&vedeniUctu=0.00&vedeniIB=0.00&vedeniMB=0.00&vedeniTB=0.00&vypisE=0.00&vypisP=50.00&koment_PP=no+comment&prichozi1=0.00&prichozi2=0.00&odchoziTP1=0.00&odchoziTP2=0.00&odchoziOn1=0.00&odchozi1_IB=0.00&odchozi1_MB=0.00&odchozi1_TB=40.00&odchozi2_IB=0.00&odchozi2_MB=0.00&odchozi2_TB=40.00&odchoziP=&koment_trans=no+comment&inkSvoleni=0.00&inkOdch=0.00&koment_ink=no+comment&kontZrizeni=0.00&kontVedeni=0.00&kontZruseni=0.00&koment_kont=no+comment'>TEST</a>                                     
-| <a href=/srovnavac/bezne_ucty>SROVNÁVAČ</a>
+<a href='/srovnavacPoplatku/admin_page/admin.php' accesskey='r'>RESET</a>
+| <a href='/srovnavacPoplatku/admin_page/admin.php?ucet=36&nazevUctu=mKonto&kodBanky=6210&r_cena_d=0&s_popl_karty=Spravovat+poplatky+karet+k+%C3%BA%C4%8Dtu+%282%29&id=81&ucet_vzor=0&platnostOd=2017-05-02&zrizeniUctu=0.00&zrizeniIB=0.00&zrizeniMB=0.00&zrizeniTB=0.00&zrizeniTP_IB=0.00&zrizeniTP_MB=0.00&zrizeniTP_TB=40.00&zruseniUctu=0.00&koment_JP=no+comment&vedeniUctu_podm=0&vedeniUctu=0.00&vedeniIB=0.00&vedeniMB=0.00&vedeniTB=0.00&vypisE=0.00&vypisP=50.00&koment_PP=no+comment&prichozi1=0.00&prichozi2=0.00&odchoziTP1=0.00&odchoziTP2=0.00&odchoziOn1=0.00&odchozi1_IB=0.00&odchozi1_MB=0.00&odchozi1_TB=40.00&odchozi2_IB=0.00&odchozi2_MB=0.00&odchozi2_TB=40.00&odchoziP=&koment_trans=no+comment&inkSvoleni=0.00&inkOdch=0.00&koment_ink=no+comment&kontZrizeni=0.00&kontVedeni=0.00&kontZruseni=0.00&koment_kont=no+comment'>TEST</a>                                     
+| <a href='/srovnavacPoplatku/srovnavac/bezne_ucty'>SROVNÁVAČ</a>
 
 
 <?php
@@ -39,16 +39,13 @@ $note = isset($_GET['note']) ? $_GET['note'] : "";
 echo "<p style='color:green; font-weight:bold; font-size:small'>$note</p>";
 
 
-
-
 //    V Ý J I M K Y
-
 
 if(isset($_GET['ucet']) && $_GET['ucet'] <> "" && isset($_GET['vyj_name']))
 {
 
 
-  $vyj_url = "../admin_page/";
+  $vyj_url = "../srovnavacPoplatku/admin_page/";
   $vyj_url.= isset($_GET['s_popl_karty']) ? "admin_karty.php?kodBanky=".$_GET['kodBanky']."&ucet=".$_GET['ucet']."&ucetTyp=".$_GET['ucetTyp']."&nazevUctu=".$_GET['nazevUctu']."&id=".$_GET['id']."&r_cena_d=0&vyber_id=&s_popl_karty=" :
     (isset($_GET['vyber_id']) ? "admin.php?kodBanky=".$_GET['kodBanky']."&ucet=".$_GET['ucet']."&ucetTyp=".$_GET['ucetTyp']."&nazevUctu=".$_GET['nazevUctu']."&id=".$_GET['id']."&vyber_id=" : "admin.php?kodBanky=".$_GET['kodBanky']."&ucet=".$_GET['ucet']."&ucetTyp=".$_GET['ucetTyp']);
     
@@ -101,11 +98,6 @@ $sql_vyj_podm_vypis = "SELECT * FROM vyj_podminky WHERE podm_parametr = 1 ORDER 
 $sql_vyj_list = "SELECT * FROM vyjimky WHERE ucet_id=".$_GET['ucet']." AND pole='".$_GET['vyj_pole']."'".(isset($_GET['id']) ? " AND cena_id=".$_GET['id'] : "").(isset($_GET['karta_id']) ? " AND karta_id=".$_GET['karta_id'] : "");
 $vyj_list = vystup_sql($sql_vyj_list);
 
-//echo "<form action='' method='GET'>   <select name='urok_vyj_zmena'>";
-
-
-
-
                   
 $y = 0;
 $vyj_pocet = mysql_num_rows($vyj_list);
@@ -116,15 +108,10 @@ while($y<3 + $vyj_pocet)                                     // ŘÁDKY
 {
 
 $vyj_id = $y<$vyj_pocet ? mysql_result($vyj_list,$y,'vyj_id') : 0;
-// $vyj_podm = array();
 
 echo "<div style='padding:3".($y<$vyj_pocet ? ";background-color:lightskyblue" : ";background-color:#F4F4F4")."'>"; 
 echo "<span style='font-size:20;font-weight:bold'>".($y+1) .".</span>".($y<$vyj_pocet ? " (".$r = $vyj_id.") " : " (". $r = 0 .") ");
 
-  //$vyj_list = vystup_sql($sql_vyj_list);
-      
-  
-  //echo "<p style='text-indent:10;background-color:silver;max-width:95%'>".$r_vyj_list['podminka']." = ".$r_vyj_list['vysledek']."% <br>(".$r_vyj_list['koment'].")</p>";
   if($y<$vyj_pocet){
   $vyj_podm_edit = explode(" AND ", mysql_result($vyj_list,$y,'podminka'));
   $vyj_vysl_edit = mysql_result($vyj_list,$y,'vysledek');
@@ -210,7 +197,7 @@ $y++;
 }
 
 
-  $vyj_url_edit = "../admin_page/vyjimky.php?kodBanky=".$_GET['kodBanky']."&ucet=".$_GET['ucet']."&ucetTyp=".$_GET['ucetTyp']."&";
+  $vyj_url_edit = "../srovnavacPoplatku/admin_page/vyjimky.php?kodBanky=".$_GET['kodBanky']."&ucet=".$_GET['ucet']."&ucetTyp=".$_GET['ucetTyp']."&";
   $vyj_url_edit.= isset($_GET['s_popl_karty']) ? "nazevUctu=".$_GET['nazevUctu']."&id=".$_GET['id']."&r_cena_d=0&vyber_id=&s_popl_karty=" :
     (isset($_GET['vyber_id']) ? "nazevUctu=".$_GET['nazevUctu']."&id=".$_GET['id']."&vyber_id=" : "");
 //echo $vyj_novy."...";

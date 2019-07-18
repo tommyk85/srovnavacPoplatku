@@ -43,13 +43,14 @@ die ("neoprávněný přístup");
 -->
 
 
-<a href='/admin_page/admin.php'>RESET</a>
-| <a href='/admin_page/admin.php?ucet=36&nazevUctu=mKonto&kodBanky=6210&r_cena_d=0&s_popl_karty=Spravovat+poplatky+karet+k+%C3%BA%C4%8Dtu+%282%29&id=81&ucet_vzor=0&platnostOd=2017-05-02&zrizeniUctu=0.00&zrizeniIB=0.00&zrizeniMB=0.00&zrizeniTB=0.00&zrizeniTP_IB=0.00&zrizeniTP_MB=0.00&zrizeniTP_TB=40.00&zruseniUctu=0.00&koment_JP=no+comment&vedeniUctu_podm=0&vedeniUctu=0.00&vedeniIB=0.00&vedeniMB=0.00&vedeniTB=0.00&vypisE=0.00&vypisP=50.00&koment_PP=no+comment&prichozi1=0.00&prichozi2=0.00&odchoziTP1=0.00&odchoziTP2=0.00&odchoziOn1=0.00&odchozi1_IB=0.00&odchozi1_MB=0.00&odchozi1_TB=40.00&odchozi2_IB=0.00&odchozi2_MB=0.00&odchozi2_TB=40.00&odchoziP=&koment_trans=no+comment&inkSvoleni=0.00&inkOdch=0.00&koment_ink=no+comment&kontZrizeni=0.00&kontVedeni=0.00&kontZruseni=0.00&koment_kont=no+comment'>TEST</a>                                     
-| <a href=/srovnavac/bezne_ucty>SROVNÁVAČ</a>
+<a href='/srovnavacPoplatku/admin_page/admin.php' accesskey='r'>RESET</a>
+| <a href='/srovnavacPoplatku/admin_page/admin.php?ucet=36&nazevUctu=mKonto&kodBanky=6210&r_cena_d=0&s_popl_karty=Spravovat+poplatky+karet+k+%C3%BA%C4%8Dtu+%282%29&id=81&ucet_vzor=0&platnostOd=2017-05-02&zrizeniUctu=0.00&zrizeniIB=0.00&zrizeniMB=0.00&zrizeniTB=0.00&zrizeniTP_IB=0.00&zrizeniTP_MB=0.00&zrizeniTP_TB=40.00&zruseniUctu=0.00&koment_JP=no+comment&vedeniUctu_podm=0&vedeniUctu=0.00&vedeniIB=0.00&vedeniMB=0.00&vedeniTB=0.00&vypisE=0.00&vypisP=50.00&koment_PP=no+comment&prichozi1=0.00&prichozi2=0.00&odchoziTP1=0.00&odchoziTP2=0.00&odchoziOn1=0.00&odchozi1_IB=0.00&odchozi1_MB=0.00&odchozi1_TB=40.00&odchozi2_IB=0.00&odchozi2_MB=0.00&odchozi2_TB=40.00&odchoziP=&koment_trans=no+comment&inkSvoleni=0.00&inkOdch=0.00&koment_ink=no+comment&kontZrizeni=0.00&kontVedeni=0.00&kontZruseni=0.00&koment_kont=no+comment'>TEST</a>                                     
+| <a href='/srovnavacPoplatku/srovnavac/bezne_ucty'>SROVNÁVAČ</a>
 
 
 <?php
 include "../pripojeni_sql.php";
+include "../sql_queries.php";
 
 $footer = "<BR>
 <div style='background-color:red; text-align:center; position:fixed; color:white; bottom:0px; width:100%; font-size:small'>&copy;2013+, Nulovepoplatky.cz, Všechna práva vyhrazena. Optimalizováno pro Google Chrome (<a href='http://www.google.com/chrome' target='_blank'>zde</a> ke stažení) v rozlišení 1280 x 1024 px.</div>";
@@ -130,7 +131,7 @@ while($radek_ucty_banky = mysql_fetch_assoc($ucty_banky))
 <OPTION value="new" <?php echo(isset($_GET['ucet']) && $_GET['ucet'] == "new" ? "selected" : ""); ?>>VYTVOŘIT NOVÝ ÚČET</OPTION>
 </SELECT>
 <INPUT type="submit" name="vyber_ucet" value="Vybrat">
-<a href='/admin_page/admin.php?banka=<?php echo isset($_GET['kodBanky']) ? $_GET['kodBanky'] : $_GET['banka']; ?>&vyber_banku=Vybrat'>vybrat jiný</a>
+<a href='/srovnavacPoplatku/admin_page/admin.php?banka=<?php echo isset($_GET['kodBanky']) ? $_GET['kodBanky'] : $_GET['banka']; ?>&vyber_banku=Vybrat'>vybrat jiný</a>
 <?php
 
 if(!isset($_GET['ucet']) || $_GET['ucet'] == "" || isset($_GET['vyber_banku']))
@@ -141,7 +142,6 @@ elseif(isset($_GET['zalozeni']))
 {
 //echo 'ucet zalozit';
 $ucetID = $_GET['ucet'];
-//$cena_ID = Null;
 $kodBanky = $_GET['kodBanky'];
 $nazevUctu = $_GET['nazevUctu'];
 $ucetTyp = $_GET['ucetTyp'];
@@ -161,7 +161,6 @@ elseif($_GET['ucet'] == "new")
 {
 //echo 'ucet new';
 $ucetID = 0;
-//$kodBanky = $banka;
 $nazevUctu = Null;
 $ucetTyp = Null;
 $mena = Null;
@@ -194,7 +193,7 @@ ucet_active = ".$_GET['aktiv'].",
 WHERE ucet_ID=".$_GET['ucet'];
 $zmena_uctu = vystup_sql($sql_zmena_uctu);
 
-echo "<meta http-equiv='refresh' content='0;url=/admin_page/admin.php?banka=".$_GET['kodBanky']."&ucet=".$_GET['ucet']."&note=Změny účtu uloženy.'>";
+echo "<meta http-equiv='refresh' content='0;url=/srovnavacPoplatku/admin_page/admin.php?banka=".$_GET['kodBanky']."&ucet=".$_GET['ucet']."&note=Změny účtu uloženy.'>";
 }
 
 else{
@@ -209,8 +208,7 @@ $ucet_d = vystup_sql($sql_ucet_d);
 
 $ucetID = mysql_result($ucet_d, 0, 0);
 $banka = mysql_result($ucet_d, 0, 1);
-$nazevUctu = mysql_result($ucet_d, 0, 2); // isset($_GET['kodBanky']) ? $_GET['kodBanky'] : Null;
-// = isset($_GET['nazevUctu']) ? $_GET['nazevUctu'] : Null;
+$nazevUctu = mysql_result($ucet_d, 0, 2);
 $ucetTyp = mysql_result($ucet_d, 0, 3);
 $mena = mysql_result($ucet_d, 0, 4);
 $minLimit = mysql_result($ucet_d, 0, 5);
@@ -225,7 +223,7 @@ $sporPovBez = mysql_result($ucet_d, 0, 13);
 }
 
 $ucet_readonly = !isset($_GET['oprava_ucet']) && $_GET['ucet'] <> "new" ? " readonly" : "";
-$vyj_url = "/admin_page/vyjimky.php?kodBanky=$banka&ucet=$ucetID";
+$vyj_url = "/srovnavacPoplatku/admin_page/vyjimky.php?kodBanky=$banka&ucet=$ucetID";
 ?>
 
 <H3>Detaily účtu</H3>
@@ -294,7 +292,7 @@ echo " disabled>";
 $sql_max_id = "SELECT max(ucet_ID) FROM ucty";
 $max_id = vystup_sql($sql_max_id);
 $ucetID = mysql_result($max_id, 0, 0);
-echo "<meta http-equiv='refresh' content='0;url=/admin_page/admin.php?banka=".$_GET['kodBanky']."&ucet=$ucetID&note=Účet založen.#poplatky'>";
+echo "<meta http-equiv='refresh' content='0;url=/srovnavacPoplatku/admin_page/admin.php?banka=".$_GET['kodBanky']."&ucet=$ucetID&note=Účet založen.#poplatky'>";
 }
 
 elseif($_GET['ucet'] == "new")
@@ -305,19 +303,12 @@ echo " disabled>";
 
   if(!isset($_GET['oprava_ucet'])){
   echo "<INPUT type='submit' name='oprava_ucet' value='Upravit účet'>";
-  echo "<INPUT type='submit' name='vyber_id' value='Zobrazit poplatky'>";
+  echo "<INPUT type='submit' name='vyber_id' value='Zobrazit poplatky' accesskey='z'>";
   echo "<A href='../srovnavac/bezne_ucty/detail.php?id=".$_GET['ucet']."'' tartet='_blank'> Zobrazit detail ve srovnávači</A>";
   }  
   
   else
   die ("<INPUT type='submit' name='ulozit_ucet' value='Uložit změny účtu'>");
-/*echo "<BR><SELECT name='id'>";
-echo "<OPTION value=".mysql_result($ucet_d, 0, 9).">".mysql_result($ucet_d, 0, 9)." - platnost od ".mysql_result($ucet_d, 0, 11)."</OPTION>";
-while($radek_ucet_d = mysql_fetch_assoc($ucet_d)){
-echo "<OPTION value=".$radek_ucet_d['cena_id'].">".$radek_ucet_d['cena_id']." - platnost od ".$radek_ucet_d['cena_platnost_od']."</OPTION>";
-}
-echo "<OPTION value=0>0 - založit nové poplatky</OPTION>";
-echo "</SELECT>";       */
 echo "<INPUT type='hidden' name='id' value=".(mysql_result($ucet_d, 0, 16) != Null ? mysql_result($ucet_d, 0, 16) : 0).">";
 echo "<INPUT type='hidden' name='r_cena_d' value=0>";
 

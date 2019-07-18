@@ -11,6 +11,7 @@
 
 <?php
 include 'f_karty.php';
+include '../sql_queries.php';
 
 session_start(); 
 if($_SESSION['login']!=true)
@@ -18,9 +19,9 @@ die ("neoprávněný přístup");
 ?>
 
 
-<a href='/admin_page/admin.php'>RESET</a>
-| <a href='/admin_page/admin.php?ucet=36&nazevUctu=mKonto&kodBanky=6210&r_cena_d=0&s_popl_karty=Spravovat+poplatky+karet+k+%C3%BA%C4%8Dtu+%282%29&id=81&ucet_vzor=0&platnostOd=2017-05-02&zrizeniUctu=0.00&zrizeniIB=0.00&zrizeniMB=0.00&zrizeniTB=0.00&zrizeniTP_IB=0.00&zrizeniTP_MB=0.00&zrizeniTP_TB=40.00&zruseniUctu=0.00&koment_JP=no+comment&vedeniUctu_podm=0&vedeniUctu=0.00&vedeniIB=0.00&vedeniMB=0.00&vedeniTB=0.00&vypisE=0.00&vypisP=50.00&koment_PP=no+comment&prichozi1=0.00&prichozi2=0.00&odchoziTP1=0.00&odchoziTP2=0.00&odchoziOn1=0.00&odchozi1_IB=0.00&odchozi1_MB=0.00&odchozi1_TB=40.00&odchozi2_IB=0.00&odchozi2_MB=0.00&odchozi2_TB=40.00&odchoziP=&koment_trans=no+comment&inkSvoleni=0.00&inkOdch=0.00&koment_ink=no+comment&kontZrizeni=0.00&kontVedeni=0.00&kontZruseni=0.00&koment_kont=no+comment'>TEST</a>                                     
-| <a href=/srovnavac/bezne_ucty>SROVNÁVAČ</a>
+<a href='/srovnavacPoplatku/admin_page/admin.php' accesskey='r'>RESET</a>
+| <a href='/srovnavacPoplatku/admin_page/admin.php?ucet=36&nazevUctu=mKonto&kodBanky=6210&r_cena_d=0&s_popl_karty=Spravovat+poplatky+karet+k+%C3%BA%C4%8Dtu+%282%29&id=81&ucet_vzor=0&platnostOd=2017-05-02&zrizeniUctu=0.00&zrizeniIB=0.00&zrizeniMB=0.00&zrizeniTB=0.00&zrizeniTP_IB=0.00&zrizeniTP_MB=0.00&zrizeniTP_TB=40.00&zruseniUctu=0.00&koment_JP=no+comment&vedeniUctu_podm=0&vedeniUctu=0.00&vedeniIB=0.00&vedeniMB=0.00&vedeniTB=0.00&vypisE=0.00&vypisP=50.00&koment_PP=no+comment&prichozi1=0.00&prichozi2=0.00&odchoziTP1=0.00&odchoziTP2=0.00&odchoziOn1=0.00&odchozi1_IB=0.00&odchozi1_MB=0.00&odchozi1_TB=40.00&odchozi2_IB=0.00&odchozi2_MB=0.00&odchozi2_TB=40.00&odchoziP=&koment_trans=no+comment&inkSvoleni=0.00&inkOdch=0.00&koment_ink=no+comment&kontZrizeni=0.00&kontVedeni=0.00&kontZruseni=0.00&koment_kont=no+comment'>TEST</a>                                     
+| <a href='/srovnavacPoplatku/srovnavac/bezne_ucty'>SROVNÁVAČ</a>
 
 
 <?php
@@ -28,17 +29,6 @@ include "../pripojeni_sql.php";
 
 $footer = "<BR>
 <div style='background-color:red; text-align:center; position:fixed; color:white; bottom:0px; width:100%; font-size:small'>&copy;2013+, Nulovepoplatky.cz, Všechna práva vyhrazena. Optimalizováno pro Google Chrome (<a href='http://www.google.com/chrome' target='_blank'>zde</a> ke stažení) v rozlišení 1280 x 1024 px.</div>";
-
-//mysql_query("SET NAMES 'utf8'");
-
-
-//-- NASTAVENÍ BANKY A DETAILŮ ÚČTU
-
-// $sql_banky = "SELECT kod_banky, nazev_banky, count(ucet_ID) as pocet_uctu FROM banky LEFT JOIN ucty ON banky.kod_banky = ucty.ucet_kod_banky
-// WHERE banky.active=1 
-// GROUP BY kod_banky 
-// ORDER BY nazev_banky ASC";
-// $banky = vystup_sql($sql_banky);
 
 ?>
 <H1>ADMINISTRACE</H1>
@@ -74,29 +64,10 @@ echo ($smazano_karet > 0 ? "<span style='color:red; font-weight:bold'>Smazáno k
   
   elseif(isset($_GET['oprava_karty']) && $_GET['oprava_karty'] == "Potvrdit"){
     if($_GET['karty_vzor'] <> ''){
-    $sql_karty_copy = "INSERT INTO ceny_karty (karta_cena_id, karta_ID, karta_nazev, karta_druh, karta_typ, kartaH_vedeni, kartaH_vyber1, kartaH_vyber2, kartaH_vyber3, kartaH_cashback, kartaH_vklad, kartaD_vedeni, kartaD_vyber1, kartaD_vyber2, kartaD_vyber3, kartaD_cashback, kartaD_vklad, kartaH_koment, kartaD_koment, kartaH_vydani, kartaD_vydani, karta_original_id) 
-    SELECT ".$_GET['id'].", karta_ID, karta_nazev, karta_druh, karta_typ, kartaH_vedeni, kartaH_vyber1, kartaH_vyber2, kartaH_vyber3, kartaH_cashback, kartaH_vklad, kartaD_vedeni, kartaD_vyber1, kartaD_vyber2, kartaD_vyber3, kartaD_cashback, kartaD_vklad, kartaH_koment, kartaD_koment, kartaH_vydani, kartaD_vydani, id
-    FROM ceny_karty WHERE karta_cena_id = ".$_GET['karty_vzor'];
-    $karty_copy = vystup_sql($sql_karty_copy);
+    $copyDetail = copyKarty($_GET['karty_vzor'], $_GET['id']);
     
-    $sql_vzor_karty_koment = "SELECT cena_koment_karta FROM ucty_ceny WHERE cena_id = ".$_GET['karty_vzor'];
-    $vzor_karty_koment = vystup_sql($sql_vzor_karty_koment);
-        
-    $sql_karty_koment = "UPDATE ucty_ceny SET cena_koment_karta = '".(mysql_result($vzor_karty_koment, 0))."' WHERE cena_id = ".$_GET['id'];
-    $karty_koment = vystup_sql($sql_karty_koment);
-    
-    $sql_vyj_k_pocet = "SELECT * FROM vyjimky WHERE cena_id=".$_GET['karty_vzor']." and not karta_id is null";
-    $vyj_k_pocet = mysql_num_rows(vystup_sql($sql_vyj_k_pocet));
-      if($vyj_k_pocet > 0){
-      $sql_karty_vyjimky = "INSERT INTO vyjimky (`ucet_id`,`cena_id`,`karta_id`,`pole`,`podminka`,`vysledek`,`koment`)
-      SELECT ".$_GET['ucet'].", ck.karta_cena_id, ck.id, vyjimky.pole, vyjimky.podminka, vyjimky.vysledek, vyjimky.koment 
-      FROM vyjimky INNER JOIN ceny_karty ck ON vyjimky.karta_id=ck.karta_original_id 
-      WHERE cena_id=".$_GET['karty_vzor'];
-      $karty_vyjimky = vystup_sql($sql_karty_vyjimky);
-      }
-    
-    echo "<meta http-equiv='refresh' content='0;url=/admin_page/admin_karty.php?kodBanky=".$_GET['kodBanky']."&ucet=".$_GET['ucet']."&ucetTyp=".$_GET['ucetTyp']."
-    &nazevUctu=".$_GET['nazevUctu']."&r_cena_d=".$_GET['r_cena_d']."&id=".$_GET['id']."&oprava_karty=&note=Karty zkopírovány ($vyj_k_pocet výjimek).#karty'>";
+    echo "<meta http-equiv='refresh' content='0;url=/srovnavacPoplatku/admin_page/admin_karty.php?kodBanky=".$_GET['kodBanky']."&ucet=".$_GET['ucet']."&ucetTyp=".$_GET['ucetTyp']."
+    &nazevUctu=".$_GET['nazevUctu']."&r_cena_d=".$_GET['r_cena_d']."&id=".$_GET['id']."&oprava_karty=&note=Karty zkopírovány (".$copyDetail['pocetVyjimek']." výjimek).#karty'>";
     }
     else
     echo "<span style='color:red; font-weight:bold'>Akce se nezdařila, nebyl vybrán účet ke zkopírování karet.</span>";
@@ -159,7 +130,7 @@ echo ($smazano_karet > 0 ? "<span style='color:red; font-weight:bold'>Smazáno k
   	$ulozit_kartuD = vystup_sql($sql_ulozit_kartuD);	
     }
   
-  echo "<meta http-equiv='refresh' content='0;url=/admin_page/admin_karty.php?kodBanky=".$_GET['kodBanky']."&ucet=".$_GET['ucet']."&ucetTyp=".$_GET['ucetTyp']."&nazevUctu=".$_GET['nazevUctu']."&r_cena_d=".$_GET['r_cena_d']."&id=".$_GET['id']."&oprava_karty=&note=Nová karta uložena.#karty'>";
+  echo "<meta http-equiv='refresh' content='0;url=/srovnavacPoplatku/admin_page/admin_karty.php?kodBanky=".$_GET['kodBanky']."&ucet=".$_GET['ucet']."&ucetTyp=".$_GET['ucetTyp']."&nazevUctu=".$_GET['nazevUctu']."&r_cena_d=".$_GET['r_cena_d']."&id=".$_GET['id']."&oprava_karty=&note=Nová karta uložena.#karty'>";
   }
 ?>
 
@@ -175,7 +146,7 @@ ID poplatků: <INPUT type='text' name='id' value=<?php echo $_GET['id']; ?> size
 echo "<INPUT type='submit' name='oprava_karty' value='".(isset($_GET['oprava_karty']) && $_GET['oprava_karty'] == "Provést změny v kartách" ? "Uložit změny v kartách" : "Provést změny v kartách")."'".($pocet_karet == 0 || (isset($_GET['oprava_karty']) && $_GET['oprava_karty'] == "Přidat novou kartu") ? " disabled" : "").">"; 
 
 $nova_karta = isset($_GET['oprava_karty']) && $_GET['oprava_karty'] == "Přidat novou kartu" ? "Uložit novou kartu" : "Přidat novou kartu";
-echo " <INPUT type='submit' name='oprava_karty' value='$nova_karta'".(isset($_GET['oprava_karty']) && $_GET['oprava_karty'] == "Provést změny v kartách" ? " disabled" : "").">";
+echo " <INPUT type='submit' name='oprava_karty' value='$nova_karta'".(isset($_GET['oprava_karty']) && $_GET['oprava_karty'] == "Provést změny v kartách" ? " disabled" : "")." accesskey='n'>";
 
 echo (isset($_GET['oprava_karty']) && $_GET['oprava_karty'] == "Přidat novou kartu" ? " <INPUT type='submit' name='s_popl_karty' value='Neukládat'>" : "");
 
@@ -215,7 +186,6 @@ if(isset($_GET['oprava_karty']) && $_GET['oprava_karty'] == "Provést změny v k
 
 
 for($i=1; $i<=$pocet_karet; ++$i){ 
-//while($radek_karta = mysql_fetch_assoc($karta_d)){
 
 $radek = $i - 1;
 
@@ -334,25 +304,7 @@ Komentář k dodatkové kartě: <BR><TEXTAREA name='komentD$i' cols=80 rows=5$ka
 
 echo "</form>";
  
-echo (isset($_GET['oprava_karty']) && $_GET['oprava_karty'] == "Uložit změny v kartách") ? "<meta http-equiv='refresh' content='0;url=/admin_page/admin_karty.php?kodBanky=".$_GET['kodBanky']."&ucet=".$_GET['ucet']."&ucetTyp=".$_GET['ucetTyp']."&nazevUctu=".$_GET['nazevUctu']."&r_cena_d=".$_GET['r_cena_d']."&id=".$_GET['id']."&oprava_karty=&pocet_karet=$pocet_karet&note=Změny v kartách uloženy.'>" : "";
-
-// }
-// 
-// else
-// echo "neznámý odkaz";
-
-
-
-
-
-
-
-
-//    V Ý J I M K Y
-
-
-if(isset($_GET['ucet']) && $_GET['ucet'] <> "" && isset($_GET['vyj_name']))
-{}
+echo (isset($_GET['oprava_karty']) && $_GET['oprava_karty'] == "Uložit změny v kartách") ? "<meta http-equiv='refresh' content='0;url=/srovnavacPoplatku/admin_page/admin_karty.php?kodBanky=".$_GET['kodBanky']."&ucet=".$_GET['ucet']."&ucetTyp=".$_GET['ucetTyp']."&nazevUctu=".$_GET['nazevUctu']."&r_cena_d=".$_GET['r_cena_d']."&id=".$_GET['id']."&oprava_karty=&pocet_karet=$pocet_karet&note=Změny v kartách uloženy.'>" : "";
 
 
 if($id_spojeni)
