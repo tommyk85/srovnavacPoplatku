@@ -1,6 +1,6 @@
 <?php
 
-include 'pripojeni_sql.php';
+include '../pripojeni_sql.php';
 
 mysql_query("START TRANSACTION");
 
