@@ -61,7 +61,7 @@ $sql_ucty = "SELECT ucet_nazev, nazev_banky, cena_platnost_od, ucet_www
 FROM ucty
 INNER JOIN banky ON ucty.ucet_kod_banky = banky.kod_banky
 LEFT JOIN ucty_ceny ON ucty_ceny.cena_ucet_id=ucty.ucet_id
-WHERE ucet_typ like 'bezny%' AND cena_active=1
+WHERE ucet_typ like 'bezny%' AND cena_active=1 AND ucty.ucet_active=1
 ORDER BY nazev_banky ASC, ucet_nazev ASC";
 $ucty = mysql_query($sql_ucty, $id_spojeni);
 if (!$ucty)
@@ -127,7 +127,7 @@ while($radek_ucty2 = mysql_fetch_assoc($ucty2))
 
 <?php
 $sql_banky = "SELECT DISTINCT banky.* FROM banky
-INNER JOIN ucty ON ucty.ucet_kod_banky = banky.kod_banky WHERE ucet_typ like 'bezny%' ORDER BY nazev_banky ASC";
+INNER JOIN ucty ON ucty.ucet_kod_banky = banky.kod_banky WHERE ucet_typ like 'bezny%' AND ucet_active=1 ORDER BY nazev_banky ASC";
 $banky = mysql_query($sql_banky, $id_spojeni);
 if (!$banky)
 {
