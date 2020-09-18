@@ -45,7 +45,7 @@ if(isset($_GET['ucet']) && $_GET['ucet'] <> "" && isset($_GET['vyj_name']))
 {
 
 
-  $vyj_url = "../srovnavacPoplatku/admin_page/";
+  $vyj_url = "../admin_page/";
   $vyj_url.= isset($_GET['s_popl_karty']) ? "admin_karty.php?kodBanky=".$_GET['kodBanky']."&ucet=".$_GET['ucet']."&ucetTyp=".$_GET['ucetTyp']."&nazevUctu=".$_GET['nazevUctu']."&id=".$_GET['id']."&r_cena_d=0&vyber_id=&s_popl_karty=" :
     (isset($_GET['vyber_id']) ? "admin.php?kodBanky=".$_GET['kodBanky']."&ucet=".$_GET['ucet']."&ucetTyp=".$_GET['ucetTyp']."&nazevUctu=".$_GET['nazevUctu']."&id=".$_GET['id']."&vyber_id=" : "admin.php?kodBanky=".$_GET['kodBanky']."&ucet=".$_GET['ucet']."&ucetTyp=".$_GET['ucetTyp']);
     
