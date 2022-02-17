@@ -63,15 +63,15 @@ INNER JOIN banky ON ucty.ucet_kod_banky = banky.kod_banky
 LEFT JOIN ucty_ceny ON ucty_ceny.cena_ucet_id=ucty.ucet_id
 WHERE ucet_typ like 'bezny%' AND cena_active=1 AND ucty.ucet_active=1
 ORDER BY nazev_banky ASC, ucet_nazev ASC";
-$ucty = mysql_query($sql_ucty, $id_spojeni);
+$ucty = mysqli_query($sql_ucty, $id_spojeni);
 if (!$ucty)
 {
-  echo mysql_errno($id_spojeni).': '.mysql_error($id_spojeni).'<br>';
+  echo mysqli_errno($id_spojeni).': '.mysqli_error($id_spojeni).'<br>';
   die('Nepodařilo se nám poslat SQL dotaz na poplatky.');
 } 
 //echo 'Dotaz na vysledek odeslán.<br>';
 
-while($radek_ucty = mysql_fetch_assoc($ucty))
+while($radek_ucty = mysqli_fetch_assoc($ucty))
 {
      echo "<TR>     
      <TD nowrap>".$radek_ucty['ucet_nazev']."</TD>
@@ -97,15 +97,15 @@ INNER JOIN banky ON ucty.ucet_kod_banky = banky.kod_banky
 LEFT JOIN ucty_ceny ON ucty_ceny.cena_ucet_id=ucty.ucet_id
 WHERE ucet_typ like 'bezny%' AND cena_id IS NULL
 ORDER BY nazev_banky ASC, ucet_nazev ASC";
-$ucty2 = mysql_query($sql_ucty2, $id_spojeni);
+$ucty2 = mysqli_query($sql_ucty2, $id_spojeni);
 if (!$ucty2)
 {
-  echo mysql_errno($id_spojeni).': '.mysql_error($id_spojeni).'<br>';
+  echo mysqli_errno($id_spojeni).': '.mysqli_error($id_spojeni).'<br>';
   die('Nepodařilo se nám poslat SQL dotaz na poplatky.');
 } 
 //echo 'Dotaz na vysledek odeslán.<br>';
 
-while($radek_ucty2 = mysql_fetch_assoc($ucty2))
+while($radek_ucty2 = mysqli_fetch_assoc($ucty2))
 {
      echo "<TR>     
      <TD nowrap>".$radek_ucty2['ucet_nazev']."</TD>
@@ -128,15 +128,15 @@ while($radek_ucty2 = mysql_fetch_assoc($ucty2))
 <?php
 $sql_banky = "SELECT DISTINCT banky.* FROM banky
 INNER JOIN ucty ON ucty.ucet_kod_banky = banky.kod_banky WHERE ucet_typ like 'bezny%' AND ucet_active=1 ORDER BY nazev_banky ASC";
-$banky = mysql_query($sql_banky, $id_spojeni);
+$banky = mysqli_query($sql_banky, $id_spojeni);
 if (!$banky)
 {
-  echo mysql_errno($id_spojeni).': '.mysql_error($id_spojeni).'<br>';
+  echo mysqli_errno($id_spojeni).': '.mysqli_error($id_spojeni).'<br>';
   die('Nepodařilo se nám poslat SQL dotaz na poplatky.');
 } 
 //echo 'Dotaz na vysledek odeslán.<br>';
 
-while($radek_banky = mysql_fetch_assoc($banky))
+while($radek_banky = mysqli_fetch_assoc($banky))
 {
      echo "<TR>     
      <TD nowrap>".$radek_banky['nazev_banky']."</TD>
@@ -162,7 +162,7 @@ while($radek_banky = mysql_fetch_assoc($banky))
 <?php
 if($id_spojeni)
 {
-  mysql_close($id_spojeni);
+  mysqli_close($id_spojeni);
   //echo 'odpojeno<br>';
 }
 ?>

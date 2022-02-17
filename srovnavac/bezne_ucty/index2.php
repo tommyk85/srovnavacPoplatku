@@ -13,12 +13,12 @@ include "../../pripojeni_sql.php";
 function vystup_sql($_sql)
 {
 global $id_spojeni;
-$query = mysql_query($_sql, $id_spojeni);
+$query = mysqli_query($_sql, $id_spojeni);
   if (!$query)
   {
-    //echo mysql_errno($id_spojeni).': '.mysql_error($id_spojeni).'<br>';
+    //echo mysqli_errno($id_spojeni).': '.mysqli_error($id_spojeni).'<br>';
     die("<span style='color:red; font-weight:bold'>Něco se nepovedlo. Jdi zpět a zkontroluj, jestli jsou údaje správně zapsané nebo nějaké nechybí. Pokud je vše zapsané v pořádku a problém přetrvává, pošli mi tyto 2 řádky:</span>
-    <p style='color:red'>".mysql_errno($id_spojeni).': '.mysql_error($id_spojeni)."<BR><i>$_sql</U></i>");
+    <p style='color:red'>".mysqli_errno($id_spojeni).': '.mysqli_error($id_spojeni)."<BR><i>$_sql</U></i>");
   }
 return $query;
 }
@@ -170,7 +170,7 @@ $data = vystup_sql($sql_data);            */
 <?php
 
 /*
-while($r_data = mysql_fetch_assoc($data)){              // r = řádek, v = výpočet, d = detail, c = cena
+while($r_data = mysqli_fetch_assoc($data)){              // r = řádek, v = výpočet, d = detail, c = cena
 $cena_id = $r_data["cena_id"];
 $ucet = $r_data["ucet_nazev"];
 $www = $r_data["ucet_www"];
@@ -236,7 +236,7 @@ case '62':    // MůjÚčet, KB
   if($karta == 1){
   $sql_karta_min = "SELECT min(kartaH_vedeni) FROM ceny_karty WHERE karta_cena_id = ".$r_data["cena_id"]." AND karta_typ <> 3";
   $karta_min = vystup_sql($sql_karta_min);
-  $v_karta_min = mysql_result($karta_min, 0);}
+  $v_karta_min = mysqli_result($karta_min, 0);}
   
   if($v_odchozi_min_ib + $v_tp_min >= $r_data["cena_trans_bal"]){
   $v_odchozi_min_ib = $r_data["cena_trans_bal"];
@@ -253,7 +253,7 @@ case '63':    // Konto G2.2, KB
   if($karta == 1){
   $sql_karta_min = "SELECT min(kartaH_vedeni) FROM ceny_karty WHERE karta_cena_id = ".$r_data["cena_id"]." AND karta_typ <> 3";
   $karta_min = vystup_sql($sql_karta_min);
-  $v_karta_min = mysql_result($karta_min, 0);}
+  $v_karta_min = mysqli_result($karta_min, 0);}
     
     if($v_odchozi_min_ib + $v_tp_min >= $r_data["cena_trans_bal"] - ($vek < 26 ? 20 : 0)){
     $v_odchozi_min_ib = $r_data["cena_trans_bal"] - ($vek < 26 ? 20 : 0);
@@ -268,7 +268,7 @@ case '64':    // Běžný účet, KB
   if($karta == 1){
   $sql_karta_min = "SELECT min(kartaH_vedeni) FROM ceny_karty WHERE karta_cena_id = ".$r_data["cena_id"]." AND karta_typ <> 3";
   $karta_min = vystup_sql($sql_karta_min);
-  $v_karta_min = mysql_result($karta_min, 0);}
+  $v_karta_min = mysqli_result($karta_min, 0);}
 break;
 
 case '65':    // Dětské konto Beruška, KB
@@ -292,7 +292,7 @@ case '66':    // KB start konto, KB
   if($karta == 1){
   $sql_karta_min = "SELECT min(kartaH_vedeni) FROM ceny_karty WHERE karta_cena_id = ".$r_data["cena_id"]." AND karta_typ <> 3";
   $karta_min = vystup_sql($sql_karta_min);
-  $v_karta_min = mysql_result($karta_min, 0);}
+  $v_karta_min = mysqli_result($karta_min, 0);}
 break;
 
 case '67':    // TOP nabídka, KB
@@ -301,7 +301,7 @@ case '67':    // TOP nabídka, KB
   if($karta == 1){
   $sql_karta_min = "SELECT min(kartaH_vedeni) FROM ceny_karty WHERE karta_cena_id = ".$r_data["cena_id"]." AND karta_typ <> 3";
   $karta_min = vystup_sql($sql_karta_min);
-  $v_karta_min = mysql_result($karta_min, 0);}
+  $v_karta_min = mysqli_result($karta_min, 0);}
 break;
 
 case '53':    // ČSOB konto, ČSOB
@@ -517,7 +517,7 @@ $sql_list = "SELECT * FROM vysledky WHERE banking like 'ib%' $list_filter ORDER 
 $list = vystup_sql($sql_list);
 
 $id = 0;
-while($r_list = mysql_fetch_assoc($list)){
+while($r_list = mysqli_fetch_assoc($list)){
 ++$id;
 echo "<TR><FORM action='detail.php' method='POST' target='_blank'><input type='hidden' name='cena_id' value=".$r_list['cena_id'].">
 <TD style='text-align:center'>$id.</TD>
@@ -564,7 +564,7 @@ echo "<TR><FORM action='detail.php' method='POST' target='_blank'><input type='h
 <?php
 if($id_spojeni)
 {
-  mysql_close($id_spojeni);
+  mysqli_close($id_spojeni);
 echo 'odpojeno <br>';
 }
 ?>

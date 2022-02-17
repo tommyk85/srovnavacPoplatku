@@ -72,12 +72,12 @@ include "../../pripojeni_sql.php";
 // function vystup_sql($_sql)
 // {
 // global $id_spojeni;
-// $query = mysql_query($_sql, $id_spojeni);
+// $query = mysqli_query($_sql, $id_spojeni);
 //   if (!$query)
 //   {
-//     //echo mysql_errno($id_spojeni).': '.mysql_error($id_spojeni).'<br>';
+//     //echo mysqli_errno($id_spojeni).': '.mysqli_error($id_spojeni).'<br>';
 //     die("<span style='color:red; font-weight:bold'>Něco se nepovedlo. Jdi zpět a zkontroluj, jestli jsou údaje správně zapsané nebo nějaké nechybí. Pokud je vše zapsané v pořádku a problém přetrvává, pošli mi tyto 2 řádky:</span>
-//     <p style='color:red'>".mysql_errno($id_spojeni).': '.mysql_error($id_spojeni)."<BR><i>$_sql</U></i>");
+//     <p style='color:red'>".mysqli_errno($id_spojeni).': '.mysqli_error($id_spojeni)."<BR><i>$_sql</U></i>");
 //   }
 // return $query;
 // }
@@ -208,7 +208,7 @@ Věk klienta: <input type='number' name='vek' style='width:40' value=<?php echo 
 <?php //echo $_POST['aktiv']; ?>
 
 <p style='margin-bottom:50px;'>
-Zadaným parametrům vyhovuje <b><?php echo $vys_pocet = mysql_num_rows(vystup_sql('SELECT * FROM vysledky;')); ?></b> účtů.
+Zadaným parametrům vyhovuje <b><?php echo $vys_pocet = mysqli_num_rows(vystup_sql('SELECT * FROM vysledky;')); ?></b> účtů.
 </p>
 
 <?php
@@ -238,7 +238,7 @@ $sql_list = "SELECT * FROM vysledky ORDER BY $list_order, platnost_od ASC";
 $list = vystup_sql($sql_list);
 
 $id = 0;
-while($r_list = mysql_fetch_assoc($list)){
+while($r_list = mysqli_fetch_assoc($list)){
 ++$id;
 echo "<TR".($id <= 3 ? " style='background-color:#00FF66;'" : "")."><FORM action='detail.php' method='POST' target='_blank'><input type='hidden' name='ucet_id' value=".$r_list['ucet_id'].">
 <TD style='text-align:center'>$id.</TD>
@@ -299,7 +299,7 @@ Banking: ".$r_list['banking']."
 
 if($id_spojeni)
 {
-  mysql_close($id_spojeni);
+  mysqli_close($id_spojeni);
 echo 'odpojeno <br>';
 }
 

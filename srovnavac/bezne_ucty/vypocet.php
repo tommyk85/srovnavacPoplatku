@@ -56,7 +56,7 @@ $sql_data.= "ucty_ceny.cena_ucet_id = $id";
 
 $data = vystup_sql($sql_data);
 
-//echo mysql_num_rows($data); 
+//echo mysqli_num_rows($data); 
 $sql_data;
 
 $sql_data_vyj = "CREATE TEMPORARY TABLE `vyj_temp` (
@@ -73,7 +73,7 @@ $sql_data_vyj = "CREATE TEMPORARY TABLE `vyj_temp` (
 $data_vyj = vystup_sql($sql_data_vyj);
 
 
-while($r_data = mysql_fetch_assoc($data)){              // r = řádek, v = výpočet, d = detail, c = cena, p = popis
+while($r_data = mysqli_fetch_assoc($data)){              // r = řádek, v = výpočet, d = detail, c = cena, p = popis
 $vyj_yn = 0;
 $cena_id = $r_data["cena_id"];
 $ucet_id = $r_data["ucet_ID"];
@@ -121,7 +121,7 @@ $vedeni_min = Null;
 $p_odch_vyj = 0;
 
   // prirazeni hodnot vyjimek
-while($r_cena_vyj = mysql_fetch_assoc($cena_vyj)){
+while($r_cena_vyj = mysqli_fetch_assoc($cena_vyj)){
 $vyj_yn = 1;
 //$cena_id = $r_cena_vyj['cena_id'];
 $vyj_pole = $r_cena_vyj['vyj_pole'];
@@ -214,7 +214,7 @@ $max_ar = array();
 $max_ar[] = 0;
 
                                         
-while($r_k_data = mysql_fetch_assoc($karta_data)){
+while($r_k_data = mysqli_fetch_assoc($karta_data)){
 
   // vychozi hodnoty vyjimek
 //$karta_max = 
@@ -227,8 +227,8 @@ $vyber2 = $vyber2_min = $r_k_data['kartaH_vyber3'];
   $sql_k_cena_vyj = "select cena_id,karta_id,vyj_pole, min(vyj_vysl) min_vysl, max(vyj_vysl) max_vysl from vyj_temp WHERE karta_id=".$r_k_data['ID']." GROUP BY vyj_pole ORDER BY karta_id";
   $k_cena_vyj = vystup_sql($sql_k_cena_vyj);
 
-  //echo mysql_num_rows($k_cena_vyj);
-  while($r_k_vyj = mysql_fetch_assoc($k_cena_vyj)){
+  //echo mysqli_num_rows($k_cena_vyj);
+  while($r_k_vyj = mysqli_fetch_assoc($k_cena_vyj)){
   $vyj_yn = 1;
   $vyj_pole = $r_k_vyj['vyj_pole'];
   $vyj_vysl_c = $r_k_vyj['min_vysl'];

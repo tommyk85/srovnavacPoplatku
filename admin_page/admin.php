@@ -87,7 +87,7 @@ Vyber banku: <SELECT name="banka"<?php echo (isset($_GET['banka']) && $_GET['ban
 <OPTION value=""></OPTION>
 <?php
 $banka = isset($_GET['banka']) ? $_GET['banka'] : (isset($_GET['kodBanky']) ? $_GET['kodBanky'] : Null);
-while($radek_banky = mysql_fetch_assoc($banky))
+while($radek_banky = mysqli_fetch_assoc($banky))
 {
      echo "<OPTION value=".$radek_banky['kod_banky'].($radek_banky['kod_banky'] == $banka ? ' selected' : '').">".$radek_banky['nazev_banky'].($radek_banky['pocet_uctu'] > 0 ? " (".$radek_banky['pocet_uctu'].")" : "")."</OPTION>";
 }
@@ -117,7 +117,7 @@ Vyber účet:
 
 <?php
 $ub_typ = '';
-while($radek_ucty_banky = mysql_fetch_assoc($ucty_banky))
+while($radek_ucty_banky = mysqli_fetch_assoc($ucty_banky))
 {
   if($ub_typ != $radek_ucty_banky['ucet_typ']){echo "<optgroup label='".strtoupper($radek_ucty_banky['ucet_typ'])."' />";} 
     
@@ -207,20 +207,20 @@ LEFT JOIN ucty_ceny ON ucty.ucet_ID = ucty_ceny.cena_ucet_ID
 WHERE ucet_ID = $ucetID ORDER BY cena_platnost_od DESC";
 $ucet_d = vystup_sql($sql_ucet_d);
 
-$ucetID = mysql_result($ucet_d, 0, 0);
-$banka = mysql_result($ucet_d, 0, 1);
-$nazevUctu = mysql_result($ucet_d, 0, 2);
-$ucetTyp = mysql_result($ucet_d, 0, 3);
-$mena = mysql_result($ucet_d, 0, 4);
-$minLimit = mysql_result($ucet_d, 0, 5);
-$urokUcet = mysql_result($ucet_d, 0, 6);
-$vekOd = mysql_result($ucet_d, 0, 7);
-$vekDo = mysql_result($ucet_d, 0, 8);
-$www = mysql_result($ucet_d, 0, 9);
-$koment_ucet = mysql_result($ucet_d, 0, 10);
-$aktiv = mysql_result($ucet_d, 0, 11);
-$sporOdchLimit = mysql_result($ucet_d, 0, 12);
-$sporPovBez = mysql_result($ucet_d, 0, 13);
+$ucetID = mysqli_result($ucet_d, 0, 0);
+$banka = mysqli_result($ucet_d, 0, 1);
+$nazevUctu = mysqli_result($ucet_d, 0, 2);
+$ucetTyp = mysqli_result($ucet_d, 0, 3);
+$mena = mysqli_result($ucet_d, 0, 4);
+$minLimit = mysqli_result($ucet_d, 0, 5);
+$urokUcet = mysqli_result($ucet_d, 0, 6);
+$vekOd = mysqli_result($ucet_d, 0, 7);
+$vekDo = mysqli_result($ucet_d, 0, 8);
+$www = mysqli_result($ucet_d, 0, 9);
+$koment_ucet = mysqli_result($ucet_d, 0, 10);
+$aktiv = mysqli_result($ucet_d, 0, 11);
+$sporOdchLimit = mysqli_result($ucet_d, 0, 12);
+$sporPovBez = mysqli_result($ucet_d, 0, 13);
 }
 
 $ucet_readonly = !isset($_GET['oprava_ucet']) && $_GET['ucet'] <> "new" ? " readonly" : "";
@@ -292,7 +292,7 @@ echo " disabled>";
 
 $sql_max_id = "SELECT max(ucet_ID) FROM ucty";
 $max_id = vystup_sql($sql_max_id);
-$ucetID = mysql_result($max_id, 0, 0);
+$ucetID = mysqli_result($max_id, 0, 0);
 echo "<meta http-equiv='refresh' content='0;url=/srovnavacPoplatku/admin_page/admin.php?banka=".$_GET['kodBanky']."&ucet=$ucetID&note=Účet založen.#poplatky'>";
 }
 
@@ -310,7 +310,7 @@ echo " disabled>";
   
   else
   die ("<INPUT type='submit' name='ulozit_ucet' value='Uložit změny účtu'>");
-echo "<INPUT type='hidden' name='id' value=".(mysql_result($ucet_d, 0, 16) != Null ? mysql_result($ucet_d, 0, 16) : 0).">";
+echo "<INPUT type='hidden' name='id' value=".(mysqli_result($ucet_d, 0, 16) != Null ? mysqli_result($ucet_d, 0, 16) : 0).">";
 echo "<INPUT type='hidden' name='r_cena_d' value=0>";
 
 echo "</FORM>";
@@ -332,7 +332,7 @@ echo "neznámý odkaz";
 
 if($id_spojeni)
 {
-  mysql_close($id_spojeni);
+  mysqli_close($id_spojeni);
 //  echo 'odpojeno <br>';
 } 
 ?>

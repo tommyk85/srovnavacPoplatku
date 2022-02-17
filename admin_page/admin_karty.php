@@ -46,7 +46,7 @@ echo "<p style='color:green; font-weight:bold; font-size:small'>$note</p>";
 $sql_karta_d = "SELECT * FROM ceny_karty INNER JOIN ucty_ceny ON ceny_karty.karta_cena_id = ucty_ceny.cena_id
 WHERE karta_cena_ID = ".$_GET['id']." ORDER BY karta_id ASC";
 $karta_d = vystup_sql($sql_karta_d);     
-//$pocet_karet = (mysql_num_rows($karta_d)); 
+//$pocet_karet = (mysqli_num_rows($karta_d)); 
 
 $pocet_karet = pocetKaretPoplatku($_GET['id']);
 
@@ -166,7 +166,7 @@ echo "<span style='letter-spacing:50'>
   <SELECT name='karty_vzor'>
   <OPTION value=''> nekopírovat</OPTION>";
    
-    while($radek_karta_vzor = mysql_fetch_row($karta_vzor))
+    while($radek_karta_vzor = mysqli_fetch_row($karta_vzor))
     {
     echo "<OPTION value=".$radek_karta_vzor['0'].">".$radek_karta_vzor['0']." - ".$radek_karta_vzor['1']." - platnost od ".$radek_karta_vzor['2']." (".$radek_karta_vzor['3'].")</OPTION>";
     } 
@@ -174,12 +174,12 @@ echo "<span style='letter-spacing:50'>
   echo "</SELECT> <INPUT type='submit' name='oprava_karty' value='Potvrdit'></P>";  
   }
 
-$komentOb = $pocet_karet > 0 && (!isset($_GET['oprava_karty']) || (isset($_GET['oprava_karty']) && ($_GET['oprava_karty'] <> "Přidat novou kartu" || ($_GET['oprava_karty'] == "Přidat novou kartu" && $pocet_karet > 1)))) ? mysql_result($karta_d, 0, 'cena_koment_karta') : "bez karty";
+$komentOb = $pocet_karet > 0 && (!isset($_GET['oprava_karty']) || (isset($_GET['oprava_karty']) && ($_GET['oprava_karty'] <> "Přidat novou kartu" || ($_GET['oprava_karty'] == "Přidat novou kartu" && $pocet_karet > 1)))) ? mysqli_result($karta_d, 0, 'cena_koment_karta') : "bez karty";
 echo "<p>Komentář ke kartám obecně: <BR><TEXTAREA name='komentOb' cols=80 rows=5".(!isset($_GET['oprava_karty']) || (isset($_GET['oprava_karty']) && $_GET['oprava_karty'] <> "Provést změny v kartách" && $_GET['oprava_karty'] <> "Přidat novou kartu") ? " readonly" : "").">$komentOb</TEXTAREA></p>"; 
 
 if(isset($_GET['oprava_karty']) && $_GET['oprava_karty'] == "Provést změny v kartách"){
   for($i=1; $i<=$pocet_karet; ++$i){ 
-  $sql_update_kartaID = "UPDATE ceny_karty SET karta_ID = $i WHERE ID = ".mysql_result($karta_d, $i-1, 0);
+  $sql_update_kartaID = "UPDATE ceny_karty SET karta_ID = $i WHERE ID = ".mysqli_result($karta_d, $i-1, 0);
   $update_kartaID = vystup_sql($sql_update_kartaID); 
   }
 }
@@ -234,27 +234,27 @@ $radek = $i - 1;
     }
     
     
-    $kartaID = mysql_result($karta_d, $radek, 'karta_ID');
-    $nazevKarty = mysql_result($karta_d, $radek, 'karta_nazev');
-    $nazevDruh = mysql_result($karta_d, $radek, 'karta_druh');
-    $typKarty = mysql_result($karta_d, $radek, 'karta_typ');
-    $vedeniKartyH = mysql_result($karta_d, $radek, 'kartaH_vedeni');
-    $vyber1H = mysql_result($karta_d, $radek, 'kartaH_vyber1');
-    $vyber2H = mysql_result($karta_d, $radek, 'kartaH_vyber2');
-    $vyber3H = mysql_result($karta_d, $radek, 'kartaH_vyber3');
-    $cashbackH = mysql_result($karta_d, $radek, 'kartaH_cashback');
-    $vkladH = mysql_result($karta_d, $radek, 'kartaH_vklad');
-    $vedeniKartyD = mysql_result($karta_d, $radek, 'kartaD_vedeni');
-    $vyber1D = mysql_result($karta_d, $radek, 'kartaD_vyber1');
-    $vyber2D = mysql_result($karta_d, $radek, 'kartaD_vyber2');
-    $vyber3D = mysql_result($karta_d, $radek, 'kartaD_vyber3');
-    $cashbackD = mysql_result($karta_d, $radek, 'kartaD_cashback');
-    $vkladD = mysql_result($karta_d, $radek, 'kartaD_vklad');
-    $komentH = mysql_result($karta_d, $radek, 'kartaH_koment');
-    $komentD = mysql_result($karta_d, $radek, 'kartaD_koment');
-    $vydaniKartyH = mysql_result($karta_d, $radek, 'kartaH_vydani');
-    $vydaniKartyD = mysql_result($karta_d, $radek, 'kartaD_vydani');
-    $komentOb = mysql_result($karta_d, $radek, 'cena_koment_karta');
+    $kartaID = mysqli_result($karta_d, $radek, 'karta_ID');
+    $nazevKarty = mysqli_result($karta_d, $radek, 'karta_nazev');
+    $nazevDruh = mysqli_result($karta_d, $radek, 'karta_druh');
+    $typKarty = mysqli_result($karta_d, $radek, 'karta_typ');
+    $vedeniKartyH = mysqli_result($karta_d, $radek, 'kartaH_vedeni');
+    $vyber1H = mysqli_result($karta_d, $radek, 'kartaH_vyber1');
+    $vyber2H = mysqli_result($karta_d, $radek, 'kartaH_vyber2');
+    $vyber3H = mysqli_result($karta_d, $radek, 'kartaH_vyber3');
+    $cashbackH = mysqli_result($karta_d, $radek, 'kartaH_cashback');
+    $vkladH = mysqli_result($karta_d, $radek, 'kartaH_vklad');
+    $vedeniKartyD = mysqli_result($karta_d, $radek, 'kartaD_vedeni');
+    $vyber1D = mysqli_result($karta_d, $radek, 'kartaD_vyber1');
+    $vyber2D = mysqli_result($karta_d, $radek, 'kartaD_vyber2');
+    $vyber3D = mysqli_result($karta_d, $radek, 'kartaD_vyber3');
+    $cashbackD = mysqli_result($karta_d, $radek, 'kartaD_cashback');
+    $vkladD = mysqli_result($karta_d, $radek, 'kartaD_vklad');
+    $komentH = mysqli_result($karta_d, $radek, 'kartaH_koment');
+    $komentD = mysqli_result($karta_d, $radek, 'kartaD_koment');
+    $vydaniKartyH = mysqli_result($karta_d, $radek, 'kartaH_vydani');
+    $vydaniKartyD = mysqli_result($karta_d, $radek, 'kartaD_vydani');
+    $komentOb = mysqli_result($karta_d, $radek, 'cena_koment_karta');
     }
 
 
@@ -277,12 +277,12 @@ Typ karty*:
 <INPUT type='radio' name='typKarty$i' value=4".($typKarty == 4 ? " checked" : "").(!isset($_GET['oprava_karty']) || (isset($_GET['oprava_karty']) && $_GET['oprava_karty'] == "Přidat novou kartu" && $kartaID == $i) || isset($_GET['note']) ? " disabled" : "").">Nálepka<BR>
 Vydání karty - hlavní: <INPUT ".($vydaniKartyH == "" ? "class='chybi' " : "")."type='number' name='vydaniKartyH$i' value='$vydaniKartyH' style='text-align:right; width:60'$karta_readonly>
 - dodatkové: <INPUT ".($vydaniKartyD == "" ? "class='chybi' " : "")."type='number' name='vydaniKartyD$i' value='$vydaniKartyD' style='text-align:right; width:60'$karta_readonly> <span class='help'>(nech prázdné, pokud se dodatková nenabízí)</span><BR>
-Vedení karty - hlavní: <INPUT ".($vedeniKartyH == "" ? "class='chybi' " : "")."type='number' name='vedeniKartyH$i' value='$vedeniKartyH' style='text-align:right; width:60'$karta_readonly>".($chybi_podm2 == 0 ? "<a href='$vyj_url&karta_id=".mysql_result($karta_d, $radek, 'ID')."&vyj_pole=c_kartaH_vedeni&vyj_name=Vedení%20karty%20($nazevKarty)&vyj_puv=$vedeniKartyH#vyj' tabindex='-1'> [výjimka]</a>" : "")."
+Vedení karty - hlavní: <INPUT ".($vedeniKartyH == "" ? "class='chybi' " : "")."type='number' name='vedeniKartyH$i' value='$vedeniKartyH' style='text-align:right; width:60'$karta_readonly>".($chybi_podm2 == 0 ? "<a href='$vyj_url&karta_id=".mysqli_result($karta_d, $radek, 'ID')."&vyj_pole=c_kartaH_vedeni&vyj_name=Vedení%20karty%20($nazevKarty)&vyj_puv=$vedeniKartyH#vyj' tabindex='-1'> [výjimka]</a>" : "")."
 - dodatkové: <INPUT ".(($vydaniKartyD <> "" && $vedeniKartyD == "") || $chybi_podm2 == 1 ? "class='chybi' " : "")."type='number' name='vedeniKartyD$i' value='$vedeniKartyD' style='text-align:right; width:60'$karta_readonly><BR>
-Výběr z bankomatu".($chybi_podm2 == 0 ? "<a href='$vyj_url&karta_id=".mysql_result($karta_d, $radek, 'ID')."&vyj_pole=c_kartaH_vybery&vyj_name=Výběry kartou ($nazevKarty)&vyj_puv=$vyber1H/$vyber3H#vyj' tabindex='-1'> [výjimka]</a>" : "")."<BR />
+Výběr z bankomatu".($chybi_podm2 == 0 ? "<a href='$vyj_url&karta_id=".mysqli_result($karta_d, $radek, 'ID')."&vyj_pole=c_kartaH_vybery&vyj_name=Výběry kartou ($nazevKarty)&vyj_puv=$vyber1H/$vyber3H#vyj' tabindex='-1'> [výjimka]</a>" : "")."<BR />
 <DIV style='text-indent:50'>
-	- vlastní banky - hlavní kartou: <INPUT ".($vyber1H == "" && $typKarty <> 3 ? "class='chybi' " : "")."type='number' name='vyber1H$i' value='$vyber1H' style='text-align:right; width:60'$karta_readonly>".($chybi_podm2 == 0 ? "<a href='$vyj_url&karta_id=".mysql_result($karta_d, $radek, 'ID')."&vyj_pole=c_kartaH_vyber1&vyj_name=Výběr z vlastního bankomatu ($nazevKarty)&vyj_puv=$vyber1H#vyj' tabindex='-1'> [výjimka]</a>
-<a href='$vyj_url&karta_id=".mysql_result($karta_d, $radek, 'ID')."&vyj_pole=p_kartaH_vyber1_vyj&vyj_name=Počet výběrů z vlastního bankomatu ($nazevKarty)&vyj_puv=$vyber1H#vyj' tabindex='-1'>[výjimka-počet]</a>" : "")."
+	- vlastní banky - hlavní kartou: <INPUT ".($vyber1H == "" && $typKarty <> 3 ? "class='chybi' " : "")."type='number' name='vyber1H$i' value='$vyber1H' style='text-align:right; width:60'$karta_readonly>".($chybi_podm2 == 0 ? "<a href='$vyj_url&karta_id=".mysqli_result($karta_d, $radek, 'ID')."&vyj_pole=c_kartaH_vyber1&vyj_name=Výběr z vlastního bankomatu ($nazevKarty)&vyj_puv=$vyber1H#vyj' tabindex='-1'> [výjimka]</a>
+<a href='$vyj_url&karta_id=".mysqli_result($karta_d, $radek, 'ID')."&vyj_pole=p_kartaH_vyber1_vyj&vyj_name=Počet výběrů z vlastního bankomatu ($nazevKarty)&vyj_puv=$vyber1H#vyj' tabindex='-1'>[výjimka-počet]</a>" : "")."
 - dodatkovou kartou: <INPUT ".(($vydaniKartyD <> "" && $vyber1D == "" && $typKarty <> 3) || $chybi_podm2 == 1 ? "class='chybi' " : "")."type='number' name='vyber1D$i' value='$vyber1D' style='text-align:right; width:60'$karta_readonly><BR>
 </DIV>
 <DIV style='text-indent:50'>
@@ -290,8 +290,8 @@ Výběr z bankomatu".($chybi_podm2 == 0 ? "<a href='$vyj_url&karta_id=".mysql_re
 - dodatkovou kartou: <INPUT ".(($vydaniKartyD <> "" && $vyber2D == "" && $typKarty <> 3) || $chybi_podm2 == 1 ? "class='chybi' " : "")."type='number' name='vyber2D$i' value='$vyber2D' style='text-align:right; width:60'$karta_readonly><BR>
 </DIV>
 <DIV style='text-indent:50'>
-	- cizí banky - hlavní kartou: <INPUT ".($vyber3H == "" && $typKarty <> 3 ? "class='chybi' " : "")."type='text' name='vyber3H$i' value='$vyber3H' style='text-align:right; width:60'$karta_readonly>".($chybi_podm2 == 0 ? "<a href='$vyj_url&karta_id=".mysql_result($karta_d, $radek, 'ID')."&vyj_pole=c_kartaH_vyber2&vyj_name=Výběr z cizího bankomatu ($nazevKarty)&vyj_puv=$vyber3H#vyj' tabindex='-1'> [výjimka]</a>
-<a href='$vyj_url&karta_id=".mysql_result($karta_d, $radek, 'ID')."&vyj_pole=p_kartaH_vyber2_vyj&vyj_name=Počet výběrů z cizího bankomatu ($nazevKarty)&vyj_puv=$vyber3H#vyj' tabindex='-1'>[výjimka-počet]</a>" : "")."
+	- cizí banky - hlavní kartou: <INPUT ".($vyber3H == "" && $typKarty <> 3 ? "class='chybi' " : "")."type='text' name='vyber3H$i' value='$vyber3H' style='text-align:right; width:60'$karta_readonly>".($chybi_podm2 == 0 ? "<a href='$vyj_url&karta_id=".mysqli_result($karta_d, $radek, 'ID')."&vyj_pole=c_kartaH_vyber2&vyj_name=Výběr z cizího bankomatu ($nazevKarty)&vyj_puv=$vyber3H#vyj' tabindex='-1'> [výjimka]</a>
+<a href='$vyj_url&karta_id=".mysqli_result($karta_d, $radek, 'ID')."&vyj_pole=p_kartaH_vyber2_vyj&vyj_name=Počet výběrů z cizího bankomatu ($nazevKarty)&vyj_puv=$vyber3H#vyj' tabindex='-1'>[výjimka-počet]</a>" : "")."
 - dodatkovou kartou: <INPUT ".(($vydaniKartyD <> "" && $vyber3D == "" && $typKarty <> 3) || $chybi_podm2 == 1 ? "class='chybi' " : "")."type='text' name='vyber3D$i' value='$vyber3D' style='text-align:right; width:60'$karta_readonly><BR>
 </DIV>
 Výběr u obchodníka (cashback) - hlavní kartou: <INPUT ".($cashbackH == "" && $typKarty <> 3 ? "class='chybi' " : "")."type='number' name='cashbackH$i' value='$cashbackH' style='text-align:right; width:60'$karta_readonly>
@@ -309,7 +309,7 @@ echo (isset($_GET['oprava_karty']) && $_GET['oprava_karty'] == "Uložit změny v
 
 if($id_spojeni)
 {
-  mysql_close($id_spojeni);
+  mysqli_close($id_spojeni);
 //  echo 'odpojeno <br>';
 } 
 ?>

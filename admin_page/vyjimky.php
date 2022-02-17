@@ -100,22 +100,22 @@ $vyj_list = vystup_sql($sql_vyj_list);
 
                   
 $y = 0;
-$vyj_pocet = mysql_num_rows($vyj_list);
+$vyj_pocet = mysqli_num_rows($vyj_list);
 $vyj_novy = 0;
 
   
 while($y<3 + $vyj_pocet)                                     // ŘÁDKY
 {
 
-$vyj_id = $y<$vyj_pocet ? mysql_result($vyj_list,$y,'vyj_id') : 0;
+$vyj_id = $y<$vyj_pocet ? mysqli_result($vyj_list,$y,'vyj_id') : 0;
 
 echo "<div style='padding:3".($y<$vyj_pocet ? ";background-color:lightskyblue" : ";background-color:#F4F4F4")."'>"; 
 echo "<span style='font-size:20;font-weight:bold'>".($y+1) .".</span>".($y<$vyj_pocet ? " (".$r = $vyj_id.") " : " (". $r = 0 .") ");
 
   if($y<$vyj_pocet){
-  $vyj_podm_edit = explode(" AND ", mysql_result($vyj_list,$y,'podminka'));
-  $vyj_vysl_edit = mysql_result($vyj_list,$y,'vysledek');
-  $vyj_koment_edit = mysql_result($vyj_list,$y,'koment');
+  $vyj_podm_edit = explode(" AND ", mysqli_result($vyj_list,$y,'podminka'));
+  $vyj_vysl_edit = mysqli_result($vyj_list,$y,'vysledek');
+  $vyj_koment_edit = mysqli_result($vyj_list,$y,'koment');
   
         $vyj_podm1 = $vyj_podm2 = $vyj_hodn = array();
 
@@ -134,7 +134,7 @@ echo "<span style='font-size:20;font-weight:bold'>".($y+1) .".</span>".($y<$vyj_
   echo "<div style='text-indent:".($x * 200)."'>"; 
   echo "<select name='vyj$y$x'><option value=0></option>";
 
-  while($r_vyj_podm_vypis = mysql_fetch_row($vyj_podm_vypis)){          // podminky
+  while($r_vyj_podm_vypis = mysqli_fetch_row($vyj_podm_vypis)){          // podminky
         
     if($y<$vyj_pocet){
     echo "<option value='".$r_vyj_podm_vypis[0]."'";  
@@ -177,7 +177,7 @@ $vyj_podm.= $_GET["vyj".$y."0"]<>'0' && $_GET["vyj".$y."1"]<>'0' ? " AND ".$_GET
 $vyj_podm.= $_GET["vyj".$y."1"]<>'0' && $_GET["vyj".$y."2"]<>'0' ? " AND ".$_GET["vyj".$y."2"]." ".$_GET["vyj_podm".$y."2"]." ".$_GET["vyj_hodnota".$y."2"] : "";
 $vyj_podm.= $_GET["vyj".$y."2"]<>'0' && $_GET["vyj".$y."3"]<>'0' ? " AND ".$_GET["vyj".$y."3"]." ".$_GET["vyj_podm".$y."3"]." ".$_GET["vyj_hodnota".$y."3"] : "";
 
-  if($r > 0 && mysql_result($vyj_list,$y,'podminka').$vyj_vysl_edit.$vyj_koment_edit <> $vyj_podm.$_GET["vyj_novy$y"].$_GET["vyj_koment$y"]){
+  if($r > 0 && mysqli_result($vyj_list,$y,'podminka').$vyj_vysl_edit.$vyj_koment_edit <> $vyj_podm.$_GET["vyj_novy$y"].$_GET["vyj_koment$y"]){
   $sql_vyj_urok_edit = "UPDATE vyjimky SET podminka='$vyj_podm', vysledek=".$_GET["vyj_novy$y"].", koment='".htmlspecialchars($_GET["vyj_koment$y"], ENT_QUOTES)."' WHERE vyj_id=$vyj_id";
   vystup_sql($sql_vyj_urok_edit);
   }
@@ -218,7 +218,7 @@ else echo "chybí data k zobrazeni (ucet nebo vyj_name)";
 
 if($id_spojeni)
 {
-  mysql_close($id_spojeni);
+  mysqli_close($id_spojeni);
 //  echo 'odpojeno <br>';
 } 
 ?>

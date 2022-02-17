@@ -18,12 +18,12 @@ include "../../pripojeni_sql.php";
 function vystup_sql($_sql)
 {
 global $id_spojeni;
-$query = mysql_query($_sql, $id_spojeni);
+$query = mysqli_query($_sql, $id_spojeni);
   if (!$query)
   {
-    //echo mysql_errno($id_spojeni).': '.mysql_error($id_spojeni).'<br>';
+    //echo mysqli_errno($id_spojeni).': '.mysqli_error($id_spojeni).'<br>';
     die("<span style='color:red; font-weight:bold'>Něco se nepovedlo. Jdi zpět a zkontroluj, jestli jsou údaje správně zapsané nebo nějaké nechybí. Pokud je vše zapsané v pořádku a problém přetrvává, pošli mi tyto 2 řádky:</span>
-    <p style='color:red'>".mysql_errno($id_spojeni).': '.mysql_error($id_spojeni)."<BR><i>$_sql</U></i>");
+    <p style='color:red'>".mysqli_errno($id_spojeni).': '.mysqli_error($id_spojeni)."<BR><i>$_sql</U></i>");
   }
 return $query;
 }
@@ -51,7 +51,7 @@ Poznámky ke kartám obecně: <BR><TEXTAREA name="koment_karty" cols=80 rows=6 r
 <?php 
 $sql_d_karta = "SELECT * FROM ceny_karty WHERE karta_cena_id = $id ORDER BY id ASC";
 $d_karta = vystup_sql($sql_d_karta);
-while($r_karta = mysql_fetch_assoc($d_karta)){
+while($r_karta = mysqli_fetch_assoc($d_karta)){
 ?>
 <H3><?php echo $r_karta['karta_nazev']; ?></H3>
 Poznámky k Hlavní kartě: <BR><TEXTAREA name="komentH" cols=80 rows=6 readonly><?php echo $r_karta['kartaH_koment']; ?></TEXTAREA><BR>

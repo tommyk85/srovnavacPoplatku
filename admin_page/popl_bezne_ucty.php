@@ -12,7 +12,7 @@ GROUP BY cena_id
 ORDER BY cena_platnost_od DESC";
 $cena_d = vystup_sql($sql_cena_d);
 
-$pocet_zaznamu_cena_d = mysql_num_rows($cena_d);
+$pocet_zaznamu_cena_d = mysqli_num_rows($cena_d);
 $radek = !isset($_GET['r_cena_d']) ? 0 : $_GET['r_cena_d'];
 
 if(isset($_GET['vyber_id']) && $_GET['vyber_id'] == '>')
@@ -70,7 +70,7 @@ $vlozit_hlavni = vystup_sql($sql_vlozit_hlavni);
 
 $sql_hlavni_id = "SELECT max(cena_id) FROM ucty_ceny";
 $hlavni_id = vystup_sql($sql_hlavni_id);
-$max_id = mysql_result($hlavni_id, 0, 0);
+$max_id = mysqli_result($hlavni_id, 0, 0);
 
 $sql_vlozit_banking = "INSERT INTO ceny_banking (ID) VALUES ($max_id)";
 $vlozit_banking = vystup_sql($sql_vlozit_banking);
@@ -138,47 +138,47 @@ echo "<meta http-equiv='refresh' content='0;url=/srovnavacPoplatku/admin_page/ad
 
 if($_GET['id'] > 0)
 {
-$platnostOd = mysql_result($cena_d, $radek, 'cena_platnost_od');
-$zrizeniUctu = mysql_result($cena_d, $radek, 'cena_zrizeni');
-$zruseniUctu = mysql_result($cena_d, $radek, 'cena_zruseni');
-$vedeniUctu = mysql_result($cena_d, $radek, 'cena_vedeni');
-$vedeniUctu_podm = mysql_result($cena_d, $radek, 'cena_vedeni_podm');
-$vypisE = mysql_result($cena_d, $radek, 'cena_vypis_e');
-$vypisP = mysql_result($cena_d, $radek, 'cena_vypis_p');
-$prichozi1 = mysql_result($cena_d, $radek, 'cena_prichozi1');
-$prichozi2 = mysql_result($cena_d, $radek, 'cena_prichozi2');
-$odchoziTP1 = mysql_result($cena_d, $radek, 'cena_odchozi_tp1');
-$odchoziTP2 = mysql_result($cena_d, $radek, 'cena_odchozi_tp2');
-$odchoziOn1 = mysql_result($cena_d, $radek, 'cena_odchozi_online1');
-$odchoziOn2 = mysql_result($cena_d, $radek, 'cena_odchozi_online2');
-$balicek = mysql_result($cena_d, $radek, 'cena_trans_bal');
-$balicekTyp = mysql_result($cena_d, $radek, 'cena_trans_bal_typ');
-$koment_JP = mysql_result($cena_d, $radek, 'cena_koment_JP');
-$koment_PP = mysql_result($cena_d, $radek, 'cena_koment_PP');
-$koment_trans = mysql_result($cena_d, $radek, 'cena_koment_trans');
-$zrizeniIB = mysql_result($cena_d, $radek, 'ib_Zrizeni');
-$vedeniIB = mysql_result($cena_d, $radek, 'ib_Vedeni');
-$odchozi1_IB = mysql_result($cena_d, $radek, 'ib_Odchozi1');
-$odchozi2_IB = mysql_result($cena_d, $radek, 'ib_Odchozi2');
-$zrizeniTP_IB = mysql_result($cena_d, $radek, 'ib_ZrizeniTP');
-$zrizeniMB = mysql_result($cena_d, $radek, 'mb_Zrizeni');
-$vedeniMB = mysql_result($cena_d, $radek, 'mb_Vedeni');
-$odchozi1_MB = mysql_result($cena_d, $radek, 'mb_Odchozi1');
-$odchozi2_MB = mysql_result($cena_d, $radek, 'mb_Odchozi2');
-$zrizeniTP_MB = mysql_result($cena_d, $radek, 'mb_ZrizeniTP');
-$zrizeniTB = mysql_result($cena_d, $radek, 'tb_Zrizeni');
-$vedeniTB = mysql_result($cena_d, $radek, 'tb_Vedeni');
-$odchozi1_TB = mysql_result($cena_d, $radek, 'tb_Odchozi1');
-$odchozi2_TB = mysql_result($cena_d, $radek, 'tb_Odchozi2');
-$zrizeniTP_TB = mysql_result($cena_d, $radek, 'tb_ZrizeniTP');
-$odchoziP = mysql_result($cena_d, $radek, 'cena_odchozi_priorita');
-$inkSvoleni = mysql_result($cena_d, $radek, 'cena_inkaso_svoleni');
-$inkOdch = mysql_result($cena_d, $radek, 'cena_inkaso_odchozi');
-$koment_ink = mysql_result($cena_d, $radek, 'cena_koment_inkaso');
-$kontZrizeni = mysql_result($cena_d, $radek, 'cena_kontokorent_zrizeni');
-$kontVedeni = mysql_result($cena_d, $radek, 'cena_kontokorent_vedeni');
-$kontZruseni = mysql_result($cena_d, $radek, 'cena_kontokorent_zruseni');
-$koment_kont = mysql_result($cena_d, $radek, 'cena_koment_kontokorent');
+$platnostOd = mysqli_result($cena_d, $radek, 'cena_platnost_od');
+$zrizeniUctu = mysqli_result($cena_d, $radek, 'cena_zrizeni');
+$zruseniUctu = mysqli_result($cena_d, $radek, 'cena_zruseni');
+$vedeniUctu = mysqli_result($cena_d, $radek, 'cena_vedeni');
+$vedeniUctu_podm = mysqli_result($cena_d, $radek, 'cena_vedeni_podm');
+$vypisE = mysqli_result($cena_d, $radek, 'cena_vypis_e');
+$vypisP = mysqli_result($cena_d, $radek, 'cena_vypis_p');
+$prichozi1 = mysqli_result($cena_d, $radek, 'cena_prichozi1');
+$prichozi2 = mysqli_result($cena_d, $radek, 'cena_prichozi2');
+$odchoziTP1 = mysqli_result($cena_d, $radek, 'cena_odchozi_tp1');
+$odchoziTP2 = mysqli_result($cena_d, $radek, 'cena_odchozi_tp2');
+$odchoziOn1 = mysqli_result($cena_d, $radek, 'cena_odchozi_online1');
+$odchoziOn2 = mysqli_result($cena_d, $radek, 'cena_odchozi_online2');
+$balicek = mysqli_result($cena_d, $radek, 'cena_trans_bal');
+$balicekTyp = mysqli_result($cena_d, $radek, 'cena_trans_bal_typ');
+$koment_JP = mysqli_result($cena_d, $radek, 'cena_koment_JP');
+$koment_PP = mysqli_result($cena_d, $radek, 'cena_koment_PP');
+$koment_trans = mysqli_result($cena_d, $radek, 'cena_koment_trans');
+$zrizeniIB = mysqli_result($cena_d, $radek, 'ib_Zrizeni');
+$vedeniIB = mysqli_result($cena_d, $radek, 'ib_Vedeni');
+$odchozi1_IB = mysqli_result($cena_d, $radek, 'ib_Odchozi1');
+$odchozi2_IB = mysqli_result($cena_d, $radek, 'ib_Odchozi2');
+$zrizeniTP_IB = mysqli_result($cena_d, $radek, 'ib_ZrizeniTP');
+$zrizeniMB = mysqli_result($cena_d, $radek, 'mb_Zrizeni');
+$vedeniMB = mysqli_result($cena_d, $radek, 'mb_Vedeni');
+$odchozi1_MB = mysqli_result($cena_d, $radek, 'mb_Odchozi1');
+$odchozi2_MB = mysqli_result($cena_d, $radek, 'mb_Odchozi2');
+$zrizeniTP_MB = mysqli_result($cena_d, $radek, 'mb_ZrizeniTP');
+$zrizeniTB = mysqli_result($cena_d, $radek, 'tb_Zrizeni');
+$vedeniTB = mysqli_result($cena_d, $radek, 'tb_Vedeni');
+$odchozi1_TB = mysqli_result($cena_d, $radek, 'tb_Odchozi1');
+$odchozi2_TB = mysqli_result($cena_d, $radek, 'tb_Odchozi2');
+$zrizeniTP_TB = mysqli_result($cena_d, $radek, 'tb_ZrizeniTP');
+$odchoziP = mysqli_result($cena_d, $radek, 'cena_odchozi_priorita');
+$inkSvoleni = mysqli_result($cena_d, $radek, 'cena_inkaso_svoleni');
+$inkOdch = mysqli_result($cena_d, $radek, 'cena_inkaso_odchozi');
+$koment_ink = mysqli_result($cena_d, $radek, 'cena_koment_inkaso');
+$kontZrizeni = mysqli_result($cena_d, $radek, 'cena_kontokorent_zrizeni');
+$kontVedeni = mysqli_result($cena_d, $radek, 'cena_kontokorent_vedeni');
+$kontZruseni = mysqli_result($cena_d, $radek, 'cena_kontokorent_zruseni');
+$koment_kont = mysqli_result($cena_d, $radek, 'cena_koment_kontokorent');
 
 }
 
@@ -247,7 +247,7 @@ echo $pocet_zaznamu_cena_d == 0 ? "První zadání. K tomuto účtu zatím nebyl
   }
   elseif($_GET['id'] > 0){
   echo "<INPUT type='submit' name='oprava_popl' value='Provést změny v poplatcích'>
-   <INPUT type='submit' name='s_popl_karty' value='Spravovat poplatky karet k účtu (".mysql_result($cena_d, $radek, 'pocet_karet').")' accesskey='k'>";
+   <INPUT type='submit' name='s_popl_karty' value='Spravovat poplatky karet k účtu (".mysqli_result($cena_d, $radek, 'pocet_karet').")' accesskey='k'>";
   echo "<span style='letter-spacing:50'> <INPUT type='submit' name='s_ucet' value='Spravovat účet'></span>
   <BR><a href='../admin_page/admin.php?kodBanky=".$_GET['kodBanky']."&ucet=".$_GET['ucet']."&nazevUctu=".$_GET['nazevUctu']."&id=0&vyber_id=' accesskey='n'>Zadat nové poplatky</a>";
   }
@@ -257,7 +257,7 @@ echo $pocet_zaznamu_cena_d == 0 ? "První zadání. K tomuto účtu zatím nebyl
 
 ?>
 <P>
-ID poplatků: <INPUT type='text' name='id' value=<?php echo ($_GET['id'] > 0 && !isset($_GET['nove_popl']) ? mysql_result($cena_d, $radek, 0) : 0); ?> size=2 readonly>
+ID poplatků: <INPUT type='text' name='id' value=<?php echo ($_GET['id'] > 0 && !isset($_GET['nove_popl']) ? mysqli_result($cena_d, $radek, 0) : 0); ?> size=2 readonly>
 
 <INPUT type='submit' name='vyber_id' value='<'<?php echo ($radek == 0 || $_GET['id'] == 0 || isset($_GET['oprava_popl']) ? " disabled" : ""); ?>>
 <INPUT type='submit' name='vyber_id' value='>'<?php echo ($radek == $pocet_zaznamu_cena_d - 1 || $_GET['id'] == 0 || isset($_GET['oprava_popl']) ? " disabled" : ""); ?>>
@@ -273,7 +273,7 @@ WHERE ucet_kod_banky = ".$_GET['kodBanky']." ORDER BY cena_platnost_od DESC";
 $vzory = vystup_sql($sql_vzory);
 
 echo "<SELECT name='ucet_vzor'><OPTION value=0>0 - žádný</OPTION>";
-  while($radek_vzory = mysql_fetch_assoc($vzory)){
+  while($radek_vzory = mysqli_fetch_assoc($vzory)){
   echo "<OPTION value=".$radek_vzory['cena_id'].">".$radek_vzory['cena_id']." - ".$radek_vzory['ucet_nazev']." - platnost od ".$radek_vzory['cena_platnost_od']."</OPTION>";
   }
 echo "</SELECT>";
@@ -287,64 +287,64 @@ INNER JOIN ucty ON ucty_ceny.cena_ucet_id = ucty.ucet_ID
 WHERE cena_id = ".$_GET['ucet_vzor'];
 $vzor = vystup_sql($sql_vzor);
 
-echo mysql_result($vzor, 0, 0)."<span class='help'> - ".mysql_result($vzor, 0, 'ucet_nazev').", platnost od ".mysql_result($vzor, 0, 2)."</span>";
+echo mysqli_result($vzor, 0, 0)."<span class='help'> - ".mysqli_result($vzor, 0, 'ucet_nazev').", platnost od ".mysqli_result($vzor, 0, 2)."</span>";
 
 echo "<br/> Zkopírovat <INPUT type='checkbox' name='vloz_popl_vc_vyj' value=1 ".(existujiVyjimkyCen($_GET['ucet_vzor']) ? 'checked' : 'disabled')." />výjimky,
   <INPUT type='checkbox' name='vloz_popl_vc_karty' value=1 ".(existujiKarty($_GET['ucet_vzor']) ? 'checked' : 'disabled')." />karty,
   <INPUT type='checkbox' name='vloz_popl_vc_bal' value=1 ".(existujiBalicky($_GET['ucet_vzor']) ? 'checked' : 'disabled')." />balíčky ze vzoru";
 
-$zrizeniUctu_vzor = $zrizeniUctu = mysql_result($vzor, 0, 'cena_zrizeni');
-$zruseniUctu_vzor = $zruseniUctu = mysql_result($vzor, 0, 'cena_zruseni');
+$zrizeniUctu_vzor = $zrizeniUctu = mysqli_result($vzor, 0, 'cena_zrizeni');
+$zruseniUctu_vzor = $zruseniUctu = mysqli_result($vzor, 0, 'cena_zruseni');
 
-$vedeniUctu = mysql_result($vzor, 0, 'cena_vedeni');
-$vedeniUctu_podm = mysql_result($vzor, 0, 'cena_vedeni_podm');
+$vedeniUctu = mysqli_result($vzor, 0, 'cena_vedeni');
+$vedeniUctu_podm = mysqli_result($vzor, 0, 'cena_vedeni_podm');
 $vedeniUctu_vzor = "$vedeniUctu, podmínka $vedeniUctu_podm";
 
-$vypisE = mysql_result($vzor, 0, 'cena_vypis_e');
-$vypisP = mysql_result($vzor, 0, 'cena_vypis_p');
+$vypisE = mysqli_result($vzor, 0, 'cena_vypis_e');
+$vypisP = mysqli_result($vzor, 0, 'cena_vypis_p');
 $vypis_vzor = "<span class='help'>Výpis E: $vypisE, P: $vypisP</span><BR>";
 
-$prichozi1_vzor = $prichozi1 = mysql_result($vzor, 0, 'cena_prichozi1');
-$prichozi2_vzor = $prichozi2 = mysql_result($vzor, 0, 'cena_prichozi2');
-$odchoziTP1_vzor = $odchoziTP1 = mysql_result($vzor, 0, 'cena_odchozi_tp1');
-$odchoziTP2_vzor = $odchoziTP2 = mysql_result($vzor, 0, 'cena_odchozi_tp2');
-$odchoziOn1_vzor = $odchoziOn1 = mysql_result($vzor, 0, 'cena_odchozi_online1');
-$odchoziOn2_vzor = $odchoziOn2 = mysql_result($vzor, 0, 'cena_odchozi_online2');
-$odchoziP_vzor = $odchoziP = mysql_result($vzor, 0, 'cena_odchozi_priorita');
-$inkSvoleni_vzor = $inkSvoleni = mysql_result($vzor, 0, 'cena_inkaso_svoleni');
-$inkOdch_vzor = $inkOdch = mysql_result($vzor, 0, 'cena_inkaso_odchozi');
-$koment_ink_vzor = $koment_ink = mysql_result($vzor, 0, 'cena_koment_inkaso');
-$kontZrizeni_vzor = $kontZrizeni = mysql_result($vzor, 0, 'cena_kontokorent_zrizeni');
-$kontVedeni_vzor = $kontVedeni = mysql_result($vzor, 0, 'cena_kontokorent_vedeni');
-$kontZruseni_vzor = $kontZruseni = mysql_result($vzor, 0, 'cena_kontokorent_zruseni');
-$koment_kont_vzor = $koment_kont = mysql_result($vzor, 0, 'cena_koment_kontokorent');
-$koment_JP_vzor = $koment_JP = mysql_result($vzor, 0, 'cena_koment_JP');
-$koment_PP_vzor = $koment_PP = mysql_result($vzor, 0, 'cena_koment_PP');
-$koment_trans_vzor = $koment_trans = mysql_result($vzor, 0, 'cena_koment_trans');
+$prichozi1_vzor = $prichozi1 = mysqli_result($vzor, 0, 'cena_prichozi1');
+$prichozi2_vzor = $prichozi2 = mysqli_result($vzor, 0, 'cena_prichozi2');
+$odchoziTP1_vzor = $odchoziTP1 = mysqli_result($vzor, 0, 'cena_odchozi_tp1');
+$odchoziTP2_vzor = $odchoziTP2 = mysqli_result($vzor, 0, 'cena_odchozi_tp2');
+$odchoziOn1_vzor = $odchoziOn1 = mysqli_result($vzor, 0, 'cena_odchozi_online1');
+$odchoziOn2_vzor = $odchoziOn2 = mysqli_result($vzor, 0, 'cena_odchozi_online2');
+$odchoziP_vzor = $odchoziP = mysqli_result($vzor, 0, 'cena_odchozi_priorita');
+$inkSvoleni_vzor = $inkSvoleni = mysqli_result($vzor, 0, 'cena_inkaso_svoleni');
+$inkOdch_vzor = $inkOdch = mysqli_result($vzor, 0, 'cena_inkaso_odchozi');
+$koment_ink_vzor = $koment_ink = mysqli_result($vzor, 0, 'cena_koment_inkaso');
+$kontZrizeni_vzor = $kontZrizeni = mysqli_result($vzor, 0, 'cena_kontokorent_zrizeni');
+$kontVedeni_vzor = $kontVedeni = mysqli_result($vzor, 0, 'cena_kontokorent_vedeni');
+$kontZruseni_vzor = $kontZruseni = mysqli_result($vzor, 0, 'cena_kontokorent_zruseni');
+$koment_kont_vzor = $koment_kont = mysqli_result($vzor, 0, 'cena_koment_kontokorent');
+$koment_JP_vzor = $koment_JP = mysqli_result($vzor, 0, 'cena_koment_JP');
+$koment_PP_vzor = $koment_PP = mysqli_result($vzor, 0, 'cena_koment_PP');
+$koment_trans_vzor = $koment_trans = mysqli_result($vzor, 0, 'cena_koment_trans');
 
-$zrizeniIB = mysql_result($vzor, 0, 'ib_Zrizeni');
-$zrizeniMB = mysql_result($vzor, 0, 'mb_Zrizeni');
-$zrizeniTB = mysql_result($vzor, 0, 'tb_Zrizeni');
+$zrizeniIB = mysqli_result($vzor, 0, 'ib_Zrizeni');
+$zrizeniMB = mysqli_result($vzor, 0, 'mb_Zrizeni');
+$zrizeniTB = mysqli_result($vzor, 0, 'tb_Zrizeni');
 $zrizeni_banking_vzor = "Zřízení IB: $zrizeniIB, MB: $zrizeniMB, TB: $zrizeniTB<BR />";
 
-$vedeniIB = mysql_result($vzor, 0, 'ib_Vedeni');
-$vedeniMB = mysql_result($vzor, 0, 'mb_Vedeni');
-$vedeniTB = mysql_result($vzor, 0, 'tb_Vedeni');
+$vedeniIB = mysqli_result($vzor, 0, 'ib_Vedeni');
+$vedeniMB = mysqli_result($vzor, 0, 'mb_Vedeni');
+$vedeniTB = mysqli_result($vzor, 0, 'tb_Vedeni');
 $vedeni_banking_vzor = "<span class='help'>Vedení IB: $vedeniIB, MB: $vedeniMB, TB: $vedeniTB</span><BR>";
 
-$odchozi1_IB = mysql_result($vzor, 0, 'ib_Odchozi1');
-$odchozi1_MB = mysql_result($vzor, 0, 'mb_Odchozi1'); 
-$odchozi1_TB = mysql_result($vzor, 0, 'tb_Odchozi1');  
+$odchozi1_IB = mysqli_result($vzor, 0, 'ib_Odchozi1');
+$odchozi1_MB = mysqli_result($vzor, 0, 'mb_Odchozi1'); 
+$odchozi1_TB = mysqli_result($vzor, 0, 'tb_Odchozi1');  
 $odchozi1_vzor = "<span class='help'>Odchozí1 přes IB: $odchozi1_IB, MB: $odchozi1_MB, TB: $odchozi1_TB</span><BR>";
 
-$odchozi2_IB = mysql_result($vzor, 0, 'ib_Odchozi2');
-$odchozi2_MB = mysql_result($vzor, 0, 'mb_Odchozi2'); 
-$odchozi2_TB = mysql_result($vzor, 0, 'tb_Odchozi2');  
+$odchozi2_IB = mysqli_result($vzor, 0, 'ib_Odchozi2');
+$odchozi2_MB = mysqli_result($vzor, 0, 'mb_Odchozi2'); 
+$odchozi2_TB = mysqli_result($vzor, 0, 'tb_Odchozi2');  
 $odchozi2_vzor = "<span class='help'>Odchozí2 přes IB: $odchozi2_IB, MB: $odchozi2_MB, TB: $odchozi2_TB</span><BR>";
 
-$zrizeniTP_IB = mysql_result($vzor, 0, 'ib_ZrizeniTP');
-$zrizeniTP_MB = mysql_result($vzor, 0, 'mb_ZrizeniTP'); 
-$zrizeniTP_TB = mysql_result($vzor, 0, 'tb_ZrizeniTP');  
+$zrizeniTP_IB = mysqli_result($vzor, 0, 'ib_ZrizeniTP');
+$zrizeniTP_MB = mysqli_result($vzor, 0, 'mb_ZrizeniTP'); 
+$zrizeniTP_TB = mysqli_result($vzor, 0, 'tb_ZrizeniTP');  
 $zrizeniTP_vzor = $zrizeniTP = "<span class='help'>Zřízení TP přes IB: $zrizeniTP_IB, MB: $zrizeniTP_MB, TB: $zrizeniTP_TB</span><BR>";
 
 }
@@ -486,7 +486,7 @@ echo "<meta http-equiv='refresh' content='0;url=/srovnavacPoplatku/admin_page/ad
 
 $sql_balicky = "SELECT * FROM balicky WHERE bal_cena_id = ".$_GET['id'];
 $balicky = vystup_sql($sql_balicky);
-while($r_balicky = mysql_fetch_assoc($balicky)){ 
+while($r_balicky = mysqli_fetch_assoc($balicky)){ 
 
 $id = $r_balicky['bal_id'];
 
@@ -530,7 +530,7 @@ echo "<meta http-equiv='refresh' content='0;url=/srovnavacPoplatku/admin_page/ad
 $sql_bal_polozky = "SELECT * FROM bal_polozky WHERE bal_id = ".$r_balicky['bal_id'];
 $bal_polozky = vystup_sql($sql_bal_polozky);
 $i = 1;
-while($r_bal_polozky = mysql_fetch_assoc($bal_polozky)){
+while($r_bal_polozky = mysqli_fetch_assoc($bal_polozky)){
 
 $id = $id."_".$i;
 

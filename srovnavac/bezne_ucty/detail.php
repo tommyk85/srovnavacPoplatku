@@ -57,69 +57,54 @@ INNER JOIN ceny_banking ON ucty_ceny.cena_id = ceny_banking.id
 WHERE ucet_id = $id AND ucty_ceny.cena_active=1";                 
 $d_ucet = vystup_sql($sql_d_ucet);
 
-$cena_id = mysql_result($d_ucet, 0, "cena_id"); 
+$cena_id = mysqli_result($d_ucet, 0, "cena_id"); 
 
 
 $sql_d_karta = "SELECT * FROM ceny_karty WHERE karta_cena_id = $cena_id ORDER BY id ASC";
 $d_karta = vystup_sql($sql_d_karta);
 
-$ucet = mysql_result($d_ucet, 0, "ucet_nazev");
-$typ_uctu = mysql_result($d_ucet, 0, "ucet_typ");
-$banka = mysql_result($d_ucet, 0, "nazev_banky");
-$kod_banky = mysql_result($d_ucet, 0, "kod_banky");
-$platnost_od = mysql_result($d_ucet, 0, "cena_platnost_od");
-$min_limit = mysql_result($d_ucet, 0, "ucet_min_limit");
-$urok = mysql_result($d_ucet, 0, "ucet_urok");
-$vek_od = mysql_result($d_ucet, 0, "ucet_vek_od");
-$vek_do = mysql_result($d_ucet, 0, "ucet_vek_do");
-$www = mysql_result($d_ucet, 0, "ucet_www");
-$koment_ucet = mysql_result($d_ucet, 0, "ucet_koment");
-$koment_karta = mysql_result($d_ucet, 0, "cena_koment_karta");
-$koment_JP = mysql_result($d_ucet, 0, "cena_koment_JP");
-$koment_PP = mysql_result($d_ucet, 0, "cena_koment_PP");
-$koment_trans = mysql_result($d_ucet, 0, "cena_koment_trans");
-$c_prich1 = mysql_result($d_ucet, 0, "cena_prichozi1");
-$c_prich2 = mysql_result($d_ucet, 0, "cena_prichozi2");
-$c_vedeni = mysql_result($d_ucet, 0, "cena_vedeni");
-$c_zrizeni = mysql_result($d_ucet, 0, "cena_zrizeni");
-$c_zruseni = mysql_result($d_ucet, 0, "cena_zruseni");
-$c_vypis_e = mysql_result($d_ucet, 0, "cena_vypis_e");
-$c_vypis_p = mysql_result($d_ucet, 0, "cena_vypis_p");
+$ucet = mysqli_result($d_ucet, 0, "ucet_nazev");
+$typ_uctu = mysqli_result($d_ucet, 0, "ucet_typ");
+$banka = mysqli_result($d_ucet, 0, "nazev_banky");
+$kod_banky = mysqli_result($d_ucet, 0, "kod_banky");
+$platnost_od = mysqli_result($d_ucet, 0, "cena_platnost_od");
+$min_limit = mysqli_result($d_ucet, 0, "ucet_min_limit");
+$urok = mysqli_result($d_ucet, 0, "ucet_urok");
+$vek_od = mysqli_result($d_ucet, 0, "ucet_vek_od");
+$vek_do = mysqli_result($d_ucet, 0, "ucet_vek_do");
+$www = mysqli_result($d_ucet, 0, "ucet_www");
+$koment_ucet = mysqli_result($d_ucet, 0, "ucet_koment");
+$koment_karta = mysqli_result($d_ucet, 0, "cena_koment_karta");
+$koment_JP = mysqli_result($d_ucet, 0, "cena_koment_JP");
+$koment_PP = mysqli_result($d_ucet, 0, "cena_koment_PP");
+$koment_trans = mysqli_result($d_ucet, 0, "cena_koment_trans");
+$c_prich1 = mysqli_result($d_ucet, 0, "cena_prichozi1");
+$c_prich2 = mysqli_result($d_ucet, 0, "cena_prichozi2");
+$c_vedeni = mysqli_result($d_ucet, 0, "cena_vedeni");
+$c_zrizeni = mysqli_result($d_ucet, 0, "cena_zrizeni");
+$c_zruseni = mysqli_result($d_ucet, 0, "cena_zruseni");
+$c_vypis_e = mysqli_result($d_ucet, 0, "cena_vypis_e");
+$c_vypis_p = mysqli_result($d_ucet, 0, "cena_vypis_p");
 $c_vypis = $vypis == 'e' ? $c_vypis_e : $c_vypis_p;
-$c_odch_ib1 = mysql_result($d_ucet, 0, "ib_Odchozi1");   
-$c_odch_ib2 = mysql_result($d_ucet, 0, "ib_Odchozi2");
-$c_odch_mb1 = mysql_result($d_ucet, 0, "mb_Odchozi1");   
-$c_odch_mb2 = mysql_result($d_ucet, 0, "mb_Odchozi2");
-$c_odch_tb1 = mysql_result($d_ucet, 0, "tb_Odchozi1");
-$c_odch_tb2 = mysql_result($d_ucet, 0, "tb_Odchozi2");
-$c_odch_online = mysql_result($d_ucet, 0, "cena_odchozi_online1");    
-$c_tp1 = mysql_result($d_ucet, 0, "cena_odchozi_tp1");
-$c_tp2 = mysql_result($d_ucet, 0, "cena_odchozi_tp2");
-$c_tp_zrizeni_ib = mysql_result($d_ucet, 0, "ib_ZrizeniTP");
-$c_tp_zrizeni_mb = mysql_result($d_ucet, 0, "mb_ZrizeniTP");
-$c_tp_zrizeni_tb = mysql_result($d_ucet, 0, "tb_ZrizeniTP");
-$c_zrizeni_ib = mysql_result($d_ucet, 0, "ib_Zrizeni"); 
-$c_zrizeni_mb = mysql_result($d_ucet, 0, "mb_Zrizeni");
-$c_zrizeni_tb = mysql_result($d_ucet, 0, "tb_Zrizeni"); 
-$c_vedeni_ib = mysql_result($d_ucet, 0, "ib_Vedeni"); 
-$c_vedeni_mb = mysql_result($d_ucet, 0, "mb_Vedeni");
-$c_vedeni_tb = mysql_result($d_ucet, 0, "tb_Vedeni"); 
-/* $c_kartaH_vydani = mysql_result($d_karta, 0, "kartaH_vydani");
-$c_kartaH_vedeni = mysql_result($d_karta, 0, "kartaH_vedeni");                                                       
-$c_kartaH_vyber1 = mysql_result($d_karta, 0, "kartaH_vyber1");
-$c_kartaH_vyber2 = mysql_result($d_karta, 0, "kartaH_vyber2");
-$c_kartaH_vyber3 = mysql_result($d_karta, 0, "kartaH_vyber3");
-$c_kartaH_vklad = mysql_result($d_karta, 0, "kartaH_vklad");
-$c_kartaH_cashback = mysql_result($d_karta, 0, "kartaH_cashback");
-$kartaH_koment = mysql_result($d_karta, 0, "kartaH_koment");
-$c_kartaD_vydani = mysql_result($d_karta, 0, "kartaD_vydani");
-$c_kartaD_vedeni = mysql_result($d_karta, 0, "kartaD_vedeni");                                                       
-$c_kartaD_vyber1 = mysql_result($d_karta, 0, "kartaD_vyber1");
-$c_kartaD_vyber2 = mysql_result($d_karta, 0, "kartaD_vyber2");
-$c_kartaD_vyber3 = mysql_result($d_karta, 0, "kartaD_vyber3");
-$c_kartaD_vklad = mysql_result($d_karta, 0, "kartaD_vklad");
-$c_kartaD_cashback = mysql_result($d_karta, 0, "kartaD_cashback");
-$kartaD_koment = mysql_result($d_karta, 0, "kartaD_koment"); */
+$c_odch_ib1 = mysqli_result($d_ucet, 0, "ib_Odchozi1");
+$c_odch_ib2 = mysqli_result($d_ucet, 0, "ib_Odchozi2");
+$c_odch_mb1 = mysqli_result($d_ucet, 0, "mb_Odchozi1");
+$c_odch_mb2 = mysqli_result($d_ucet, 0, "mb_Odchozi2");
+$c_odch_tb1 = mysqli_result($d_ucet, 0, "tb_Odchozi1");
+$c_odch_tb2 = mysqli_result($d_ucet, 0, "tb_Odchozi2");
+$c_odch_online = mysqli_result($d_ucet, 0, "cena_odchozi_online1");
+$c_tp1 = mysqli_result($d_ucet, 0, "cena_odchozi_tp1");
+$c_tp2 = mysqli_result($d_ucet, 0, "cena_odchozi_tp2");
+$c_tp_zrizeni_ib = mysqli_result($d_ucet, 0, "ib_ZrizeniTP");
+$c_tp_zrizeni_mb = mysqli_result($d_ucet, 0, "mb_ZrizeniTP");
+$c_tp_zrizeni_tb = mysqli_result($d_ucet, 0, "tb_ZrizeniTP");
+$c_zrizeni_ib = mysqli_result($d_ucet, 0, "ib_Zrizeni");
+$c_zrizeni_mb = mysqli_result($d_ucet, 0, "mb_Zrizeni");
+$c_zrizeni_tb = mysqli_result($d_ucet, 0, "tb_Zrizeni");
+$c_vedeni_ib = mysqli_result($d_ucet, 0, "ib_Vedeni");
+$c_vedeni_mb = mysqli_result($d_ucet, 0, "mb_Vedeni");
+$c_vedeni_tb = mysqli_result($d_ucet, 0, "tb_Vedeni");
+
 ?>
 
 
@@ -326,34 +311,7 @@ else{
 karta_ano.style.display = 'none';
 }
   
-//console.log(c_vypis);
-
-
-
-//  PODMINKY
-//var ucet_id = Number(<?php echo json_encode(mysql_result($d_ucet, 0, 'cena_ucet_id')); ?>); 
-
-// switch(ucet_id){
-//   case 35:
-//   
-//   break;
-//   
-//   default:
-//   console.log('ucet bez podminek');
-// }
-
-
 var p = document.getElementById('pokr').getElementsByTagName('ul');
-
-// if(uls.length > 0){
-// 
-// var p = [];  
-//   for(var i = 0; i < ols.length; i++){
-//   p.push(ols[i].children);
-//   }
-// }
-
-
 
 for(var i = 0; i < p.length; i++){
 //console.log(p[i].tagName);
@@ -509,15 +467,13 @@ var t_rozdil = document.getElementById('rozdil');
 .oznac {text-align:left;text-indent:5;color:red}
 .popis2 {padding:5;font-size:small;padding-bottom:10}
 </STYLE>
-                                                                                                                                      
+
         <a href="javascript:activateTab('page1')">Podrobná kalkulačka</a> |
         <a href="javascript:activateTab('page2')">Min/Max</a> |
         <a href="javascript:activateTab('page3')">Platební karty</a> |
         <a href="javascript:activateTab('page4')">Výpis ze sazebníku</a> |
         <a href="javascript:activateTab('page5')">Detaily účtu</a>
 
-
-        
     <div id="tabCtrl">
    
             <div id="page1" style="display: block;padding-top:30;text-align:center">
@@ -600,7 +556,7 @@ Výpis:
   <?php
   $i = 0;
   $d_karta = vystup_sql($sql_d_karta);
-  while($r_karta = mysql_fetch_assoc($d_karta)){
+  while($r_karta = mysqli_fetch_assoc($d_karta)){
   echo "<input type='radio' name='karta_typ' id='".$r_karta['ID']."' value=".$r_karta['kartaH_vedeni'].($i == 0 ? " checked" : "")
   .($r_karta['karta_typ'] > 2 ? " disabled" : "").">".$r_karta['karta_nazev']
   .($r_karta['karta_typ'] == 3 ? " - virtuální karta" : "").($r_karta['karta_typ'] == 4 ? " - nálepka" : "")."
@@ -644,7 +600,7 @@ $vyj_karta = vystup_sql($sql_vyj_karta);
 $sql_podm = "SELECT * FROM vyj_podminky";
 $podm = vystup_sql($sql_podm);
 
-if(mysql_num_rows($vyj)==0){
+if(mysqli_num_rows($vyj)==0){
 echo "Poplatky za účet jsou bez výjimek.";
 }
 
@@ -652,30 +608,29 @@ else{
 $n = 0;
 
 echo "<ol>";
-while($r_vyj = mysql_fetch_assoc($vyj)){                        
+while($r_vyj = mysqli_fetch_assoc($vyj)){
 echo "<li name='".$r_vyj['pole']."' cena_value=".$r_vyj['vysledek'].">".$r_vyj['podm_popis']." ".$r_vyj['vysledek']." ".$r_vyj['podm_jedn']."</li>";
 $vyj_podm_edit = explode(" AND ", $r_vyj['podminka']);
 echo "<ul>";
 //echo "<input type='hidden' name='vysledek' value='".$r_vyj[2]."' />";
   for($i=0; $i < count($vyj_podm_edit); ++$i){
   echo "<li>";
-    for($j=0; $j < mysql_num_rows($podm); $j++){
-      if(substr($vyj_podm_edit[$i],0,strpos($vyj_podm_edit[$i]," ")) == mysql_result($podm,$j,'podm_id')){
-      echo mysql_result($podm,$j,'podm_popis');
+    for($j=0; $j < mysqli_num_rows($podm); $j++){
+      if(substr($vyj_podm_edit[$i],0,strpos($vyj_podm_edit[$i]," ")) == mysqli_result($podm,$j,'podm_id')){
+      echo mysqli_result($podm,$j,'podm_popis');
       
-      echo "<input type='hidden' name='".mysql_result($podm,$j,'podm_id')."' 
+      echo "<input type='hidden' name='".mysqli_result($podm,$j,'podm_id')."'
       value='".($podm_podm = trim(substr($vyj_podm_edit[$i],strpos($vyj_podm_edit[$i]," ")+1)))."' />";
-      echo "<input type='hidden' name='jedn' value='".mysql_result($podm,$j,'podm_jedn')."' />";
-      echo "<input type='hidden' name='type' value='".mysql_result($podm,$j,'podm_type')."' />";
+      echo "<input type='hidden' name='jedn' value='".mysqli_result($podm,$j,'podm_jedn')."' />";
+      echo "<input type='hidden' name='type' value='".mysqli_result($podm,$j,'podm_type')."' />";
       
       echo "<span style='font-size:x-small;font-style:italic;'>".(substr($podm_podm, 0, 2) != '==' ? " ($podm_podm)" : 
-        (mysql_result($podm,$j,'podm_type') != 'checkbox' ? " (".substr($podm_podm, 3).")" : ""))."</span>";
+        (mysqli_result($podm,$j,'podm_type') != 'checkbox' ? " (".substr($podm_podm, 3).")" : ""))."</span>";
 
       break;
       }
     }                                  
-  //echo "value='".trim(substr($vyj_podm_edit[$i],strpos($vyj_podm_edit[$i]," ")+1))."' />";
-  //echo substr($vyj_podm_edit[$i],strrpos($vyj_podm_edit[$i]," ")+1);
+
   echo "</li>";
   }
 echo "</ul>";
@@ -687,17 +642,17 @@ echo "</ol>";
 }
 
 
-mysql_data_seek($podm, 0);
+mysqli_data_seek($podm, 0);
 
 
-  while($r_podm = mysql_fetch_array($podm)){
+  while($r_podm = mysqli_fetch_array($podm)){
   $podm_ar[] = $r_podm;
   }
 
 
 
 $vyj_karta_ar = array();
-while($r_vyj_karta = mysql_fetch_array($vyj_karta)){
+while($r_vyj_karta = mysqli_fetch_array($vyj_karta)){
 $vyj_karta_ar[] = $r_vyj_karta;
 }
 
@@ -864,12 +819,12 @@ $sql_balicky = "SELECT * FROM balicky WHERE bal_cena_id = $cena_id";
 $balicky = vystup_sql($sql_balicky);
 ?>      
 
-<div id='bal'<?php echo (mysql_num_rows($balicky) == 0 ? " style='display:none;'" : ""); ?>>
+<div id='bal'<?php echo (mysqli_num_rows($balicky) == 0 ? " style='display:none;'" : ""); ?>>
 <H3>Balíčky výhod</H3>
 <p>K účtu jsou nabízeny tyto výhodné balíčky, které zatím nejsou zahrnuty do výpočtu celkového měsíčního poplatku:</p>
 <?php
 $i = 0; 
-while($r_balicky = mysql_fetch_assoc($balicky)){
+while($r_balicky = mysqli_fetch_assoc($balicky)){
 echo "<div style='margin:5px 1px 5px 1px;'>";
 echo "<b>".++$i.". ".$r_balicky['bal_nazev']."</b> (".$r_balicky['bal_cena']." $mena)<br />".$r_balicky['bal_koment'];
 echo "</div>";
@@ -1056,7 +1011,7 @@ Verze sazebníku od <?php echo $platnost_od; ?><BR>
 
 $i = 0;
 $d_karta = vystup_sql($sql_d_karta);
-while($r_karta = mysql_fetch_assoc($d_karta)){
+while($r_karta = mysqli_fetch_assoc($d_karta)){
 
 echo "<H3 name='karta_nazev'>".$r_karta['karta_nazev']."</H3>";
 ?>
