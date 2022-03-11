@@ -1,54 +1,44 @@
+<!doctype html>
 <html>
 <head>
-<meta charset="utf-8">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<LINK rel="shortcut icon" href="..\..\favicon.ico" type="image/x-icon" />
-<LINK rel="stylesheet" type="text/css" href="..\..\dstyly.css">
-<title>Srovnávač poplatků bank</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    
+    <LINK rel="shortcut icon" href="..\..\favicon.ico" type="image/x-icon" />
+    <LINK rel="stylesheet" type="text/css" href="..\..\dstyly.css">
+    <title>Srovnávač poplatků bank</title>
 </head>
 <body bgcolor="#FFFFFF" text="#000000">
-<noscript>
-    <style type="text/css">
-        .pagecontainer {display:none;}
-        .noscriptmsg {color:red;font-size:x-large; font-weight:bold;}
-    </style>
-    <div class="noscriptmsg">
-    Podmínkou pro správné fungování stránek je mít v prohlížeči povolený JavaScript!!
-    </div>
-</noscript>
+    
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js" integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js" integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous"></script>
+
+    <script src="../../core/scripty.js"></script>
+    <script src="../scripty/detail.js"></script>
+
+    <noscript>
+        <style type="text/css">
+            .pagecontainer {display:none;}
+            .noscriptmsg {color:red;font-size:x-large; font-weight:bold;}
+        </style>
+        <div class="noscriptmsg">
+        Podmínkou pro správné fungování stránek je mít v prohlížeči povolený JavaScript!!
+        </div>
+    </noscript>
 <?php 
 if(!isset($_POST['ukaz_detail']) && !isset($_GET['id']))
 die("nepovolený přístup");
 
 include_once("analyticstracking.php"); 
-include "../../pripojeni_sql.php"; 
+include "../../core/db/pripojeni_sql.php"; 
+include "../../common/format.php";
 include '../header.php';
-
-function cena($_cislo)
-{
-return number_format($_cislo, 2, '.', '');
-}
-
 
 $id = isset($_POST['ucet_id']) ? $_POST['ucet_id'] : $_GET['id'];
 
 include "vypocet.php"; 
-
-
-/* $typ_uctu = $_POST['typ_uctu'];
-$min = $_POST['min'];
-$max = $_POST['max'];
-$prich_min = $_POST['prich_min'];
-$prich_max = $_POST['prich_max'];
-$odch_min = $_POST['odch_min'];
-$odch_max = $_POST['odch_max'];
-$karta_min = $_POST['karta_min'];
-$karta_max = $_POST['karta_max'];
-$vedeni_min = $_POST['vedeni_min'];
-$vedeni_max = $_POST['vedeni_max'];
-$vypis_min = $_POST['vypis_min'];
-$vypis_max = $_POST['vypis_max'];       */
-//$banking = isset($_POST['banking']) ? explode(",", $_POST['banking']) : 'i';
 
 $sql_d_ucet = "SELECT * FROM ucty
 INNER JOIN banky ON ucty.ucet_kod_banky = banky.kod_banky 
@@ -115,18 +105,6 @@ document.write("Poslední aktualizace: " + document.lastModified);
 var ucetId = <?php echo json_encode($id); ?>;
 var cenaId = <?php echo json_encode($cena_id); ?>;
 console.log('ucet id = ' + ucetId + '\ncena id = ' + cenaId);
-
-function activateTab(pageId) {
-    var tabCtrl = document.getElementById('tabCtrl');
-    var pageToActivate = document.getElementById(pageId);
-    for (var i = 0; i < tabCtrl.childNodes.length; i++) {
-        var node = tabCtrl.childNodes[i];
-        if (node.nodeType == 1) { /* Element */
-            node.style.display = (node == pageToActivate) ? 'block' : 'none';
-        }
-    }
-}
-
 
 
 function rekalkul(){

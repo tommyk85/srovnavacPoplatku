@@ -7,26 +7,10 @@
 <title>Srovnávač poplatků bank</title>
 </head>
 <body bgcolor="#FFFFFF" text="#000000">
-<?php include_once("analyticstracking.php"); 
-include "../../pripojeni_sql.php"; 
-
-function vystup_sql($_sql)
-{
-global $id_spojeni;
-$query = mysqli_query($_sql, $id_spojeni);
-  if (!$query)
-  {
-    //echo mysqli_errno($id_spojeni).': '.mysqli_error($id_spojeni).'<br>';
-    die("<span style='color:red; font-weight:bold'>Něco se nepovedlo. Jdi zpět a zkontroluj, jestli jsou údaje správně zapsané nebo nějaké nechybí. Pokud je vše zapsané v pořádku a problém přetrvává, pošli mi tyto 2 řádky:</span>
-    <p style='color:red'>".mysqli_errno($id_spojeni).': '.mysqli_error($id_spojeni)."<BR><i>$_sql</U></i>");
-  }
-return $query;
-}
-
-function cena($_cislo)
-{
-return number_format($_cislo, 2, '.', '');
-}
+<?php 
+include_once("analyticstracking.php"); 
+include "../../core/db/pripojeni_sql.php"; 
+include "../../common/format.php";
 ?>
 
 <div style="text-align:right">Kontakt: <a href="mailto:info@nulovepoplatky.cz">info@nulovepoplatky.cz</a></div> 

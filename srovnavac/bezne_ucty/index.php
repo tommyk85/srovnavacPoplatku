@@ -1,91 +1,57 @@
+<!doctype html>
 <html>
 <head>
+
+<!-- Required meta tags -->
 <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- Bootstrap CSS -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 
 <LINK rel="shortcut icon" href="..\..\favicon.ico" type="image/x-icon" />
 <LINK rel="stylesheet" type="text/css" href="..\..\styly.css">
 <title>Srovnávač poplatků bank</title>
 </head>
 
-<script type="text/javascript">
-
-function get_browser_info(){
-    var ua=navigator.userAgent,tem,M=ua.match(/(opera|chrome|safari|firefox|msie|trident(?=\/))\/?\s*(\d+)/i) || []; 
-    if(/trident/i.test(M[1])){
-        tem=/\brv[ :]+(\d+)/g.exec(ua) || []; 
-        return {name:'IE ',version:(tem[1]||'')};
-        }   
-    if(M[1]==='Chrome'){
-        tem=ua.match(/\bOPR\/(\d+)/)
-        if(tem!=null)   {return {name:'Opera', version:tem[1]};}
-        }   
-    M=M[2]? [M[1], M[2]]: [navigator.appName, navigator.appVersion, '-?'];
-    if((tem=ua.match(/version\/(\d+)/i))!=null) {M.splice(1,1,tem[1]);}
-    return {
-      name: M[0],
-      version: M[1]
-    };
- }
-
-var browser=get_browser_info();
-
-
-</script>
-
-
 <body bgcolor="#FFFFFF" text="#000000">
-<noscript>
-    <style type="text/css">
-        .pagecontainer {display:none;}
-        .noscriptmsg {color:red;font-size:x-large; font-weight:bold;}
-    </style>
-    <div class="noscriptmsg">
-    Podmínkou pro správné fungování stránek je mít v prohlížeči povolený JavaScript!!
-    </div>
-</noscript>
+
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js" integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js" integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous"></script>
+
+    <script src="../../core/scripty.js"></script>
+    <script src="../scripty/souhrn.js"></script>
+
+    <noscript>
+        <style type="text/css">
+            .pagecontainer {display:none;}
+            .noscriptmsg {color:red;font-size:x-large; font-weight:bold;}
+        </style>
+        <div class="noscriptmsg">
+        Podmínkou pro správné fungování stránek je mít v prohlížeči povolený JavaScript!!
+        </div>
+    </noscript>
   
 
-<script lang='javascript'>
+    <script lang='javascript'>
 
-if(browser.name != "Chrome" && browser.name != "Firefox"){
+        var browser=get_browser_info();
 
-var b_text = "Vámi používaný prohlížeč (" + browser.name + browser.version + ") není plně podporován, může tak docházet k nesprávnému formátování stránky, v horším případě i nepřesným výpočtům. K dosažení požadovaného výsledku doporučuji použít Google Chrome (odkaz ke stažení v zápatí).";
+        if(browser.name != "Chrome" && browser.name != "Firefox"){
 
-//alert(b_text);
-document.write("<span style='color:red;font-style:italic;'>"+b_text+"</span>");
-}
+            var b_text = "Vámi používaný prohlížeč (" + browser.name + browser.version + ") není plně podporován, může tak docházet k nesprávnému formátování stránky, v horším případě i nepřesným výpočtům. K dosažení požadovaného výsledku doporučuji použít Google Chrome (odkaz ke stažení v zápatí).";
 
+            //alert(b_text);
+            document.write("<span style='color:red;font-style:italic;'>"+b_text+"</span>");
+        }
+    
+    </script>
 
+<?php
+include_once("analyticstracking.php");
+include "../../core/db/pripojeni_sql.php";
+include "../../common/format.php";
 
-function rekalkul(){
-
-document.getElementById('f').submit();
-
-}
-
-</script>
-
-
-<?php include_once("analyticstracking.php"); 
-include "../../pripojeni_sql.php"; 
-
-// function vystup_sql($_sql)
-// {
-// global $id_spojeni;
-// $query = mysqli_query($_sql, $id_spojeni);
-//   if (!$query)
-//   {
-//     //echo mysqli_errno($id_spojeni).': '.mysqli_error($id_spojeni).'<br>';
-//     die("<span style='color:red; font-weight:bold'>Něco se nepovedlo. Jdi zpět a zkontroluj, jestli jsou údaje správně zapsané nebo nějaké nechybí. Pokud je vše zapsané v pořádku a problém přetrvává, pošli mi tyto 2 řádky:</span>
-//     <p style='color:red'>".mysqli_errno($id_spojeni).': '.mysqli_error($id_spojeni)."<BR><i>$_sql</U></i>");
-//   }
-// return $query;
-// }
-
-function cena($_cislo)
-{
-return number_format($_cislo, 2, '.', '');
-}
 include '../header.php';
 ?>
 

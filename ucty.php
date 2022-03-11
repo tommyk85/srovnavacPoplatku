@@ -63,7 +63,7 @@ INNER JOIN banky ON ucty.ucet_kod_banky = banky.kod_banky
 LEFT JOIN ucty_ceny ON ucty_ceny.cena_ucet_id=ucty.ucet_id
 WHERE ucet_typ like 'bezny%' AND cena_active=1 AND ucty.ucet_active=1
 ORDER BY nazev_banky ASC, ucet_nazev ASC";
-$ucty = mysqli_query($sql_ucty, $id_spojeni);
+$ucty = mysqli_query($id_spojeni, $sql_ucty);
 if (!$ucty)
 {
   echo mysqli_errno($id_spojeni).': '.mysqli_error($id_spojeni).'<br>';
@@ -97,7 +97,7 @@ INNER JOIN banky ON ucty.ucet_kod_banky = banky.kod_banky
 LEFT JOIN ucty_ceny ON ucty_ceny.cena_ucet_id=ucty.ucet_id
 WHERE ucet_typ like 'bezny%' AND cena_id IS NULL
 ORDER BY nazev_banky ASC, ucet_nazev ASC";
-$ucty2 = mysqli_query($sql_ucty2, $id_spojeni);
+$ucty2 = mysqli_query($id_spojeni, $sql_ucty2);
 if (!$ucty2)
 {
   echo mysqli_errno($id_spojeni).': '.mysqli_error($id_spojeni).'<br>';
@@ -128,7 +128,7 @@ while($radek_ucty2 = mysqli_fetch_assoc($ucty2))
 <?php
 $sql_banky = "SELECT DISTINCT banky.* FROM banky
 INNER JOIN ucty ON ucty.ucet_kod_banky = banky.kod_banky WHERE ucet_typ like 'bezny%' AND ucet_active=1 ORDER BY nazev_banky ASC";
-$banky = mysqli_query($sql_banky, $id_spojeni);
+$banky = mysqli_query($id_spojeni, $sql_banky);
 if (!$banky)
 {
   echo mysqli_errno($id_spojeni).': '.mysqli_error($id_spojeni).'<br>';
