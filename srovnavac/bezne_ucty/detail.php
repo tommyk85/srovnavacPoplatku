@@ -27,6 +27,13 @@
         Podmínkou pro správné fungování stránek je mít v prohlížeči povolený JavaScript!!
         </div>
     </noscript>
+
+    <script lang='javascript'>
+
+        podporovany_browser();
+
+    </script>
+
 <?php 
 if(!isset($_POST['ukaz_detail']) && !isset($_GET['id']))
 die("nepovolený přístup");
@@ -34,6 +41,7 @@ die("nepovolený přístup");
 include_once("analyticstracking.php"); 
 include "../../core/db/pripojeni_sql.php"; 
 include "../../common/format.php";
+
 include '../header.php';
 
 $id = isset($_POST['ucet_id']) ? $_POST['ucet_id'] : $_GET['id'];
@@ -325,14 +333,7 @@ for(var i = 0; i < p.length; i++){
             var in_val = inputs[n].value;
             break;
           }
-        
-        //console.log(in_val + " " + p1[j].childNodes[1].value + " is " + eval(in_val + " " + p1[j].childNodes[1].value)); 
-        //console.log(eval(in_val + " " + p1[j].childNodes[1].value));
-//         if(inputs[n].type == 'checkbox' && inputs[n].checked == true){
-//         console.log(in_val + " " + p1[j].childNodes[1].value);        
-//         }
-        
-        
+    
           if(eval(in_val + p1[j].childNodes[1].value)){
           p1[j].style.color = '#00CC00';                  // zelena
           counter++;
@@ -344,12 +345,7 @@ for(var i = 0; i < p.length; i++){
         }
       }
     }
-  
-  //console.log("splněno " + counter + " z " + (p1.length));
-  //console.log(karta_selected_id);
-    
-    
-                                        
+                                      
     if(p1.length == counter){                     // podminky splneny
     //console.log('pole ' + p[i].previousElementSibling.getAttribute('name') +' = '+ p[i].previousElementSibling.getAttribute('cena_value'));
     p[i].previousElementSibling.style.color = '#00CC00';
