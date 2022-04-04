@@ -46,7 +46,6 @@ echo "<p style='color:green; font-weight:bold; font-size:small'>$note</p>";
 $sql_karta_d = "SELECT * FROM ceny_karty INNER JOIN ucty_ceny ON ceny_karty.karta_cena_id = ucty_ceny.cena_id
 WHERE karta_cena_ID = ".$_GET['id']." ORDER BY karta_id ASC";
 $karta_d = vystup_sql($sql_karta_d);     
-//$pocet_karet = (mysqli_num_rows($karta_d)); 
 
 $pocet_karet = pocetKaretPoplatku($_GET['id']);
 
@@ -137,6 +136,7 @@ echo ($smazano_karet > 0 ? "<span style='color:red; font-weight:bold'>Smazáno k
 <H2>Kartové poplatky k účtu <U><?php echo $_GET['nazevUctu']; ?></U></H2>
 
 <INPUT type='hidden' name='ucet' value=<?php echo $_GET['ucet']; ?>>
+<INPUT type='hidden' name='ucetTyp' value=<?php echo $_GET['ucetTyp']; ?>>
 <INPUT type='hidden' name='nazevUctu' value='<?php echo $_GET['nazevUctu']; ?>'>
 <INPUT type='hidden' name='kodBanky' value='<?php echo $_GET['kodBanky']; ?>'>
 <INPUT type='hidden' name='r_cena_d' value='<?php echo $_GET['r_cena_d']; ?>'>
@@ -183,7 +183,6 @@ if(isset($_GET['oprava_karty']) && $_GET['oprava_karty'] == "Provést změny v k
   $update_kartaID = vystup_sql($sql_update_kartaID); 
   }
 }
-
 
 for($i=1; $i<=$pocet_karet; ++$i){ 
 
@@ -233,7 +232,6 @@ $radek = $i - 1;
     
     }
     
-    
     $kartaID = mysqli_result($karta_d, $radek, 'karta_ID');
     $nazevKarty = mysqli_result($karta_d, $radek, 'karta_nazev');
     $nazevDruh = mysqli_result($karta_d, $radek, 'karta_druh');
@@ -257,13 +255,11 @@ $radek = $i - 1;
     $komentOb = mysqli_result($karta_d, $radek, 'cena_koment_karta');
     }
 
-
 $karta_readonly = (!isset($_GET['oprava_karty']) || (isset($_GET['oprava_karty']) && $_GET['oprava_karty'] == "Přidat novou kartu" && $kartaID == $i) || isset($_GET['note']) ? " readonly" : "");
 $chybi_podm2 = isset($_GET['oprava_karty']) && $_GET['oprava_karty'] == "Přidat novou kartu" && $i == $pocet_karet ? 1 : 0;
 
 $vyj_url = "../admin_page/vyjimky.php?kodBanky=".$_GET['kodBanky']."&ucet=".$_GET['ucet']."&ucetTyp=".$_GET['ucetTyp']."&nazevUctu=".$_GET['nazevUctu']."&id=".$_GET['id']."&r_cena_d=0&vyber_id=&s_popl_karty=";
 
-   
 echo "<H3>Karta č.$i".($chybi_podm2 == 1 ? " - nová karta" : "")."</H3>
 <INPUT type='hidden' name='kartaID$i' value='$i'>
 <INPUT type='hidden' name='hd' value=0>
@@ -306,7 +302,6 @@ echo "</form>";
  
 echo (isset($_GET['oprava_karty']) && $_GET['oprava_karty'] == "Uložit změny v kartách") ? "<meta http-equiv='refresh' content='0;url=/srovnavacPoplatku/admin_page/admin_karty.php?kodBanky=".$_GET['kodBanky']."&ucet=".$_GET['ucet']."&ucetTyp=".$_GET['ucetTyp']."&nazevUctu=".$_GET['nazevUctu']."&r_cena_d=".$_GET['r_cena_d']."&id=".$_GET['id']."&oprava_karty=&pocet_karet=$pocet_karet&note=Změny v kartách uloženy.'>" : "";
 
-
 if($id_spojeni)
 {
   mysqli_close($id_spojeni);
@@ -318,6 +313,5 @@ if($id_spojeni)
 
 <?php echo $footer; ?>
 
-                                                                       
 </BODY>
 </HTML>

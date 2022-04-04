@@ -36,18 +36,14 @@ if($_SESSION['login']!=true)
 die ("neoprávněný přístup");  
 ?>
 
-
 <!-- ÚKOLY
 - při zápisu nových cen zavést kontrolu již vložených datumů, aby se nevyskytoval jeden datum k účtu dvakrát
-- ke každému účtu v administraci zobrazit datum posledního a platného vloženého ceníku
 -->
-
 
 <a href='/srovnavacPoplatku/admin_page/admin.php' accesskey='r'>RESET</a>
 | <a href='/srovnavacPoplatku/admin_page/admin.php?ucet=36&nazevUctu=mKonto&kodBanky=6210&r_cena_d=0&s_popl_karty=Spravovat+poplatky+karet+k+%C3%BA%C4%8Dtu+%282%29&id=81&ucet_vzor=0&platnostOd=2017-05-02&zrizeniUctu=0.00&zrizeniIB=0.00&zrizeniMB=0.00&zrizeniTB=0.00&zrizeniTP_IB=0.00&zrizeniTP_MB=0.00&zrizeniTP_TB=40.00&zruseniUctu=0.00&koment_JP=no+comment&vedeniUctu_podm=0&vedeniUctu=0.00&vedeniIB=0.00&vedeniMB=0.00&vedeniTB=0.00&vypisE=0.00&vypisP=50.00&koment_PP=no+comment&prichozi1=0.00&prichozi2=0.00&odchoziTP1=0.00&odchoziTP2=0.00&odchoziOn1=0.00&odchozi1_IB=0.00&odchozi1_MB=0.00&odchozi1_TB=40.00&odchozi2_IB=0.00&odchozi2_MB=0.00&odchozi2_TB=40.00&odchoziP=&koment_trans=no+comment&inkSvoleni=0.00&inkOdch=0.00&koment_ink=no+comment&kontZrizeni=0.00&kontVedeni=0.00&kontZruseni=0.00&koment_kont=no+comment'>TEST</a>                                     
 | <a href='/srovnavacPoplatku/srovnavac/bezne_ucty'>SROVNÁVAČ</a>
 | <a href='/srovnavacPoplatku/ucty.php' target='_blank' accesskey='u'>ÚČTY</a>
-
 
 <?php
 include "../pripojeni_sql.php";
@@ -55,7 +51,6 @@ include "../sql_queries.php";
 
 $footer = "<BR>
 <div style='background-color:red; text-align:center; position:fixed; color:white; bottom:0px; width:100%; font-size:small'>&copy;2013+, Nulovepoplatky.cz, Všechna práva vyhrazena. Optimalizováno pro Google Chrome (<a href='http://www.google.com/chrome' target='_blank'>zde</a> ke stažení) v rozlišení 1280 x 1024 px.</div>";
-
 
 
 //-- NASTAVENÍ BANKY A DETAILŮ ÚČTU
@@ -76,8 +71,6 @@ echo "<p style='color:green; font-weight:bold; font-size:small'>$note</p>";
 
 
 if((isset($_GET['oprava_ucet'])) || isset($_GET['s_ucet']) || !(isset($_GET['r_cena_d']) || isset($_GET['vyber_id']) || isset($_GET['s_popl_ucet'])) || (isset($_GET['ucet']) && $_GET['ucet'] == "new")){
-
-
 
 ?>
 <H2>Seznam účtů</H2>
@@ -137,7 +130,6 @@ while($radek_ucty_banky = mysqli_fetch_assoc($ucty_banky))
 
 if(!isset($_GET['ucet']) || $_GET['ucet'] == "" || isset($_GET['vyber_banku']))
 die("</FORM>$footer");
-
 
 elseif(isset($_GET['zalozeni']))
 {
@@ -224,7 +216,7 @@ $sporPovBez = mysqli_result($ucet_d, 0, 13);
 }
 
 $ucet_readonly = !isset($_GET['oprava_ucet']) && $_GET['ucet'] <> "new" ? " readonly" : "";
-$vyj_url = "/srovnavacPoplatku/admin_page/vyjimky.php?kodBanky=$banka&ucet=$ucetID";
+$vyj_url = "vyjimky.php?kodBanky=$banka&ucet=$ucetID&ucetTyp=$ucetTyp";
 ?>
 
 <H3>Detaily účtu</H3>
@@ -321,26 +313,19 @@ elseif(!(isset($_GET['s_popl_karty']) || isset($_GET['oprava_karty'])) && $_GET[
 elseif(!(isset($_GET['s_popl_karty']) || isset($_GET['oprava_karty']))){include('popl_bezne_ucty.php');}
 
 elseif(isset($_GET['s_popl_karty']) || isset($_GET['oprava_karty'])){
-header("location:admin_karty.php?kodBanky=".$_GET['kodBanky']."&ucet=".$_GET['ucet']."&nazevUctu=".$_GET['nazevUctu']."&id=".$_GET['id']."&r_cena_d=".$_GET['r_cena_d']);}
+header("location:admin_karty.php?kodBanky=".$_GET['kodBanky']."&ucet=".$_GET['ucet']."&ucetTyp=".$_GET['ucetTyp']."&nazevUctu=".$_GET['nazevUctu']."&id=".$_GET['id']."&r_cena_d=".$_GET['r_cena_d']);}
 
 else
 echo "neznámý odkaz";
-
-
-
-
 
 if($id_spojeni)
 {
   mysqli_close($id_spojeni);
 //  echo 'odpojeno <br>';
 } 
-?>
 
-<BR>
+echo "<BR/>$footer";
+?>                                     
 
-<?php echo $footer; ?>
-                                                                
-                                                                       
 </BODY>
 </HTML>

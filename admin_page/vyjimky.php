@@ -15,22 +15,17 @@ if($_SESSION['login']!=true)
 die ("neoprávněný přístup");  
 ?>
 
-
-
 <a href='/srovnavacPoplatku/admin_page/admin.php' accesskey='r'>RESET</a>
 | <a href='/srovnavacPoplatku/admin_page/admin.php?ucet=36&nazevUctu=mKonto&kodBanky=6210&r_cena_d=0&s_popl_karty=Spravovat+poplatky+karet+k+%C3%BA%C4%8Dtu+%282%29&id=81&ucet_vzor=0&platnostOd=2017-05-02&zrizeniUctu=0.00&zrizeniIB=0.00&zrizeniMB=0.00&zrizeniTB=0.00&zrizeniTP_IB=0.00&zrizeniTP_MB=0.00&zrizeniTP_TB=40.00&zruseniUctu=0.00&koment_JP=no+comment&vedeniUctu_podm=0&vedeniUctu=0.00&vedeniIB=0.00&vedeniMB=0.00&vedeniTB=0.00&vypisE=0.00&vypisP=50.00&koment_PP=no+comment&prichozi1=0.00&prichozi2=0.00&odchoziTP1=0.00&odchoziTP2=0.00&odchoziOn1=0.00&odchozi1_IB=0.00&odchozi1_MB=0.00&odchozi1_TB=40.00&odchozi2_IB=0.00&odchozi2_MB=0.00&odchozi2_TB=40.00&odchoziP=&koment_trans=no+comment&inkSvoleni=0.00&inkOdch=0.00&koment_ink=no+comment&kontZrizeni=0.00&kontVedeni=0.00&kontZruseni=0.00&koment_kont=no+comment'>TEST</a>                                     
 | <a href='/srovnavacPoplatku/srovnavac/bezne_ucty'>SROVNÁVAČ</a>
-
 
 <?php
 include "../pripojeni_sql.php";
 
 $footer = "<BR>
 <div style='background-color:red; text-align:center; position:fixed; color:white; bottom:0px; width:100%; font-size:small'>&copy;2013+, Nulovepoplatky.cz, Všechna práva vyhrazena. Optimalizováno pro Google Chrome (<a href='http://www.google.com/chrome' target='_blank'>zde</a> ke stažení) v rozlišení 1280 x 1024 px.</div>";
-
-
-
 ?>
+
 <H1>ADMINISTRACE</H1>
 
 <?php
@@ -43,16 +38,12 @@ echo "<p style='color:green; font-weight:bold; font-size:small'>$note</p>";
 
 if(isset($_GET['ucet']) && $_GET['ucet'] <> "" && isset($_GET['vyj_name']))
 {
-
-
-  $vyj_url = "../admin_page/";
-  $vyj_url.= isset($_GET['s_popl_karty']) ? "admin_karty.php?kodBanky=".$_GET['kodBanky']."&ucet=".$_GET['ucet']."&ucetTyp=".$_GET['ucetTyp']."&nazevUctu=".$_GET['nazevUctu']."&id=".$_GET['id']."&r_cena_d=0&vyber_id=&s_popl_karty=" :
-    (isset($_GET['vyber_id']) ? "admin.php?kodBanky=".$_GET['kodBanky']."&ucet=".$_GET['ucet']."&ucetTyp=".$_GET['ucetTyp']."&nazevUctu=".$_GET['nazevUctu']."&id=".$_GET['id']."&vyber_id=" : "admin.php?kodBanky=".$_GET['kodBanky']."&ucet=".$_GET['ucet']."&ucetTyp=".$_GET['ucetTyp']);
-    
-
+  $vyj_url = isset($_GET['s_popl_karty'])
+    ? "admin_karty.php?kodBanky=".$_GET['kodBanky']."&ucet=".$_GET['ucet']."&ucetTyp=".$_GET['ucetTyp']."&nazevUctu=".$_GET['nazevUctu']."&id=".$_GET['id']."&r_cena_d=0&vyber_id=&s_popl_karty=" 
+    : (isset($_GET['vyber_id'])
+        ? "admin.php?kodBanky=".$_GET['kodBanky']."&ucet=".$_GET['ucet']."&ucetTyp=".$_GET['ucetTyp']."&nazevUctu=".$_GET['nazevUctu']."&id=".$_GET['id']."&vyber_id="
+        : "admin.php?kodBanky=".$_GET['kodBanky']."&ucet=".$_GET['ucet']."&ucetTyp=".$_GET['ucetTyp']);
 ?>
-
-
 
 <hr>
 <div id='vyj' style='text-align:right;padding-top:5'><a href='<?php echo $vyj_url; ?>'>zpět</a></div>
@@ -66,6 +57,7 @@ Výjimka musí být vždy za výhodnější cenu než je ta původní (za polož
 <input type="hidden" name="banka" value="<?php echo $_GET['kodBanky']; ?>">
 <input type="hidden" name="kodBanky" value="<?php echo $_GET['kodBanky']; ?>">
 <input type="hidden" name="ucet" value="<?php echo $_GET['ucet']; ?>">
+<input type="hidden" name="ucetTyp" value="<?php echo $_GET['ucetTyp']; ?>">
 <?php 
 if(isset($_GET['id'])){
 echo "<input type='hidden' name='id' value=".$_GET['id'].">
@@ -73,12 +65,10 @@ echo "<input type='hidden' name='id' value=".$_GET['id'].">
 
 echo isset($_GET['karta_id']) ? "<input type='hidden' name='karta_id' value='".$_GET['karta_id']."'>
 <input type='hidden' name='s_popl_karty'>" : "";
-
 }
 ?>
 
 <input type="hidden" name="nazevUctu" value="<?php echo (isset($_GET['nazevUctu']) ? $_GET['nazevUctu'] : ""); ?>">
-
 
 <input type="text" name="vyj_name" value="<?php echo $_GET['vyj_name']; ?>" readonly style="border-style:none;font-size:x-large;font-family:Times New Roman, serif;padding-bottom:10;text-transform:capitalize;text-indent:5; width:60%;">
 
@@ -97,20 +87,18 @@ $sql_vyj_podm_vypis = "SELECT * FROM vyj_podminky WHERE podm_parametr = 1 ORDER 
 
 $sql_vyj_list = "SELECT * FROM vyjimky WHERE ucet_id=".$_GET['ucet']." AND pole='".$_GET['vyj_pole']."'".(isset($_GET['id']) ? " AND cena_id=".$_GET['id'] : "").(isset($_GET['karta_id']) ? " AND karta_id=".$_GET['karta_id'] : "");
 $vyj_list = vystup_sql($sql_vyj_list);
-
                   
 $y = 0;
 $vyj_pocet = mysqli_num_rows($vyj_list);
 $vyj_novy = 0;
-
   
 while($y<3 + $vyj_pocet)                                     // ŘÁDKY
 {
 
-$vyj_id = $y<$vyj_pocet ? mysqli_result($vyj_list,$y,'vyj_id') : 0;
+$vyj_id = $y<$vyj_pocet ? mysqli_result($vyj_list,$y,0) : 0;
 
 echo "<div style='padding:3".($y<$vyj_pocet ? ";background-color:lightskyblue" : ";background-color:#F4F4F4")."'>"; 
-echo "<span style='font-size:20;font-weight:bold'>".($y+1) .".</span>".($y<$vyj_pocet ? " (".$r = $vyj_id.") " : " (". $r = 0 .") ");
+echo "<span style='font-size:20;font-weight:bold'>".($y+1) .".</span>".($y<$vyj_pocet ? " (".($r = $vyj_id).") " : " (".($r = 0).") ");
 
   if($y<$vyj_pocet){
   $vyj_podm_edit = explode(" AND ", mysqli_result($vyj_list,$y,'podminka'));
@@ -161,15 +149,10 @@ echo "<span style='font-size:20;font-weight:bold'>".($y+1) .".</span>".($y<$vyj_
   echo "</div>";
   }
 
-
 $vyj_podm = "";
 
-
 if(isset($_GET['vyj_uloz']) || isset($_GET['vyj_edit'])){ 
-/*$vyj_podm2[0] = $_GET["vyj".$y."0"]<>'0' ? $_GET["vyj".$y."0"] : "";
-$vyj_podm2[1] = $_GET["vyj".$y."1"]<>'0' ? $_GET["vyj".$y."1"] : "";
-$vyj_podm2[2] = $_GET["vyj".$y."2"]<>'0' ? $_GET["vyj".$y."2"] : "";
-$vyj_podm2[3] = $_GET["vyj".$y."3"]<>'0' ? $_GET["vyj".$y."3"] : "";       */
+
 $_GET["vyj".$y."0"]<>'0' ? ++$vyj_novy : "";
 
 $vyj_podm = $_GET["vyj".$y."0"]<>'0' ? $_GET["vyj".$y."0"]." ".$_GET["vyj_podm".$y."0"]." ".$_GET["vyj_hodnota".$y."0"] : "";
@@ -197,36 +180,28 @@ $y++;
 }
 
 
-  $vyj_url_edit = "../srovnavacPoplatku/admin_page/vyjimky.php?kodBanky=".$_GET['kodBanky']."&ucet=".$_GET['ucet']."&ucetTyp=".$_GET['ucetTyp']."&";
+  $vyj_url_edit = "vyjimky.php?kodBanky=".$_GET['kodBanky']."&ucet=".$_GET['ucet']."&ucetTyp=".$_GET['ucetTyp']."&";
   $vyj_url_edit.= isset($_GET['s_popl_karty']) ? "nazevUctu=".$_GET['nazevUctu']."&id=".$_GET['id']."&r_cena_d=0&vyber_id=&s_popl_karty=" :
     (isset($_GET['vyber_id']) ? "nazevUctu=".$_GET['nazevUctu']."&id=".$_GET['id']."&vyber_id=" : "");
 //echo $vyj_novy."...";
 echo (isset($_GET['vyj_uloz']) && $vyj_novy > 0) || isset($_GET['vyj_edit']) ? "<meta http-equiv='refresh' content='0;url=$vyj_url_edit&vyj_name=".$_GET['vyj_name']."&vyj_pole=". $_GET['vyj_pole'] ."&vyj_puv=".$_GET['vyj_puv']."&".($_GET['karta_id'] <> "" ? "karta_id=".$_GET['karta_id']."&" : "")."vyj_note=Výjimky uloženy.#vyj'>" : "";
 ?>
 <div style="text-indent:200"><input type="submit" name="vyj_uloz" value="ULOŽIT VŠECHNO" style="font-size:large;padding:10 200 10 200;letter-spacing:5"></div>
-
-
-</form>                                                                                                         
+</form>
 
 <?php
 }
 
 else echo "chybí data k zobrazeni (ucet nebo vyj_name)";
 
-
-
-
 if($id_spojeni)
 {
   mysqli_close($id_spojeni);
 //  echo 'odpojeno <br>';
 } 
-?>
 
-<BR>
-
-<?php echo $footer; ?>
-
+echo "<BR/>$footer";
+?>  
                                                                        
 </BODY>
 </HTML>

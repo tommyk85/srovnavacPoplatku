@@ -21,9 +21,9 @@ function vystup_sql($_sql)
     if (!$query) {
         //echo mysqli_errno($id_spojeni).': '.mysqli_error($id_spojeni).'<br>';
         die(
-            "<span style='color:red; font-weight:bold'>Něco se nepovedlo. " +
-            "Jdi zpět a zkontroluj, jestli jsou údaje správně zapsané nebo " +
-            "nějaké nechybí. Pokud je vše zapsané v pořádku a problém přetrvává, " +
+            "<span style='color:red; font-weight:bold'>Něco se nepovedlo. " .
+            "Jdi zpět a zkontroluj, jestli jsou údaje správně zapsané nebo " .
+            "nějaké nechybí. Pokud je vše zapsané v pořádku a problém přetrvává, " .
             "pošli mi tyto 2 řádky:</span><p style='color:red'>"
             .mysqli_errno($id_spojeni).': '.mysqli_error($id_spojeni).
             "<BR><i>$_sql</U></i>"

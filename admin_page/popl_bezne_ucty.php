@@ -1,6 +1,7 @@
 
 <FORM name='ceny_admin' method='GET' action='<?php echo (isset($_GET['nove_popl']) ? "../admin_page/?id=0#poplatky" : ""); ?>'>
 <INPUT type='hidden' name='ucet' value=<?php echo $_GET['ucet']; ?>>
+<INPUT type='hidden' name='ucetTyp' value=<?php echo $_GET['ucetTyp']; ?>>
 <INPUT type='hidden' name='nazevUctu' value='<?php echo $_GET['nazevUctu']; ?>'>
 <INPUT type='hidden' name='kodBanky' value='<?php echo $_GET['kodBanky']; ?>'>
 <?php
@@ -363,7 +364,7 @@ Platnost Od* <span class='help'>(RRRR-MM-DD)</span>: <INPUT <?php echo ($_GET['i
 $banka = $_GET['kodBanky'];
 $ucetID = $_GET['ucet'];
 
-$vyj_url = "../admin_page/vyjimky.php?kodBanky=$banka&ucet=$ucetID&nazevUctu=".$_GET['nazevUctu']."&id=".$_GET['id']."&vyber_id="; 
+$vyj_url = "vyjimky.php?kodBanky=$banka&ucet=$ucetID&ucetTyp=".$_GET['ucetTyp']."&nazevUctu=".$_GET['nazevUctu']."&id=".$_GET['id']."&vyber_id="; 
 ?>
 
 <H3>Jednorázové poplatky</H3>
