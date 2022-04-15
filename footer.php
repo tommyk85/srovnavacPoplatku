@@ -1,1 +1,0 @@
-<div style='background-color:red; text-align:center; position:fixed; color:white; bottom:0px; width:100%; font-size:small; pading-top:350px;'>&copy;2013+, Nulovepoplatky.cz, Všechna práva vyhrazena. Optimalizováno pro Google Chrome (<a href='http://www.google.com/chrome' target='_blank'>zde</a> ke stažení) v rozlišení 1280 x 1024 px.</div>
