@@ -10,19 +10,16 @@
 <?php
 session_start();
 
-if(isset($_POST['heslo']) && $_POST['heslo']==='!f=VjmF&*Ob$'){
+if(isset($_POST['heslo']) && $_POST['heslo']==='{admin.pwd}'){
 $_SESSION['login'] = true;
 header('location:admin.php');
 }
 ?>
 
-
-
 <body onload="document.login.heslo.focus()">
 <FORM name="login" method="POST" action="">
 Heslo: <input type='password' name='heslo' size=6>
 </form>
-
                                                   
 </BODY>
 </HTML>
