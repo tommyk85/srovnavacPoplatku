@@ -13,7 +13,6 @@ if (!$id_cteni_poplatky) {
 }
 echo 'databáze s poplatky načtena<br>';
 
-
 function vystup_sql($_sql)
 {
     global $id_spojeni;

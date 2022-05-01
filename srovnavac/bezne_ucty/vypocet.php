@@ -40,10 +40,7 @@ if(!(isset($_POST['ukaz_detail']) || isset($_GET['id']))){
 else
 $sql_data.= "ucty_ceny.cena_ucet_id = $id";                  
 
-
 $data = vystup_sql($sql_data);
-
-$sql_data;
 
 $sql_data_vyj = "CREATE TEMPORARY TABLE `vyj_temp` (
   `vyj_id` int(11) NOT NULL,
@@ -54,8 +51,7 @@ $sql_data_vyj = "CREATE TEMPORARY TABLE `vyj_temp` (
   `pole_group` varchar(45) COLLATE utf8_czech_ci DEFAULT NULL,
   `nova_cena` int(11) DEFAULT NULL,
   PRIMARY KEY (`vyj_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_czech_ci;
-";
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_czech_ci;";
 $data_vyj = vystup_sql($sql_data_vyj);
 
 while($r_data = mysqli_fetch_assoc($data)){              // r = řádek, v = výpočet, d = detail, c = cena, p = popis
@@ -173,19 +169,17 @@ $min_ar[] = 99999;
 $max_ar = array();
 $max_ar[] = 0;
 
-                                        
 while($r_k_data = mysqli_fetch_assoc($karta_data)){
 
-  // vychozi hodnoty vyjimek
-//$karta_max = 
+// vychozi hodnoty vyjimek
 $p_vyber1_vyj = $p_vyber2_vyj = $p_vybery_vyj = 0;
 $vybery_vyj = 99999; 
 $k_vedeni = $k_vedeni_min = $r_k_data['kartaH_vedeni'];
 $vyber2 = $vyber2_min = $r_k_data['kartaH_vyber3'];
-  // vyjimky karet
   
-  $sql_k_cena_vyj = "select cena_id,karta_id,vyj_pole, min(vyj_vysl) min_vysl, max(vyj_vysl) max_vysl from vyj_temp WHERE karta_id=".$r_k_data['ID']." GROUP BY vyj_pole ORDER BY karta_id";
-  $k_cena_vyj = vystup_sql($sql_k_cena_vyj);
+// vyjimky karet
+$sql_k_cena_vyj = "select cena_id,karta_id,vyj_pole, min(vyj_vysl) min_vysl, max(vyj_vysl) max_vysl from vyj_temp WHERE karta_id=".$r_k_data['ID']." GROUP BY vyj_pole ORDER BY karta_id";
+$k_cena_vyj = vystup_sql($sql_k_cena_vyj);
 
   //echo mysqli_num_rows($k_cena_vyj);
   while($r_k_vyj = mysqli_fetch_assoc($k_cena_vyj)){
@@ -230,7 +224,6 @@ $vyber2 = $vyber2_min = $r_k_data['kartaH_vyber3'];
     }
   }  
 
-
 $vyber1 = $r_k_data['kartaH_vyber1'] == 'Null' && $r_k_data['kartaH_vyber2'] == 'Null' ? $r_k_data['kartaH_vyber3'] : 
 ($r_k_data['kartaH_vyber1'] == 'Null' ? $r_k_data['kartaH_vyber2'] : $r_k_data['kartaH_vyber1']);
 
@@ -244,8 +237,7 @@ $v_karta_max = max($max_ar);
 }
 
 $sql_vyj_trun = "TRUNCATE table vyj_temp";
-$vyj_trun = vystup_sql($sql_vyj_trun); 
-                                       
+$vyj_trun = vystup_sql($sql_vyj_trun);
 
 // odchozi vse
 $ib_min = $v_odchozi_min_ib + $v_tp_min;
@@ -262,31 +254,27 @@ $ib_max = $v_odchozi_max_ib + $v_tp_max;
   $tb_max = $v_odchozi_max_tb + $v_tp_max;}
   else
   $tb_min = $tb_max = -1;
-  
+
 $v_odch_min = min($ib_min, ($mb_min >= 0 ? $mb_min : $ib_min), ($tb_min >= 0 ? $tb_min : $ib_min));
 $v_odch_max = max($ib_max, ($mb_max >= 0 ? $mb_max : $ib_max), ($tb_max >= 0 ? $tb_max : $ib_max));
-  
   
 // min/max celkem
 $v_min = $v_prich_min + $v_odch_min + $v_karta_min + $v_vedeni_min + $v_vypis_min;
 $v_max = $v_prich_max + $v_odch_max + $v_karta_max + $v_vedeni_max + $v_vypis_max;
 
-  
 $platnost = $r_data["cena_platnost_od"];
 $koment_ucet = $r_data["ucet_koment"];
 $koment_JP = $r_data["cena_koment_JP"];
 $koment_PP = $r_data["cena_koment_PP"];
 $koment_trans = $r_data["cena_koment_trans"];
 $koment_karta = $r_data["cena_koment_karta"];
-//$vyj_yn = $r_data["vyj_id"] ? 1 : 'Null';
-
 
 // vystup do tabulky srovnavace
+
     if(!isset($_POST['ukaz_detail']) && !isset($_GET['id'])){
         
-        vytvor_temp_tabulku("vysledky");
         $sql_vypocet = "INSERT INTO vysledky VALUES ($cena_id, $ucet_id, '$ucet', '$banka', '$kod_banky', '$p_banking', '$vek_rozmezi', $v_min, $v_max, $v_prich_min, $v_prich_max, $v_odch_min, $v_odch_max, 
-            $v_karta_min, $v_karta_max, $v_vedeni_min, $v_vedeni_max, $v_vypis_min, $v_vypis_max, '$www', '$typ', '$platnost', '$koment_ucet', '$koment_JP', '$koment_PP', '$koment_trans', '$koment_karta', $vyj_yn)";
+        $v_karta_min, $v_karta_max, $v_vedeni_min, $v_vedeni_max, $v_vypis_min, $v_vypis_max, '$www', '$typ', '$platnost', '$koment_ucet', '$koment_JP', '$koment_PP', '$koment_trans', '$koment_karta', $vyj_yn)";
         
         vystup_sql($sql_vypocet);
     }

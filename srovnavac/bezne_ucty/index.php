@@ -10,7 +10,6 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 
 <LINK rel="shortcut icon" href="..\..\favicon.ico" type="image/x-icon" />
-<LINK rel="stylesheet" type="text/css" href="..\..\styly.css">
 <title>Srovnávač poplatků bank</title>
 </head>
 
@@ -28,7 +27,7 @@
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js" integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js" integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous"></script>
 
-    <script src="../../core/scripty.js"></script>
+    <script src="../../common/scripty.js"></script>
     <script src="../scripty/souhrn.js"></script>
 
     <script lang='javascript'>
@@ -37,11 +36,14 @@
 
 <?php
 include_once("analyticstracking.php");
-include "../../core/db/pripojeni_sql.php";
+include "../../common/db/pripojeni_sql.php";
 include "../../common/format.php";
-include "../../core/db/query.php";
+include "../../common/db/query.php";
 
 include '../header.php';
+
+vytvor_temp_tabulku("vysledky");
+
 include "vypocet.php";
 ?>
 
@@ -49,120 +51,186 @@ include "vypocet.php";
 
 <p style='margin-bottom:50px;'>Změnou parametrů (a filtrů) se automaticky přepočítá a přefiltruje výsledný seznam účtů. </p>
 
-<div id='filtr' onChange='rekalkul()'>
+<div class="row">
+<div id='filtr' onChange='rekalkul()' class="col-3 ms-2">
 <H2>Parametry</H2>
+
 <form action='' method='post' id='f'>
 
 <H3>.. k filtraci účtů</H3>
-Zahrnuté typy účtu <?php echo "(v $mena)"; ?>: <select name='typ'>
-<option value='vse'<?php echo isset($_POST['typ']) && $_POST['typ'] == 'vse' ? ' selected' : ''; ?>>všechny dle věku</option>
-<option value='bezny'<?php echo isset($_POST['typ']) && $_POST['typ'] == 'bezny' ? ' selected' : ''; ?>>pro fyzické osoby nepodnikatele</option>
-<option value='bezny-stu'<?php echo isset($_POST['typ']) && $_POST['typ'] == 'bezny-stu' ? ' selected' : ''; ?>>studentské</option>
-<option value='bezny-det'<?php echo isset($_POST['typ']) && $_POST['typ'] == 'bezny-det' ? ' selected' : ''; ?>>dětské</option>
-<option value='bezny-pod' disabled>podnikatelské (v plánu)</option>
-</select> 
-<br />
-Věk klienta: <input type='number' name='vek' style='width:40' value=<?php echo $vek; ?>>
+<div class="mb-3">
+    <label for="typ" class="form-label">Zahrnuté typy účtu <?php echo "(v $mena)"; ?></label>
+    <select name='typ' class="form-select">
+        <option value='vse'<?php echo isset($_POST['typ']) && $_POST['typ'] == 'vse' ? ' selected' : ''; ?>>všechny dle věku</option>
+        <option value='bezny'<?php echo isset($_POST['typ']) && $_POST['typ'] == 'bezny' ? ' selected' : ''; ?>>pro fyzické osoby nepodnikatele</option>
+        <option value='bezny-stu'<?php echo isset($_POST['typ']) && $_POST['typ'] == 'bezny-stu' ? ' selected' : ''; ?>>studentské</option>
+        <option value='bezny-det'<?php echo isset($_POST['typ']) && $_POST['typ'] == 'bezny-det' ? ' selected' : ''; ?>>dětské</option>
+        <option value='bezny-pod' disabled>podnikatelské (v plánu)</option>
+    </select>
+</div>
+
+<div class="row mb-2 justify-content-between">
+    <div class="col">
+        <label for="vek" class="form-label">Věk klienta</label>
+    </div>
+    <div class="col-lg-4">
+        <input type="number" class="form-control" name="vek" value=<?php echo $vek; ?>>
+    </div>
+</div>
 
 <H3>.. k filtraci účtů a výpočtu poplatků</H3>
-<TABLE border=1 style='width:260'>
-    <TR>
-        <TD colspan=2>Počet příchozích plateb:</TD>
-        <TD>
-            <input type='number' name='prich' style='width:40' value=<?php echo $prich; ?>>
-        </TD>
-    </TR>
-    <TR>
-        <TD colspan=2>Počet jednorázových odchozích plateb:</TD>
-        <TD>
-            <input type='number' name='odch_std' style='width:40' value=<?php echo $odch_std; ?>>
-        </TD>
-    </TR> 
-    <TR>
-        <TD colspan=2>Počet trvalých příkazů:</TD>
-        <TD>
-            <input type='number' name='odch_tp' style='width:40' value=<?php echo $odch_tp; ?>>
-        </TD>
-    </TR>
-    <TR>
-        <TD colspan=3>K účtu vyžaduji tyto bankovnictví:<br>
-            <div style='line-height:0.6'>
-                <input type='checkbox' name='banking[]' value='i' checked disabled> internetové<br />
-                <input type='hidden' name='banking[]' value='i'> 
-
-                <div style='text-indent:5'>
-                    <input type='checkbox' name='banking[]' value='o'<?php echo (in_array('o', $banking) ? ' checked' : Null) ?>> s možností plateb přímo u obchodníka (v e-shopech)
-                </div><br />
-                
-                <input type='checkbox' name='banking[]' value='m'<?php echo (in_array('m', $banking) ? ' checked' : Null) ?>> mobilní/smart<br />
-                <input type='checkbox' name='banking[]' value='t'<?php echo (in_array('t', $banking) ? ' checked' : Null) ?>> telefonní 
-            </div>
-        </TD>
-    </TR>
-    <TR>
-        <TD colspan=3>Výpis: 
-            <input type='radio' name='vypis' value='e'<?php echo ($vypis == 'e' ? " checked" : ""); ?>> elektronický
-            <input type='radio' name='vypis' value='p'<?php echo ($vypis == 'p' ? " checked" : ""); ?>> papírový
-        </TD>
-    </TR>
-    <TR>
-        <TD>Platební karta k účtu:</TD>
-        <TD style='background-color:silver'><input type='radio' name='karta' value=1<?php echo ($karta == 1 ? " checked" : ""); ?>> ano</TD>
-        <TD>
-            <input type='radio' name='karta' value=0<?php echo ($karta == 0 ? " checked" : ""); ?>> ne
-        </TD>
-    </TR> 
-    <TR>
-        <TD colspan=2 style='background-color:silver'>Počet výběrů z bankomatu:</TD>
-        <TD style='background-color:silver'>
-            <input type='number' name='karta_vybery' value=<?php echo $karta_vybery; ?> style='width:45;background-color:lightgrey'>
-        </TD>
-    </TR>
-</TABLE>
+<div class="row mb-2 justify-content-between">
+    <div class="col">
+        <label for="prich" class="form-label">Počet příchozích plateb</label>
+    </div>
+    <div class="col-lg-4">
+        <input type="number" class="form-control" name="prich" value=<?php echo $prich; ?>>
+    </div>
+</div>
+<div class="row mb-2 justify-content-between">
+    <div class="col">
+        <label for="odch_std" class="form-label">Počet příchozích plateb</label>
+    </div>
+    <div class="col-lg-4">
+        <input type="number" class="form-control" name="odch_std" value=<?php echo $odch_std; ?>>
+    </div>
+</div>
+<div class="row mb-2 justify-content-between">
+    <div class="col">
+        <label for="odch_tp" class="form-label">Počet příchozích plateb</label>
+    </div>
+    <div class="col-lg-4">
+        <input type="number" class="form-control" name="odch_tp" value=<?php echo $odch_tp; ?>>
+    </div>
+</div>
+<div class="mb-2">Bankovnictví:
+    <div class="form-check">
+        <input class="form-check-input" type="checkbox" value="i" name='banking[]' checked disabled>
+        <input type='hidden' name='banking[]' value='i'>
+        <label class="form-check-label" for="banking-i">
+            internetové
+        </label>
+    </div>
+    <div class="form-check">
+        <input class="form-check-input" type="checkbox" value="o" name="banking[]"<?php echo (in_array('o', $banking) ? ' checked' : Null) ?>>
+        <label class="form-check-label" for="banking-o">
+            internetové s možností plateb přímo u obchodníka (v e-shopech)
+        </label>
+    </div>
+    <div class="form-check">
+        <input class="form-check-input" type="checkbox" value="m" name="banking[]"<?php echo (in_array('m', $banking) ? ' checked' : Null) ?>>
+        <label class="form-check-label" for="banking-m">
+            mobilní/smart
+        </label>
+    </div>
+    <div class="form-check">
+        <input class="form-check-input" type="checkbox" value="t" name="banking[]"<?php echo (in_array('t', $banking) ? ' checked' : Null) ?>>
+        <label class="form-check-label" for="banking-t">
+            telefonní
+        </label>
+    </div>
+</div>
+<div class="mb-2">Výpis:
+    <div class="form-check">
+        <input class="form-check-input" type="radio" value="e" name='vypis'<?php echo ($vypis == 'e' ? " checked" : ""); ?>>
+        <label class="form-check-label" for="vypis-e">
+            elektronický
+        </label>
+    </div>
+    <div class="form-check">
+        <input class="form-check-input" type="radio" value="p" name="vypis"<?php echo ($vypis == 'p' ? " checked" : ""); ?>>
+        <label class="form-check-label" for="vypis-p">
+            papírový
+        </label>
+    </div>
+</div>
+<div class="mb-2">Debetní karta:
+    <div class="form-check">
+        <input class="form-check-input" type="radio" value=1 name='karta'<?php echo ($karta == 1 ? " checked" : ""); ?>>
+        <label class="form-check-label" for="karta-ano">
+            ano
+        </label>
+    </div>
+    <div class="form-check">
+        <input class="form-check-input" type="radio" value=0 name="karta"<?php echo ($karta == 0 ? " checked" : ""); ?>>
+        <label class="form-check-label" for="karta-ne">
+            ne
+        </label>
+    </div>
+</div>
+<div class="row mb-3 justify-content-between">
+    <div class="col">
+        <label for="karta_vybery" class="form-label">Počet výběrů z bankomatu</label>
+    </div>
+    <div class="col-lg-4">
+        <input type="number" class="form-control" name="karta_vybery" value=<?php echo $karta_vybery; ?>>
+    </div>
 </div>
 
 <div id='pokr' onChange='rekalkul()'>
-
 <H3>Pokročilý filtr</H3>
-<input type='checkbox' name='disponent'
-<?php echo isset($_POST['disponent']) && $_POST['disponent'] != Null ? " checked" : ""; ?>><label> pouze účty s možností disponenta</label><br />
-<input type='checkbox' name='vedeniBezPod'
-<?php echo isset($_POST['vedeniBezPod']) && $_POST['vedeniBezPod'] != Null ? " checked" : ""; ?>><label> pouze účty s vedením bez podmínek</label><br />
-<input type='checkbox' name='inkaso'
-<?php echo isset($_POST['inkaso']) && $_POST['inkaso'] != Null ? " checked" : ""; ?>><label> pouze účty s možností inkasa</label><br />
-<input type='checkbox' name='vkladomat'
-<?php echo isset($_POST['vkladomat']) && $_POST['vkladomat'] != Null ? " checked" : ""; ?>><label> pouze účty s vkladomaty</label><br />
-<input type='checkbox' name='cashback'
-<?php echo isset($_POST['cashback']) && $_POST['cashback'] != Null ? " checked" : ""; ?>><label> pouze účty s možností cashback</label><br />
-<input type='checkbox' name='kontokorent'
-<?php echo isset($_POST['kontokorent']) && $_POST['kontokorent'] != Null ? " checked" : ""; ?>><label> pouze účty s možností kontokorentu</label><br />
-<input type='hidden' name='aktiv' value=0 />
-<input type='checkbox' name='aktiv' value=1
-<?php echo !isset($_POST['aktiv']) || (isset($_POST['aktiv']) && $_POST['aktiv'] == 1) ? " checked" : ""; ?>><label> pouze účty v aktuální nabídce bank</label><br />
+    <div class="form-check">
+        <input class="form-check-input" type='checkbox' name='disponent'
+            <?php echo isset($_POST['disponent']) && $_POST['disponent'] != Null ? " checked" : ""; ?>>
+        <label class="form-check-label" for="disponent"> pouze účty s možností disponenta</label>
+    </div>
+    <div class="form-check">
+        <input class="form-check-input" type='checkbox' name='vedeniBezPod'
+            <?php echo isset($_POST['vedeniBezPod']) && $_POST['vedeniBezPod'] != Null ? " checked" : ""; ?>>
+        <label class="form-check-label" for="vedeniBezPod"> pouze účty s vedením bez podmínek</label>
+    </div>
+    <div class="form-check">
+        <input class="form-check-input" type='checkbox' name='inkaso'
+            <?php echo isset($_POST['inkaso']) && $_POST['inkaso'] != Null ? " checked" : ""; ?>>
+        <label class="form-check-label" for="inkaso"> pouze účty s možností inkasa</label>
+    </div>
+    <div class="form-check">
+        <input class="form-check-input" type='checkbox' name='vkladomat'
+            <?php echo isset($_POST['vkladomat']) && $_POST['vkladomat'] != Null ? " checked" : ""; ?>>
+        <label class="form-check-label" for="vladomat"> pouze účty s vkladomaty</label>
+    </div>
+    <div class="form-check">
+        <input class="form-check-input" type='checkbox' name='cashback'
+            <?php echo isset($_POST['cashback']) && $_POST['cashback'] != Null ? " checked" : ""; ?>>
+        <label class="form-check-label" for="cashback"> pouze účty s možností cashback</label>
+    </div>
+    <div class="form-check">
+        <input class="form-check-input" type='checkbox' name='kontokorent'
+            <?php echo isset($_POST['kontokorent']) && $_POST['kontokorent'] != Null ? " checked" : ""; ?>>
+        <label class="form-check-label" for="kontokorent"> pouze účty s možností kontokorentu</label>
+    </div>
+    <div class="form-check">
+        <input type='hidden' name='aktiv' value=0 />
+        <input class="form-check-input"  type='checkbox' name='aktiv' value=1
+            <?php echo !isset($_POST['aktiv']) || (isset($_POST['aktiv']) && $_POST['aktiv'] == 1) ? " checked" : ""; ?>>
+        <label class="form-check-label" for="aktiv"> pouze účty v aktuální nabídce bank</label>
+    </div>
+</div>
 </div>
 </form>
 
-<p style='margin-bottom:50px;'>
-Zadaným parametrům vyhovuje <b><?php echo $vys_pocet = mysqli_num_rows(vystup_sql('SELECT * FROM vysledky;')); ?></b> účtů.
-</p>
-
 <?php
+$vys_pocet = mysqli_num_rows(vystup_sql('SELECT * FROM vysledky;'));
 
 if ($vys_pocet > 0){
 ?>
-<div id='vystup'>
-
-<TABLE name='vystup'> 
-<TR>
-<TH rowspan=2>Pořadí</TH>
-<TH rowspan=2>Účet</TH>
-<TH colspan=2 style='height:25;'>Měsíční poplatky</TH>
-<TH rowspan=2>Detaily</TH>
-</TR>
-<TR>
-<TH style='height:25;'>Min.</TH>
-<TH style='height:25;'>Max.</TH>
-</TR>
+<div id='vystup' class="col-8">
+<p style='margin-bottom:0px;'>
+Zadaným parametrům vyhovuje <b><?php echo $vys_pocet; ?></b> účtů.
+</p>
+<TABLE name='vystup' class="table table-hover">
+<thead>
+    <TR>
+        <TH rowspan=2>Pořadí</TH>
+        <TH rowspan=2>Účet</TH>
+        <TH colspan=2 style='height:25;'>Měsíční poplatky</TH>
+        <TH rowspan=2>Detaily</TH>
+    </TR>
+    <TR>
+        <TH style='height:25;'>Min.</TH>
+        <TH style='height:25;'>Max.</TH>
+    </TR>
+</thead>
 
 <?php
 
@@ -208,7 +276,17 @@ Banking: ".$r_list['banking']."
 * minimální cena při splnění různých podmínek, přesnou cenu na míru spočítá podrobná <u>interaktivní kalkulačka</u> v detailech konkrétního účtu
 </p>
 </div>
+</div>
  
+<?php
+} else {
+?>
+
+<div id='vystup'>
+<p style='margin-bottom:0px;'>
+Zadaným parametrům nevyhovuje žádný účet.
+</p>
+</div>
 <?php
 }
 

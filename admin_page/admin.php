@@ -46,7 +46,7 @@ die ("neoprávněný přístup");
 | <a href='/srovnavacPoplatku/ucty.php' target='_blank' accesskey='u'>ÚČTY</a>
 
 <?php
-include "../core/db/pripojeni_sql.php";
+include "../common/db/pripojeni_sql.php";
 include "sql_queries.php";
 
 $footer = "<BR>
