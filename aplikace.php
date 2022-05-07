@@ -20,23 +20,14 @@
 <?php include "header.php";  ?>
 
 <TR>
-
 <TD bgcolor='red'></TD>
-
 <TD class="nabidka"><A href="ucty.php">Již zahrnuté účty</A></TD>
-
 <TD class='nabidka'><B><U>Aplikace</U></B></TD>
-
 <TD class='nabidka'><A href="projekt.php">O projektu</A></TD>
-
 </TR>
 
-
-
 <TR>
-
 <TD colspan=4>
-
 <BR>
 Všechny níže uvedené nástroje jsou k dispozici zdarma a bez nutnosti registrace
 <P>
@@ -44,14 +35,10 @@ Všechny níže uvedené nástroje jsou k dispozici zdarma a bez nutnosti regist
 <P>
 <a href="manazer" target="_blank">Manažer osobních financí</a> - souhrn všech vlastních běžných a spořících účtů, pojištění, kreditních karet atd. V podstatě půjde o aplikaci, která bude mít za úkol více či méně řídit tok osobních financí, tvorbu rezerv apod. Hotovo z 40%, dokončení záleží především na dostatku volného času a zájmu návštěvníků stránek.  
 </P>
-     
 </TD>
 </TR>
 
 </TABLE>
-
-
-
 </CENTER>
 
 <?php include 'footer.php'; ?>

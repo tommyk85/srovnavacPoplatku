@@ -44,7 +44,6 @@ $tb_sql = isset($_GET['zrizeniTB']) && is_numeric($_GET['zrizeniTB']) ? "tb_Zriz
 ".($_GET['odchozi2_TB'] == Null ? "tb_Odchozi2=Null" : "tb_Odchozi2 = ".$_GET['odchozi2_TB']).", 
 ".($_GET['zrizeniTP_TB'] == Null ? "tb_ZrizeniTP=Null" : "tb_ZrizeniTP = ".$_GET['zrizeniTP_TB']) : "tb_Zrizeni=Null";
 
-
 if(isset($_GET['vlozeni_popl'])){                                         //   VLOZENI NOVYCH POPLATKU
 $sql_vlozit_hlavni = "INSERT INTO ucty_ceny
 (cena_ucet_id, cena_platnost_od, cena_zrizeni, cena_zruseni, cena_vedeni, cena_vedeni_podm, cena_vypis_e, cena_vypis_p, cena_prichozi1, cena_prichozi2, cena_odchozi_tp1, cena_odchozi_tp2, cena_odchozi_online1, cena_odchozi_priorita, cena_inkaso_svoleni, cena_inkaso_odchozi, cena_koment_JP, cena_koment_PP, cena_koment_trans, cena_koment_inkaso, cena_koment_karta)
@@ -77,14 +76,12 @@ if($ib_sql <> "" || $mb_sql <> "" || $tb_sql <> ""){
 $sql_ulozit_banking = "UPDATE ceny_banking SET $ib_sql $mb_sql $tb_sql WHERE ID = $max_id";
 $ulozit_banking = vystup_sql($sql_ulozit_banking);}
 
-
 if(isset($_GET['vloz_popl_vc_vyj']) && $_GET['vloz_popl_vc_vyj'] == 1){
 echo $sql_kopie_vyjimek = "INSERT INTO vyjimky (`ucet_id`,`cena_id`,`pole`,`podminka`,`vysledek`,`koment`)
 SELECT ucet_id, $max_id as cena_id, pole, podminka, vysledek, koment FROM vyjimky WHERE cena_id=".$_GET['ucet_vzor']." and karta_id is null;
 ";
 $kopie_vyjimek = vystup_sql($sql_kopie_vyjimek);
 }
-
 
 echo "<meta http-equiv='refresh' content='0;url=/admin_page/admin.php?kodBanky=".$_GET['kodBanky']."&ucet=".$_GET['ucet']."&ucetTyp=".$_GET['ucetTyp']."&nazevUctu=".$_GET['nazevUctu']."&id=$max_id&r_cena_d=".$_GET['r_cena_d']."&note=Poplatky vloženy - ID $max_id. Můžeš vložit první kartu.#poplatky'>";
 }
@@ -117,14 +114,11 @@ cena_koment_inkaso = '".(htmlspecialchars($_GET['koment_ink'], ENT_QUOTES))."'
 WHERE cena_id = ".$_GET['id'];
 $ulozit_poplatky = vystup_sql($sql_ulozit_poplatky);
 
-
 $sql_ulozit_banking = "UPDATE ceny_banking SET $ib_sql $mb_sql $tb_sql WHERE ID = ".$_GET['id'];
 $ulozit_banking = vystup_sql($sql_ulozit_banking);
 
-
 echo "<meta http-equiv='refresh' content='0;url=/admin_page/admin.php?kodBanky=".$_GET['kodBanky']."&ucet=".$_GET['ucet']."&ucetTyp=".$_GET['ucetTyp']."&nazevUctu=".$_GET['nazevUctu']."&id=".$_GET['id']."&r_cena_d=".$_GET['r_cena_d']."&note=Změny v poplatcích uloženy.#poplatky'>";
 }
-
 
 if($_GET['id'] > 0)
 {
@@ -215,12 +209,8 @@ $zrizeniUctu = $zruseniUctu = $vedeniUctu = $vedeniUctu_podm = $vypisE = $vypisP
 $koment_JP = $koment_PP = $koment_trans = $koment_ink = "no comment";
 }
 
-
 $popl_read_only = $_GET['id'] > 0 && !isset($_GET['oprava_popl']) ? " readonly" : "";
 
-
-//$note = isset($_GET['note']) ? $_GET['note'] : "";
-//echo "<span style='color:green; font-weight:bold; font-size:small'>$note</span>";
 echo $pocet_zaznamu_cena_d == 0 ? "První zadání. K tomuto účtu zatím nebyly vloženy žádné poplatky." : "";
 ?>
 
@@ -243,31 +233,15 @@ echo $pocet_zaznamu_cena_d == 0 ? "První zadání. K tomuto účtu zatím nebyl
   echo "<INPUT type='checkbox' name='vloz_popl_vc_vyj' value=1 />Vložit včetně výjimek ze vzoru";
   }
 
-/*if($_GET['id'] == 0) 
-echo "<INPUT type='submit' name='rychla_volba' value='Vyplnit testovací ceny'".(!isset($_GET['ucet_vzor']) ? " disabled" : "").">"; */
- 
-
 ?>
 <P>
 ID poplatků: <INPUT type='text' name='id' value=<?php echo ($_GET['id'] > 0 && !isset($_GET['nove_popl']) ? mysqli_result($cena_d, $radek, 0) : 0); ?> size=2 readonly>
-<?php    
-/*
-for($i = 0; $i < $pocet_zaznamu_cena_d; $i++)
-    {
-    echo "<OPTION value=".mysqli_result($cena_d, $i, 0).(mysqli_result($cena_d, $i, 0) == $_GET['id'] ? " selected" : "").">".mysqli_result($cena_d, $i, 0)." - platnost od ".mysqli_result($cena_d, $i, 2)."</OPTION>";
-    }
-echo "<OPTION value=0".($_GET['id'] == 0 ? " selected" : "")." disabled>0 - nové poplatky</OPTION></SELECT>";   */
-?>
-
 <INPUT type='submit' name='vyber_id' value='<'<?php echo ($radek == 0 || $_GET['id'] == 0 || isset($_GET['oprava_popl']) ? " disabled" : ""); ?>>
 <INPUT type='submit' name='vyber_id' value='>'<?php echo ($radek == $pocet_zaznamu_cena_d - 1 || $_GET['id'] == 0 || isset($_GET['oprava_popl']) ? " disabled" : ""); ?>>
 <BR>
 Vzorové ceny ID:
 <?php
-//echo $cena_ID;
 if($_GET['id'] == 0 && !isset($_GET['ucet_vzor'])){
-//$vzor_cenaID = isset($_GET['ucet_vzor']) && $_GET['ucet_vzor'] > 0 ? "AND cena_id = ".$_GET['ucet_vzor'] : "";
-
 $sql_vzory = "SELECT * FROM ucty 
 INNER JOIN ucty_ceny ON ucty.ucet_ID = ucty_ceny.cena_ucet_ID
 WHERE ucet_kod_banky = ".$_GET['kodBanky']." ORDER BY cena_platnost_od DESC";
@@ -290,7 +264,6 @@ $vzor = vystup_sql($sql_vzor);
 
 echo mysqli_result($vzor, 0, 0)."<span class='help'> - ".mysqli_result($vzor, 0, 'ucet_nazev').", platnost od ".mysqli_result($vzor, 0, 2)."</span>";
 
-//$platnostOd_vzor = mysqli_result($vzor, 0, 2);
 $zrizeniUctu_vzor = $zrizeniUctu = mysqli_result($vzor, 0, 'cena_zrizeni');
 $zruseniUctu_vzor = $zruseniUctu = mysqli_result($vzor, 0, 'cena_zruseni');
 
@@ -342,7 +315,6 @@ $zrizeniTP_IB = mysqli_result($vzor, 0, 'ib_ZrizeniTP');
 $zrizeniTP_MB = mysqli_result($vzor, 0, 'mb_ZrizeniTP'); 
 $zrizeniTP_TB = mysqli_result($vzor, 0, 'tb_ZrizeniTP');  
 $zrizeniTP_vzor = $zrizeniTP = "<span class='help'>Zřízení TP přes IB: $zrizeniTP_IB, MB: $zrizeniTP_MB, TB: $zrizeniTP_TB</span><BR>";
-
 }
 
 else{
@@ -354,9 +326,7 @@ $zrizeniUctu_vzor = $zruseniUctu_vzor = $vedeniUctu_vzor = $vypis_vzor = $pricho
 <BR>
 Platnost Od* <span class='help'>(RRRR-MM-DD)</span>: <INPUT <?php echo ($_GET['id'] == 0 ? "class='chybi' " : ""); ?>type='text' name='platnostOd' value="<?php echo $platnostOd; ?>" size=8 style="text-align:right"<?php echo $popl_read_only; ?>>
 
-
 <?php
-
 $banka = $_GET['kodBanky'];
 $ucetID = $_GET['ucet'];
 
@@ -432,7 +402,6 @@ echo ($_GET['id'] > 0 ? "<a href='$vyj_url&vyj_pole=p_odch_std_vyj&vyj_name=odch
 <?php echo $odchozi2_vzor; ?>
 Prioritní odchozí: <INPUT <?php echo ($odchoziP == "" ? "class='chybi' " : ""); ?>type="number" name="odchoziP" value="<?php echo $odchoziP; ?>" style="text-align:right; width:60"<?php echo $popl_read_only; ?>><?php echo "<span class='help'>$odchoziP_vzor</span>"; ?><br />
 
-
 <!-- Balíček transakcí: <INPUT <?php echo ($balicek == "" && $balicekTyp > 0 ? "class='chybi' " : ""); ?>type="number" name="balicek" value="<?php echo $balicek; ?>"  style="text-align:right; width:60"<?php echo $popl_read_only; ?>>
 Typ balíčku:
 <SELECT name="balicekTyp" <?php echo ($_GET['id'] > 0 && !isset($_GET['oprava_popl']) ? " disabled" : ""); ?>>
@@ -461,12 +430,9 @@ Komentář: <TEXTAREA name="koment_ink" cols=80 rows=6<?php echo $popl_read_only
 <H3>Balíčky výhod</H3>
 <?php
 if($_GET['id'] == 0){
-echo "Možno zadat až k uloženým základním poplatkům.";}
-
-else {
+echo "Možno zadat až k uloženým základním poplatkům.";
+} else {
 ?>
-
-
 
 <form name='bal' method='post'>
 <div style='margin-bottom:40px;'>
@@ -483,7 +449,6 @@ if(isset($_POST['novy_bal'])){
 vystup_sql("INSERT INTO balicky (bal_cena_id, bal_nazev, bal_cena, bal_koment) VALUES (".$_GET['id'].", '".$_POST['novy_bal_nazev']."', ".$_POST['novy_bal_cena'].", '".$_POST['novy_bal_koment']."')");
 echo "<meta http-equiv='refresh' content='0;url=/admin_page/admin.php?kodBanky=".$_GET['kodBanky']."&ucet=".$_GET['ucet']."&ucetTyp=".$_GET['ucetTyp']."&nazevUctu=".$_GET['nazevUctu']."&id=".$_GET['id']."&r_cena_d=".$_GET['r_cena_d']."&note=Balíček ".$_POST['novy_bal_nazev']." přidán.#poplatky'>";
 }
-
 
 $sql_balicky = "SELECT * FROM balicky WHERE bal_cena_id = ".$_GET['id'];
 $balicky = vystup_sql($sql_balicky);
@@ -508,7 +473,6 @@ Popis balíčku: <TEXTAREA name="bal_koment" cols=80 rows=6<?php echo $popl_read
 <H4>Položky v balíčku</H4>
 
 <?php
-
 echo "<p style='text-indent:0px; background-color:#CCFFFF; padding:2px;'>";
 echo "Pole nové pol.: <input type='text' name='bal_pol_pole$id' /><br/>";
 echo "Popis nové pol.: <input type='text' name='bal_pol_popis$id' /><br/>";
@@ -521,12 +485,10 @@ echo "Podmínka pro výběr: <input type='text' name='bal_pol_vyber_podm$id' val
 <?php
 echo "</p>";
 
-
 if(isset($_POST["nova_polozka$id"])){
 vystup_sql("INSERT INTO bal_polozky (bal_id, bal_pole, bal_popis, bal_pocet_trans, bal_pocet_vyber, bal_podm_vyber) VALUES (".$r_balicky['bal_id'].", '".$_POST["bal_pol_pole$id"]."', '".$_POST["bal_pol_popis$id"]."', ".$_POST["bal_pol_pocet$id"].", ".$_POST["bal_pol_vyber$id"].", '".$_POST["bal_pol_vyber_podm$id"]."')");
 echo "<meta http-equiv='refresh' content='0;url=/admin_page/admin.php?kodBanky=".$_GET['kodBanky']."&ucet=".$_GET['ucet']."&ucetTyp=".$_GET['ucetTyp']."&nazevUctu=".$_GET['nazevUctu']."&id=".$_GET['id']."&r_cena_d=".$_GET['r_cena_d']."&note=Nová položka do balíčku ".$r_balicky['bal_nazev']." přidána.#poplatky'>";
 }
-
 
 $sql_bal_polozky = "SELECT * FROM bal_polozky WHERE bal_id = ".$r_balicky['bal_id'];
 $bal_polozky = vystup_sql($sql_bal_polozky);
