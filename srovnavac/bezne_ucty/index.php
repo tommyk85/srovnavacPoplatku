@@ -167,7 +167,7 @@ include "vypocet.php";
     </div>
 </div>
 
-<div id='pokr' onChange='rekalkul()'>
+<div id='pokr' onChange='rekalkul()' class="mb-5">
 <H3>Pokročilý filtr</H3>
     <div class="form-check">
         <input class="form-check-input" type='checkbox' name='disponent'
@@ -214,7 +214,7 @@ $vys_pocet = mysqli_num_rows(vystup_sql('SELECT * FROM vysledky;'));
 
 if ($vys_pocet > 0){
 ?>
-<div id='vystup' class="col-8">
+<div id='vystup' class="col-8 ms-5">
 <p style='margin-bottom:0px;'>
 Zadaným parametrům vyhovuje <b><?php echo $vys_pocet; ?></b> účtů.
 </p>
@@ -244,8 +244,8 @@ echo "<TR".($id <= 3 ? " style='background-color:#00FF66;'" : "").">
 <TD style='text-align:center'>$id.</TD>
 <TD><a href='".$r_list['www']."' target='_blank'>".$r_list['ucet']."</a>
 <br /><span style='font-size:small'>".$r_list['typ_uctu']."<br>".$r_list['banka']."</span></TD>
-<TD style='text-align:right; font-size:large; font-weight:bold'>".$r_list['min'].($r_list['vyj_id'] == 1 ? '*' : '')."</TD>
-<TD style='text-align:right".($r_list['min'] == $r_list['max'] ? ";font-weight:bold" : "")."'>".$r_list['max']."</TD>
+<TD style='font-size:large; font-weight:bold'>".$r_list['min'].($r_list['vyj_id'] == 1 ? '*' : '')."</TD>
+<TD ".($r_list['min'] == $r_list['max'] ? "style='font-weight:bold'" : "").">".$r_list['max']."</TD>
 <TD style='font-size:small;vertical-align:center;'>
 <div style='display:inline-block;padding-right:5px;'>
 Banking: ".$r_list['banking']."
