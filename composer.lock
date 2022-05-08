@@ -4,8 +4,97 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d24daa02d0cc4f79dcfeb3938e751930",
+    "content-hash": "980f5d2cbf06e14c51a74c7e79166793",
     "packages": [
+        {
+            "name": "brunodebarros/git-deploy-php",
+            "version": "2.0.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/BrunoDeBarros/git-deploy-php.git",
+                "reference": "5740bfa4556950596bd8a6445660d8af6e61ed15"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/BrunoDeBarros/git-deploy-php/zipball/5740bfa4556950596bd8a6445660d8af6e61ed15",
+                "reference": "5740bfa4556950596bd8a6445660d8af6e61ed15",
+                "shasum": ""
+            },
+            "require": {
+                "ext-ftp": "*"
+            },
+            "require-dev": {
+                "league/climate": "^3.2",
+                "league/flysystem": "^1.0",
+                "phpseclib/phpseclib": "^2.0",
+                "phpunit/phpunit": "^5.1"
+            },
+            "bin": [
+                "git-deploy"
+            ],
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Brunodebarros\\Gitdeploy\\": "tools/src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Bruno Moreira De Barros",
+                    "email": "bruno@terraduo.com",
+                    "homepage": "https://terraduo.com",
+                    "role": "Developer"
+                },
+                {
+                    "name": "Mangirdas Skripka",
+                    "email": "mangirdas@impresspages.org",
+                    "homepage": "http://www.impresspages.org",
+                    "role": "Developer"
+                },
+                {
+                    "name": "sbtsrbayer",
+                    "role": "Developer"
+                },
+                {
+                    "name": "Tijmen Brommet",
+                    "email": "tijmen@gmail.com",
+                    "role": "Developer"
+                },
+                {
+                    "name": "Michael Naurbjerg",
+                    "role": "Developer"
+                },
+                {
+                    "name": "Sergey Volkov",
+                    "email": "sergey.volkov.kh@yandex.ua",
+                    "role": "Developer"
+                },
+                {
+                    "name": "Jesse Dobbelaere",
+                    "email": "jesse@dobbelaere-ae.be",
+                    "homepage": "http://www.jessedobbelae.re",
+                    "role": "Developer"
+                }
+            ],
+            "description": "git-deploy-php is a simple php-based tool that deploys your Git repositories to FTP/SFTP servers, and keeps them updated automatically.",
+            "homepage": "http://brunodebarros.github.io/git-deploy-php/",
+            "keywords": [
+                "deploy",
+                "ftp",
+                "git",
+                "php",
+                "sftp"
+            ],
+            "support": {
+                "issues": "https://github.com/BrunoDeBarros/git-deploy-php/issues",
+                "source": "https://github.com/BrunoDeBarros/git-deploy-php/tree/2.0.4"
+            },
+            "time": "2019-05-16T18:52:35+00:00"
+        },
         {
             "name": "twbs/bootstrap",
             "version": "v5.1.3",
