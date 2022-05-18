@@ -1,6 +1,9 @@
 <!doctype html>
 <html>
 <head>
+<?php
+    include_once("../../analyticstracking.php"); 
+?>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -38,7 +41,6 @@
 if(!isset($_POST['ukaz_detail']) && !isset($_GET['id']))
 die("nepovolený přístup");
 
-include_once("analyticstracking.php"); 
 include "../../common/db/pripojeni_sql.php"; 
 include "../../common/format.php";
 

@@ -1,6 +1,12 @@
 <!doctype html>
 <html>
 <head>
+<?php
+    include_once("../../analyticstracking.php");
+?>
+
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9069711509149803" 
+    crossorigin="anonymous"></script>
 
 <!-- Required meta tags -->
 <meta charset="utf-8">
@@ -35,7 +41,6 @@
     </script>
 
 <?php
-include_once("analyticstracking.php");
 include "../../common/db/pripojeni_sql.php";
 include "../../common/format.php";
 include "../../common/db/query.php";

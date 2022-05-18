@@ -213,12 +213,12 @@ $k_cena_vyj = vystup_sql($sql_k_cena_vyj);
     $p_vyber1_vyj = $vyj_vysl_p;
     //echo "$cena_id - pocet vyberu z vlastnich bankomatu zdarma $vyj_vysl_p, ";
     break;
-    
+
     case 'p_kartaH_vyber2_vyj':
     $p_vyber2_vyj = $vyj_vysl_p;
     //echo "$cena_id - pocet vyberu z cizich bankomatu zdarma $vyj_vysl_p, ";
     break;
-        
+
     default:
     echo "$cena_id neznama vyjimka ($vyj_pole), ";
     }
