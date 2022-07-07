@@ -54,7 +54,7 @@ include "vypocet.php";
 
 <H1>SROVNÁVAČ měsíčních poplatků - běžné účty</H1>
 
-<p style='margin-bottom:50px;'>Změnou parametrů (a filtrů) se automaticky přepočítá a přefiltruje výsledný seznam účtů. </p>
+<p style='margin-bottom:50px;'>Změnou parametrů (a filtrů) se automaticky přepočítá a přefiltruje výsledný seznam účtů.</p>
 
 <div class="row">
 <div id='filtr' onChange='rekalkul()' class="col-3 ms-2">

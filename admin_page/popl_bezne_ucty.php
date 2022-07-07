@@ -45,7 +45,7 @@ $tb_sql = isset($_GET['zrizeniTB']) && is_numeric($_GET['zrizeniTB']) ? "tb_Zriz
 ".($_GET['zrizeniTP_TB'] == Null ? "tb_ZrizeniTP=Null" : "tb_ZrizeniTP = ".$_GET['zrizeniTP_TB']) : "tb_Zrizeni=Null";
 
 if(isset($_GET['vlozeni_popl'])){                                         //   VLOZENI NOVYCH POPLATKU
-    if(empty(trim($_GET['platnostOd']))) {
+    if(trim($_GET['platnostOd'])==="") {
         echo '<script>alert("Chybí platnost od")</script>';
     } else {
         $sql_vlozit_hlavni = "INSERT INTO ucty_ceny
