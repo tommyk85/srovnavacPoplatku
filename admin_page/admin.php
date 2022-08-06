@@ -297,7 +297,7 @@ echo " disabled>";
   if(!isset($_GET['oprava_ucet'])){
   echo "<INPUT type='submit' name='oprava_ucet' value='Upravit účet'>";
   echo "<INPUT type='submit' name='vyber_id' value='Zobrazit poplatky' accesskey='z'>";
-  echo "<A href='../srovnavac/bezne_ucty/detail.php?id=".$_GET['ucet']."'' tartet='_blank'> Zobrazit detail ve srovnávači</A>";
+  echo "<A href='../srovnavac/bezne_ucty/detail/index.php?id=".$_GET['ucet']."'' tartet='_blank'> Zobrazit detail ve srovnávači</A>";
   }  
   
   else

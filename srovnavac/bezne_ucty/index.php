@@ -257,7 +257,7 @@ Banking: ".$r_list['banking']."
 <br />Věkové rozmezí: ".$r_list['vek']."
 </div>
 
-<FORM action='detail.php' method='POST' target='_blank'>
+<FORM action='detail/index.php' method='POST' target='_blank'>
 <INPUT type='hidden' name='ucet_id' value=".$r_list['ucet_id'].">
 <INPUT type='hidden' name='vek' value='$vek'>
 <INPUT type='hidden' name='prich' value='$prich'>
