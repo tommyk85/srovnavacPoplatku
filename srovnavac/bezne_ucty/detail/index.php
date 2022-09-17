@@ -59,7 +59,6 @@ $d_ucet = vystup_sql($sql_d_ucet);
 
 $cena_id = mysqli_result($d_ucet, 0, "cena_id"); 
 
-
 $sql_d_karta = "SELECT * FROM ceny_karty WHERE karta_cena_id = $cena_id ORDER BY id ASC";
 $d_karta = vystup_sql($sql_d_karta);
 

@@ -1,121 +1,258 @@
 <H2>Podrobná kalkulačka</H2>
-<div class="row align-items-start">
-    <div class='col-3'>filtr</div>
-    <div class='col'>vystup</div>
-    <div class='col-3'>pokr</div>
-</div>
-
 <form name='kalk' method='POST' action='' onChange='javascript:rekalkul()'>
-<div id='filtr'>
-Věk klienta: <input type='number' name='vek' value=<?php echo $vek; ?> />
-<div class="row mb-2 justify-content-between">
-    <div class="col">
-        <label for="vek" class="form-label">Věk klienta</label>
+
+
+<div id='filtr' class="container text-sm-center">
+    <div class="row justify-content-start">
+        <div class="col-lg-3" id='filtr_klient'>Klient:
+            <div class="row">
+                <div class="col">
+                    <label for="vek" class="form-label">věk</label>
+                </div>
+                <div class="col">
+                    <input type="number" class="form-control" name="vek" value=<?php echo $vek; ?>>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-9 bg-info bg-opacity-50" id='filtr_odchozi_std'>Počet odchozích plateb zadaných jednorázově:
+            <div class="row">
+                <div class="col-lg-4 text-center">
+                    <div class="row form-check">
+                        <div class="col">
+                            <input type="checkbox" class="form-check-input" checked disabled>
+                        </div>
+                        <div class="col text-lg-start">
+                            <label for="m_banking" class="form-check-label">internetové bankovnictví</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <label for="odch_std1" class="form-label">do <?php echo $banka; ?></label>
+                        </div>
+                        <div class="col">
+                            <input type="number" class="form-control" name="odch_std1" value=0>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <label for="odch_std2" class="form-label">do jiné banky</label>
+                        </div>
+                        <div class="col">
+                            <input type="number" class="form-control" name="odch_std2" value=<?php echo $odch_std; ?>>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 text-center">
+                    <div class="row form-check">
+                        <div class="col">
+                            <input type="checkbox" class="form-check-input" name="m_banking" 
+                                value=0<?php echo (is_array($banking) && in_array('m', $banking) ? ' checked' : Null).($c_vedeni_mb == Null ? ' disabled' : Null); ?>
+                            />
+                        </div>
+                        <div class="col text-lg-start">
+                            <label for="m_banking" class="form-check-label">mobilní bankovnictví</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <label for="mb_odch_std1" class="form-label">do <?php echo $banka; ?></label>
+                        </div>
+                        <div class="col">
+                            <input type="number" class="form-control" name="mb_odch_std1" value=0>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <label for="mb_odch_std2" class="form-label">do jiné banky</label>
+                        </div>
+                        <div class="col">
+                            <input type="number" class="form-control" name="mb_odch_std2" value=0>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 text-center">
+                    <div class="row form-check">
+                        <div class="col">
+                            <input type="checkbox" class="form-check-input" name="t_banking" 
+                                value=0<?php echo (is_array($banking) && in_array('t', $banking) ? ' checked' : Null).($c_vedeni_tb == Null ? ' disabled' : Null); ?>
+                            />
+                        </div>
+                        <div class="col text-lg-start">
+                            <label for="m_banking" class="form-check-label">telefonní bankovnictví</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <label for="tb_odch_std1" class="form-label">do <?php echo $banka; ?></label>
+                        </div>
+                        <div class="col">
+                            <input type="number" class="form-control" name="tb_odch_std1" value=0>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <label for="tb_odch_std2" class="form-label">do jiné banky</label>
+                        </div>
+                        <div class="col">
+                            <input type="number" class="form-control" name="tb_odch_std2" value=0>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-3" id='filtr_prichozi'>Počet příchozích plateb:
+            <div class="row">
+                <div class="col">
+                    <label for="prich1" class="form-label">z <?php echo $banka; ?></label>
+                </div>
+                <div class="col">
+                    <input type="number" class="form-control" name="prich1" value=0>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <label for="prich2" class="form-label">z jiné banky</label>
+                </div>
+                <div class="col">
+                    <input type="number" class="form-control" name="prich2" value=<?php echo $prich; ?>>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-3" id='filtr_odchozi_tp'>Počet odchozích plateb z trvalých příkazů:
+            <div class="row">
+                <div class="col">
+                    <label for="odch_tp1" class="form-label">do <?php echo $banka; ?></label>
+                </div>
+                <div class="col">
+                    <input type="number" class="form-control" name="odch_tp1" value=0>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <label for="odch_tp2" class="form-label">do jiné banky</label>
+                </div>
+                <div class="col">
+                    <input type="number" class="form-control" name="odch_tp2" value=<?php echo $odch_tp; ?>>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-auto" id='filtr_vypis'>Výpis:
+            <div class="row form-check">
+                <div class="col">
+                    <input type="radio" class="form-check-input" name="vypis" 
+                        value='e'<?php echo ($vypis == 'e' ? " checked" : ($c_vypis_e == Null ? " disabled" : "")); ?>
+                    />
+                </div>
+                <div class="col text-lg-start">
+                    <label for="vypis-e" class="form-check-label">elektronický</label>
+                </div>
+            </div>
+            <div class="row form-check">
+                <div class="col">
+                    <input type="radio" class="form-check-input" name="vypis" 
+                        value='p'<?php echo ($vypis == 'p' ? " checked" : ($c_vypis_p == Null ? " disabled" : "")); ?>
+                    />
+                </div>
+                <div class="col text-lg-start">
+                    <label for="vypis-p" class="form-check-label">papírový</label>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-auto bg-info bg-opacity-50" id='filtr_karta'>Debetní karta:
+            <div class="row">
+                <div class="col-lg-3 text-center">
+                    <div class="row form-check">
+                        <div class="col">
+                            <input type="radio" class="form-check-input" name="karta" 
+                                value=1<?php echo ($karta == 1 ? " checked" : ""); ?>
+                            />
+                        </div>
+                        <div class="col text-lg-start">
+                            <label for="karta-a" class="form-check-label">ano</label>
+                        </div>
+                    </div>
+                    <div class="row form-check">
+                        <div class="col">
+                            <input type="radio" class="form-check-input" name="karta" 
+                                value=0<?php echo ($karta == 0 ? " checked" : ""); ?>
+                            />
+                        </div>
+                        <div class="col text-lg-start">
+                            <label for="karta-n" class="form-check-label">ne</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 text-center">Typ karty:
+                    <?php
+                        $i = 0;
+                        while($r_karta = mysqli_fetch_assoc($d_karta)){ ?>
+
+                    <div class="row form-check">
+                        <div class="col">
+                            <input type="radio" class="form-check-input" name="karta_typ" id='<?php echo $r_karta['ID']; ?>'
+                                value=<?php echo $r_karta['kartaH_vedeni'].($i == 0 ? " checked" : ""); ?>
+                            />
+                        </div>
+                        <div class="col text-lg-start">
+                            <label for="karta_typ<?php echo $i; ?>" class="form-check-label"><?php echo $r_karta['karta_nazev']
+                                .($r_karta['karta_typ'] == 3 ? " - virtuální karta" : ($r_karta['karta_typ'] == 4 ? " - nálepka" : "")); ?>
+                            </label>
+                        </div>
+                    </div>
+
+                    <input type='hidden' name='01kartaH_vyber1' value=<?php echo $r_karta['kartaH_vyber1']; ?>>
+                    <input type='hidden' name='01kartaH_vyber2' value=<?php echo $r_karta['kartaH_vyber2']; ?>>
+                    <input type='hidden' name='01kartaH_vyber3' value=<?php echo $r_karta['kartaH_vyber3']; ?>>
+                    <input type='hidden' name='01kartaH_vklad' value=<?php echo $r_karta['kartaH_vklad']; ?>>
+                    <input type='hidden' name='01kartaH_cashback' value=<?php echo $r_karta['kartaH_cashback']; ?>>
+                    <input type='hidden' name='01kartaH_vedeni' value=<?php echo $r_karta['kartaH_vedeni']; ?>>
+                    
+                    <?php 
+                        $i++;
+                        }
+                    ?>
+                </div>
+
+                <div class="col-lg-3 text-center">Počet výběrů z bankomatu:
+                    <div class="row">
+                        <div class="col">
+                            <label for="karta_vybery1" class="form-label"><?php echo $banka; ?></label>
+                        </div>
+                        <div class="col">
+                            <input type="number" class="form-control" name="karta_vybery1" value=0>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <label for="karta_vybery2" class="form-label">jiné banky</label>
+                        </div>
+                        <div class="col">
+                            <input type="number" class="form-control" name="karta_vybery2" value=<?php echo $karta_vybery; ?>>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-3 text-center">Platby u obchodníka:
+                    <div class="row">
+                        <div class="col">
+                            <label for="trans_karta" class="form-label">Počet plateb:</label>
+                        </div>
+                        <div class="col">
+                            <input type="number" class="form-control" name="trans_karta" value=0>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-    <div class="col-lg-4">
-        <input type="number" class="form-control" name="vek" value=<?php echo $vek; ?>>
-    </div>
-</div>
-<div>
-Počet příchozích plateb:
-  <UL name='test'>
-    <li> z <?php echo $banka; ?><input type='number' name='prich1' value=0></li>
-    <li> z jiné banky <input type='number' name='prich2' value=<?php echo $prich; ?>></li>
-  </UL>
-<div class='suma'>Příchozích celkem <input type='number' name='prich' readonly /></div> 
 </div>
 
-<div>
-<H4>Internetové bankovnictví:</H4>
-<?php echo ($c_odch_online != Null ? '(možnost e-plateb přímo u obchodníka)<br />' : Null); ?> 
-Počet zadaných jednorázových plateb:
-  <UL>
-    <li> do <?php echo $banka; ?><input type='number' name='odch_std1' value=0></li>
-    <li> do jiné banky <input type='number' name='odch_std2' value=<?php echo $odch_std; ?>></li>
-  </UL>
-<div class='suma'>Odchozích přes IB celkem <input type='number' name='odch_ib' readonly /></div>
-</div>
-
-
-<div>
-<H4><input type='checkbox' name='m_banking' value=0<?php echo (is_array($banking) && in_array('m', $banking) ? ' checked' : Null).($c_vedeni_mb == Null ? ' disabled' : Null); ?>> Mobilní/Smart bankovnictví:</H4>
-  <div id='mb'>
-  Počet zadaných jednorázových plateb:
-    <UL>
-      <li> do <?php echo $banka; ?><input type='number' name='mb_odch_std1' value=0></li>
-      <li> do jiné banky <input type='number' name='mb_odch_std2' value=0></li>
-    </UL>
-    <div class='suma'>Odchozích přes MB celkem <input type='number' name='odch_mb' readonly /></div>
-  </div>
-</div>
-<input type='hidden' name='e-odch' /> 
-
-<div>
-<H4><input type='checkbox' name='t_banking' value=0<?php echo (is_array($banking) && in_array('t', $banking) ? ' checked' : Null).($c_vedeni_tb == Null ? ' disabled' : Null); ?>> Telefonní bankovnictví:</H4> 
-  <div id='tb'>
-  Počet zadaných jednorázových plateb:
-    <UL>
-      <li> do <?php echo $banka; ?><input type='number' name='tb_odch_std1' value=0></li>
-      <li> do jiné banky <input type='number' name='tb_odch_std2' value=0></li>
-    </UL>
-    <div class='suma'>Odchozích přes TB celkem <input type='number' name='odch_tb' readonly /></div>
-  </div>
-</div>
-   
-   
-<div style='margin-top:20px;'>
-Počet trvalých příkazů:
-  <UL>
-    <li> do <?php echo $banka; ?><input type='number' name='odch_tp1' value=0></li>
-    <li> do jiné banky <input type='number' name='odch_tp2' value=<?php echo $odch_tp; ?>></li>
-  </UL>
-  <div class='suma'>Trvalých příkazů celkem <input type='number' name='odch_tp' readonly /></div>
-</div>
-
-<div class='suma'>Odchozích transakcí celkem <input type='number' name='odch' readonly /></div>
-<div class='suma'>Transakcí celkem <input type='number' name='trans' readonly /></div>
-   
-<div>
-Výpis: 
-<input type='radio' name='vypis' value='e'<?php echo ($vypis == 'e' ? " checked" : ($c_vypis_e == Null ? " disabled" : "")); ?>> elektronický
-<input type='radio' name='vypis' value='p'<?php echo ($vypis == 'p' ? " checked" : ($c_vypis_p == Null ? " disabled" : "")); ?>> papírový
-</div>
-
-<div id='karta'>Platební karta k účtu (debetní):
-<input type='radio' name='karta' value=1<?php echo ($karta == 1 ? " checked" : ""); ?>> ano
-<input type='radio' name='karta' value=0<?php echo ($karta == 0 ? " checked" : ""); ?>> ne 
-  <div id='karta_ano'>
-  Typ karty:<BR />
-  <?php
-  $i = 0;
-  $d_karta = vystup_sql($sql_d_karta);
-  while($r_karta = mysqli_fetch_assoc($d_karta)){
-  echo "<input type='radio' name='karta_typ' id='".$r_karta['ID']."' value=".$r_karta['kartaH_vedeni'].($i == 0 ? " checked" : "")
-  .($r_karta['karta_typ'] > 2 ? " disabled" : "").">".$r_karta['karta_nazev']
-  .($r_karta['karta_typ'] == 3 ? " - virtuální karta" : "").($r_karta['karta_typ'] == 4 ? " - nálepka" : "")."
-  <input type='hidden' name='01kartaH_vyber1' value=".$r_karta['kartaH_vyber1'].">
-  <input type='hidden' name='01kartaH_vyber2' value=".$r_karta['kartaH_vyber2'].">
-  <input type='hidden' name='01kartaH_vyber3' value=".$r_karta['kartaH_vyber3'].">
-  <input type='hidden' name='01kartaH_vklad' value=".$r_karta['kartaH_vklad'].">    
-  <input type='hidden' name='01kartaH_cashback' value=".$r_karta['kartaH_cashback'].">
-  <input type='hidden' name='01kartaH_vedeni' value=".$r_karta['kartaH_vedeni']."><br />";
-  $i++;
-  }
-  ?>
-  Počet výběrů z bankomatu:
-  <UL>
-    <LI>z bankomatu <?php echo $banka; ?> <input type='number' id='karta_vybery1' value=0></LI>
-    <LI>z bankomatu jiné banky <input type='number' id='karta_vybery2' value=<?php echo $karta_vybery; ?>></LI>
-  </UL>
-  Počet plateb kartou: <input type='number' name='trans_karta' value=0>
-  <div class='suma'>Transakcí kartou celkem <input type='number' name='trans_karta_vse' readonly /></div>
-  </div>
-</div>                
-
-
-</div>
-
-<div id='pokr' class='col-4'>
+<div id='pokr' class='col-lg-4'>
 <h3>Možnosti úspor s podmínkami</h3>
 
 <?php
@@ -145,7 +282,6 @@ while($r_vyj = mysqli_fetch_assoc($vyj)){
 echo "<li name='".$r_vyj['pole']."' cena_value=".$r_vyj['vysledek'].">".$r_vyj['podm_popis']." ".$r_vyj['vysledek']." ".$r_vyj['podm_jedn']."</li>";
 $vyj_podm_edit = explode(" AND ", $r_vyj['podminka']);
 echo "<ul>";
-//echo "<input type='hidden' name='vysledek' value='".$r_vyj[2]."' />";
   for($i=0; $i < count($vyj_podm_edit); ++$i){
   echo "<li>";
     for($j=0; $j < mysqli_num_rows($podm); $j++){
@@ -171,37 +307,26 @@ echo "</ul>";
 }
 echo "</ol>";
 
-
 }
 
-
 mysqli_data_seek($podm, 0);
-
 
   while($r_podm = mysqli_fetch_array($podm)){
   $podm_ar[] = $r_podm;
   }
 
-
-
 $vyj_karta_ar = array();
 while($r_vyj_karta = mysqli_fetch_array($vyj_karta)){
 $vyj_karta_ar[] = $r_vyj_karta;
 }
-
-
-
 ?>
 
 </div>
 
-
-
 <script language='javascript'>
 var pokr = document.getElementById('pokr');
 var vyj_karta = <?php echo json_encode($vyj_karta_ar); ?>;
-var podm = <?php echo json_encode($podm_ar); ?>; 
-//console.log(vyj_karta[0]['karta_id']);
+var podm = <?php echo json_encode($podm_ar); ?>;
 
 if(vyj_karta.length > 0){
 var pokr_karta = document.createElement('div'); 
@@ -231,8 +356,7 @@ pokr_karta.appendChild(vyj_karta_head);
   ol_li.setAttribute('cena_value',vyj_karta[i]['vysledek']);
   ol_li.appendChild(ol_li_text);
   ol.appendChild(ol_li);
-    
-  
+
   var ul = document.createElement('ul');
   
     for(var k = 0; k < karta_podm.length; k++){         // kar_pod == podminka
@@ -240,9 +364,8 @@ pokr_karta.appendChild(vyj_karta_head);
     var podm_id = karta_podm[k].slice(0, karta_podm[k].indexOf(' '));
     var podm_podm = karta_podm[k].slice(karta_podm[k].indexOf(' '),karta_podm[k].length).trim();
 
-    console.log(vyj_karta[i]['podm_popis'] +' / '+ podm_id +' / ' + podm.length);                         
-//    console.log(podm_podm+'podminka: '+karta_podm[k]+',mezera: '+karta_podm[k].indexOf(' ')+',delka: '+karta_podm[k].length);
-      
+    console.log(vyj_karta[i]['podm_popis'] +' / '+ podm_id +' / ' + podm.length);
+
       for(var p = 0; p < podm.length; p++){
       console.log(podm[p]['podm_id']);
       
@@ -261,9 +384,7 @@ pokr_karta.appendChild(vyj_karta_head);
         podm_type_input.setAttribute('type','hidden');
         podm_type_input.setAttribute('name','type');
         podm_type_input.value = podm[p]['podm_type'];
-   
 
-        //console.log('popis: '+podm[p]['podm_popis']);
         var ul_li_text = document.createTextNode(podm[p]['podm_popis']);
         var ul_li_span = document.createElement('span');
         ul_li_span.style.fontSize = 'x-small';
@@ -278,7 +399,6 @@ pokr_karta.appendChild(vyj_karta_head);
         }
       }
 
-
     ul_li.appendChild(ul_li_text);
     ul_li.appendChild(podm_id_input); 
     ul_li.appendChild(podm_jedn_input);
@@ -292,33 +412,24 @@ pokr_karta.appendChild(vyj_karta_head);
   pokr_karta.appendChild(ol);
   }
 
-
 pokr.appendChild(pokr_karta);
 }
-
-
 
 var podminky1 = pokr.getElementsByTagName('ul');
 
 if(podminky1.length > 0){
-var div = document.createElement('div');
-document.getElementsByName('kalk')[0].appendChild(div);
-div.setAttribute('id','pokr2');
-//console.log(podminky1.length);
+var filtr = document.getElementById('filtr').firstElementChild;
 
   for(var i=0; i<podminky1.length; i++){                       
   var podminky2 = podminky1[i].getElementsByTagName('li');
 
-
     for(var j=0; j<podminky2.length; j++){
-    var br = document.createElement('br');
     var node = podminky2[j].childNodes;
     var inputs = document.getElementsByTagName('input');
     var duplic = 0;
     
       for(var n=0; n<inputs.length; n++){
         if(inputs[n].type != "hidden" && inputs[n].name == node[1].name){
-        //console.log(inputs[n].type + " - " + inputs[n].name + "==" + node[1].name);
         duplic = 1;
         break;      
         }          
@@ -326,33 +437,46 @@ div.setAttribute('id','pokr2');
 
     if(duplic == 1) {continue;}
 
-    var t = document.createTextNode(node[0].nodeValue + " ");
-    div.appendChild(t);
-    
+    var blok = document.createElement("div");
+    blok.setAttribute('class', 'col');
+    var blok_radek = document.createElement("div");
+    blok_radek.setAttribute('class', 'row');
+    blok.appendChild(blok_radek);
+    var div_label = document.createElement("div");
+    div_label.setAttribute('class', 'col');
+    var div_input = document.createElement("div");
+    div_input.setAttribute('class', 'col');
+
+    blok_radek.appendChild(div_label);
+    blok_radek.appendChild(div_input);
+    filtr.appendChild(blok);
+
+    var label = document.createElement('label');
+    label.setAttribute('for', node[1].name);
+    label.setAttribute('class', 'form-label');
+    var t = document.createTextNode(node[0].nodeValue + ":");
+    label.appendChild(t);
+    div_label.appendChild(label);
+
     var input = document.createElement('input');
     var type = node[3].value;
     input.setAttribute('type', type);
     input.setAttribute('name', node[1].name);
     input.setAttribute('value', 0);
-//    console.log(node[1].name);
-    div.appendChild(input);
-    div.appendChild(br);
+    input.setAttribute('class', 'form-control');
+    div_input.appendChild(input);
     }
   }
 }
 
 </script>
-
-
 </form>
-
 
 <div id='vystup' class='col-4'>
 Předpokládaný <u>měsíční poplatek</u> je <br />
 <span style='font-size:60;margin:5'><?php echo "<span id='js' style='font-size:80'>0</span> $mena"; ?></span>
 <br />
 <span style='color:gray'>Předpokládaný roční úrok je <?php echo "<span id='urok'>$urok</span> %"; ?></span><br />
-<!-- <span style='color:blue'>JS výpočet <?php //echo "<span id='js'>".cena($v_max)."</span> $mena"; ?></span><br /> -->
 
 <div style="padding-top:10px;font-size:small;"><span id='rozdil' style='font-size:x-large'>0</span><br />hodnota poslední změny</div>
 </div>    
