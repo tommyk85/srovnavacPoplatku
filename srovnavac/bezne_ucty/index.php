@@ -287,7 +287,7 @@ Banking: ".$r_list['banking']."
 } else {
 ?>
 
-<div id='vystup'>
+<div id='vystup' class="col-8 ms-5">
 <p style='margin-bottom:0px;'>
 Zadaným parametrům nevyhovuje žádný účet.
 </p>
