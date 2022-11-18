@@ -25,25 +25,6 @@ function rekalkul(){
     var c_odch_std2_tb = Number(<?php echo json_encode($c_odch_tb2); ?>);
     var p_odch_tp1 = Number(document.getElementsByName('odch_tp1')[0].value);
     var p_odch_tp2 = Number(document.getElementsByName('odch_tp2')[0].value);
-    
-    var p_prich = p_prich1 + p_prich2;
-    document.getElementsByName('prich')[0].value = p_prich;
-    var p_odch_ib = p_odch_std1_ib + p_odch_std2_ib;
-    document.getElementsByName('odch_ib')[0].value = p_odch_ib;
-    var p_odch_mb = p_odch_std1_mb + p_odch_std2_mb;
-    document.getElementsByName('odch_mb')[0].value = p_odch_mb;
-    var p_e_odch = p_odch_ib + p_odch_mb;
-    document.getElementsByName('e-odch')[0].value = p_e_odch;
-    var p_odch_tb = p_odch_std1_tb + p_odch_std2_tb;
-    document.getElementsByName('odch_tb')[0].value = p_odch_tb;
-    var p_odch_tp = p_odch_tp1 + p_odch_tp2;
-    document.getElementsByName('odch_tp')[0].value = p_odch_tp;
-
-    var p_odch = p_odch_ib + p_odch_mb + p_odch_tb + p_odch_tp; 
-    document.getElementsByName('odch')[0].value = p_odch;
-
-    var p_trans = p_prich + p_odch;
-    document.getElementsByName('trans')[0].value = p_trans;
 
     var total = {};
 
@@ -77,7 +58,6 @@ function rekalkul(){
 
       else if(p_check[i].getAttribute('type') == 'number' && (p_check[i].value < 0 || p_check[i].value == '')){
       p_check[i].value = 0;
-      //alert('Hodnota musí být >= 0.');
       }
     }
 
@@ -94,22 +74,18 @@ function rekalkul(){
     total["c_banking"] += Number(<?php echo json_encode($c_vedeni_mb); ?>);
     total["c_odch_std1_mb"] = c_odch_std1_mb;
     total["c_odch_std2_mb"] = c_odch_std2_mb;
-    document.getElementById('mb').style.display = 'block';
     }
     else{
     total["c_odch_std1_mb"] = total["c_odch_std2_mb"] = 0;
-    document.getElementById('mb').style.display = 'none';
     }
 
     if(t_banking[0].checked == true){
     total["c_banking"] += Number(<?php echo json_encode($c_vedeni_tb); ?>);
     total["c_odch_std1_tb"] = c_odch_std1_tb;
     total["c_odch_std2_tb"] = c_odch_std2_tb;
-    document.getElementById('tb').style.display = 'block';
     }
     else{
     total["c_odch_std1_tb"] = total["c_odch_std2_tb"] = 0;
-    document.getElementById('tb').style.display = 'none';
     }
 
     total["c_odch_tp1"] = Number(<?php echo json_encode($c_tp1); ?>);
@@ -121,7 +97,7 @@ function rekalkul(){
     total["c_kartaH"] = 0;
 
     if(karta[0].checked == true && document.getElementsByName('karta_typ').length > 0){                     // = karta ano
-    karta_ano.style.display = 'block';
+
     var k_typ = document.getElementsByName('karta_typ');
       for(var i = 0; i < k_typ.length; i++){
         if(k_typ[i].checked == true){
@@ -154,21 +130,15 @@ function rekalkul(){
 
     var p_karta_vybery = p_kartaH_vyber1 + p_kartaH_vyber2;
     var p_karta_trans = Number(document.getElementsByName('trans_karta')[0].value);
-    document.getElementsByName('trans_karta_vse')[0].value = p_karta_vybery + p_karta_trans;
     }
 
     else if(karta[0].checked == true){
-    karta_ano.style.display = 'none';
     alert('K účtu se nevydávají žádné karty.');
     pozn.textContent = 'K účtu se nevydávají žádné karty.';
     pozn.style.color = 'red';
     document.getElementById('vystup').appendChild(pozn);
     karta[1].checked = true;
     karta[0].disabled = true;
-    }
-
-    else{
-    karta_ano.style.display = 'none';
     }
 
     var p = document.getElementById('pokr').getElementsByTagName('ul');
