@@ -2,9 +2,10 @@
 <form name='kalk' method='POST' action='' onChange='javascript:rekalkul()'>
 
 
-<div id='filtr' class="container text-sm-center">
-    <div class="row justify-content-start">
-        <div class="col-lg-3 pb-1 mb-2 mx-lg-1 border border-3" id='filtr_klient'>Klient:
+<div id='filtr' class="container-md text-sm-center">
+    
+    <div class="row-cols-1 justify-content-start">
+        <div class="col-md-5 pb-1 mb-2 mx-lg-1 border border-3" id='filtr_klient'>Klient:
             <div class="row">
                 <div class="col">
                     <label for="vek" class="form-label">věk</label>
@@ -15,9 +16,28 @@
             </div>
         </div>
 
-        <div class="col-lg-auto bg-info bg-opacity-50 pb-1 mb-2 mx-lg-1 border border-3" id='filtr_odchozi_std'>Počet odchozích plateb zadaných jednorázově:
+        <div class="col-md-5 pb-1 mb-2 mx-lg-1 border border-3 order-2" id='filtr_prichozi'>Počet příchozích plateb:
             <div class="row">
-                <div class="col-lg-4 text-center">
+                <div class="col">
+                    <label for="prich1" class="form-label">z <?php echo $banka; ?></label>
+                </div>
+                <div class="col">
+                    <input type="number" class="form-control" name="prich1" value=0>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <label for="prich2" class="form-label">z jiné banky</label>
+                </div>
+                <div class="col">
+                    <input type="number" class="form-control" name="prich2" value=<?php echo $prich; ?>>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-5 bg-info bg-opacity-50 pb-1 mb-2 mx-lg-1 border border-3" id='filtr_odchozi_std'>Počet odchozích plateb zadaných jednorázově:
+            <div class="row-cols-1 row">
+                <div class="col text-center">
                     <div class="row form-check">
                         <div class="col">
                             <input type="checkbox" class="form-check-input" checked disabled>
@@ -43,7 +63,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-4 text-center">
+                <div class="col text-center">
                     <div class="row form-check">
                         <div class="col">
                             <input type="checkbox" class="form-check-input" name="m_banking" 
@@ -71,7 +91,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-4 text-center">
+                <div class="col text-center">
                     <div class="row form-check">
                         <div class="col">
                             <input type="checkbox" class="form-check-input" name="t_banking" 
@@ -102,26 +122,7 @@
             </div>
         </div>
 
-        <div class="col-lg-3 pb-1 mb-2 mx-lg-1 border border-3" id='filtr_prichozi'>Počet příchozích plateb:
-            <div class="row">
-                <div class="col">
-                    <label for="prich1" class="form-label">z <?php echo $banka; ?></label>
-                </div>
-                <div class="col">
-                    <input type="number" class="form-control" name="prich1" value=0>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col">
-                    <label for="prich2" class="form-label">z jiné banky</label>
-                </div>
-                <div class="col">
-                    <input type="number" class="form-control" name="prich2" value=<?php echo $prich; ?>>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-lg-3 pb-1 mb-2 mx-lg-1 border border-3" id='filtr_odchozi_tp'>Počet odchozích plateb z trvalých příkazů:
+        <div class="col-md-5 pb-1 mb-2 mx-lg-1 border border-3" id='filtr_odchozi_tp'>Počet odchozích plateb z trvalých příkazů:
             <div class="row">
                 <div class="col">
                     <label for="odch_tp1" class="form-label">do <?php echo $banka; ?></label>
@@ -140,7 +141,7 @@
             </div>
         </div>
 
-        <div class="col-lg-auto pb-1 mb-2 mx-lg-1 border border-3" id='filtr_vypis'>Výpis:
+        <div class="col-md-5 pb-1 mb-2 mx-lg-1 border border-3" id='filtr_vypis'>Výpis:
             <div class="row form-check">
                 <div class="col">
                     <input type="radio" class="form-check-input" name="vypis" 
@@ -163,9 +164,9 @@
             </div>
         </div>
 
-        <div class="col-lg-auto bg-info bg-opacity-50 pb-1 mb-2 mx-lg-1 border border-3" id='filtr_karta'>Debetní karta:
-            <div class="row">
-                <div class="col-lg-3 text-center">Karta:
+        <div class="col-md-5 bg-info bg-opacity-50 pb-1 mb-2 mx-lg-1 border border-3" id='filtr_karta'>Debetní karta:
+            <div class="row-cols-1">
+                <div class="col text-center">
                     <div class="row form-check">
                         <div class="col">
                             <input type="radio" class="form-check-input" name="karta" 
@@ -187,7 +188,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-3 text-center">Typ karty:
+                <div class="col text-center">Typ karty:
                     <?php
                         $i = 0;
                         while($r_karta = mysqli_fetch_assoc($d_karta)){ ?>
@@ -218,7 +219,7 @@
                     ?>
                 </div>
 
-                <div class="col-lg-3 text-center">Počet výběrů z bankomatu:
+                <div class="col text-center">Počet výběrů z bankomatu:
                     <div class="row">
                         <div class="col">
                             <label for="karta_vybery1" class="form-label"><?php echo $banka; ?></label>
@@ -237,7 +238,7 @@
                     </div>
                 </div>
 
-                <div class="col-lg-3 text-center">Platby u obchodníka:
+                <div class="col text-center">Platby u obchodníka:
                     <div class="row">
                         <div class="col">
                             <label for="trans_karta" class="form-label">Počet plateb:</label>
@@ -252,7 +253,7 @@
     </div>
 </div>
 
-<div id='pokr' class='col-lg-4'>
+<div id='pokr' class='container-lg'>
 <h3>Možnosti úspor s podmínkami</h3>
 
 <?php
@@ -438,7 +439,7 @@ var filtr = document.getElementById('filtr').firstElementChild;
     if(duplic == 1) {continue;}
 
     var blok = document.createElement("div");
-    blok.setAttribute('class', 'col-lg-auto pb-1 mb-2 mx-lg-1 border border-3');
+    blok.setAttribute('class', 'col-md-5 pb-1 mb-2 mx-lg-1 border border-3');
     var blok_radek = document.createElement("div");
     blok_radek.setAttribute('class', 'row');
     blok.appendChild(blok_radek);
