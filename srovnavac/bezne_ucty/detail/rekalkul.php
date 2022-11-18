@@ -127,8 +127,8 @@ function rekalkul(){
         if(k_typ[i].checked == true){
         karta_selected_id = k_typ[i].id;
         total["c_kartaH_vedeni"] = Number(k_typ[i].value);
-        var p_kartaH_vyber1 = Number(document.getElementById('karta_vybery1').value);
-        var p_kartaH_vyber2 = Number(document.getElementById('karta_vybery2').value);
+        var p_kartaH_vyber1 = Number(document.getElementsByName('karta_vybery1')[0].value);
+        var p_kartaH_vyber2 = Number(document.getElementsByName('karta_vybery2')[0].value);
         total["p_kartaH_vyber1_vyj"] = 0;
         total["p_kartaH_vyber2_vyj"] = 0;
         total["c_kartaH_vyber1"] = 0;
@@ -253,8 +253,6 @@ function rekalkul(){
       }
     }
 
-    var c_kartaH = karta_ano.style.display == 'block' ? total["c_kartaH"] : 0;
-
     var c_prich = total["c_prich"].toString() != "" ? total["c_prich"] : (total["c_prich1"] * p_prich1) + (total["c_prich2"] * p_prich2);
     var c_odch_std = total["c_odch_std"].toString() != "" ? total["c_odch_std"] : (p_odch_std1_ib * total["c_odch_std1_ib"]) + (p_odch_std2_ib * total["c_odch_std2_ib"]) + (p_odch_std1_mb * total["c_odch_std1_mb"]) + (p_odch_std2_mb * total["c_odch_std2_mb"]) + (p_odch_std1_tb * total["c_odch_std1_tb"]) + (p_odch_std2_tb * total["c_odch_std2_tb"]) - (total["p_odch_std_vyj"] * total["c_odch_std1_ib"]);
     var c_odch_tp = total["c_odch_tp"].toString() != "" ? total["c_odch_tp"] : (p_odch_tp1 * total["c_odch_tp1"]) + (p_odch_tp2 * total["c_odch_tp2"]);
@@ -264,7 +262,7 @@ function rekalkul(){
 
     var c_prev_total = c_total.childNodes[0].nodeValue;
 
-    c_total.textContent = (total["c_vedeni"] + total["c_banking"] + total["c_vypis"] + c_trans + c_kartaH).toFixed(2);  
+    c_total.textContent = (total["c_vedeni"] + total["c_banking"] + total["c_vypis"] + c_trans + total["c_kartaH"]).toFixed(2);  
 
     urok.textContent = total["urok"].toFixed(2);
 
