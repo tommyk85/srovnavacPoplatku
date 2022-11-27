@@ -1,11 +1,12 @@
 <H2>Podrobná kalkulačka</H2>
 <form name='kalk' method='POST' action='' onChange='javascript:rekalkul()'>
 
+<div class='container-md'>
+    <div class='row'>
+<div id='filtr' class="col-md-5 text-sm-center">
 
-<div id='filtr' class="container-md text-sm-center">
-    
     <div class="row-cols-1 justify-content-start">
-        <div class="col-md-5 pb-1 mb-2 mx-lg-1 border border-3" id='filtr_klient'>Klient:
+        <div class="col pb-1 mb-2 mx-lg-1 border border-3" id='filtr_klient'>Klient:
             <div class="row">
                 <div class="col">
                     <label for="vek" class="form-label">věk</label>
@@ -16,7 +17,7 @@
             </div>
         </div>
 
-        <div class="col-md-5 pb-1 mb-2 mx-lg-1 border border-3 order-2" id='filtr_prichozi'>Počet příchozích plateb:
+        <div class="col pb-1 mb-2 mx-lg-1 border border-3 order-2" id='filtr_prichozi'>Počet příchozích plateb:
             <div class="row">
                 <div class="col">
                     <label for="prich1" class="form-label">z <?php echo $banka; ?></label>
@@ -35,7 +36,7 @@
             </div>
         </div>
 
-        <div class="col-md-5 bg-info bg-opacity-50 pb-1 mb-2 mx-lg-1 border border-3" id='filtr_odchozi_std'>Počet odchozích plateb zadaných jednorázově:
+        <div class="col bg-info bg-opacity-50 pb-1 mb-2 mx-lg-1 border border-3" id='filtr_odchozi_std'>Počet odchozích plateb zadaných jednorázově:
             <div class="row-cols-1 row">
                 <div class="col text-center">
                     <div class="row form-check">
@@ -122,7 +123,7 @@
             </div>
         </div>
 
-        <div class="col-md-5 pb-1 mb-2 mx-lg-1 border border-3" id='filtr_odchozi_tp'>Počet odchozích plateb z trvalých příkazů:
+        <div class="col pb-1 mb-2 mx-lg-1 border border-3" id='filtr_odchozi_tp'>Počet odchozích plateb z trvalých příkazů:
             <div class="row">
                 <div class="col">
                     <label for="odch_tp1" class="form-label">do <?php echo $banka; ?></label>
@@ -141,7 +142,7 @@
             </div>
         </div>
 
-        <div class="col-md-5 pb-1 mb-2 mx-lg-1 border border-3" id='filtr_vypis'>Výpis:
+        <div class="col pb-1 mb-2 mx-lg-1 border border-3" id='filtr_vypis'>Výpis:
             <div class="row form-check">
                 <div class="col">
                     <input type="radio" class="form-check-input" name="vypis" 
@@ -164,7 +165,7 @@
             </div>
         </div>
 
-        <div class="col-md-5 bg-info bg-opacity-50 pb-1 mb-2 mx-lg-1 border border-3" id='filtr_karta'>Debetní karta:
+        <div class="col bg-info bg-opacity-50 pb-1 mb-2 mx-lg-1 border border-3" id='filtr_karta'>Debetní karta:
             <div class="row-cols-1">
                 <div class="col text-center">
                     <div class="row form-check">
@@ -252,9 +253,11 @@
         </div>
     </div>
 </div>
-
-<div id='pokr' class='container-lg'>
-<h3>Možnosti úspor s podmínkami</h3>
+<div id='pokr' class='col'>
+    <div class='row-cols-1'>
+        <div class='col'>
+    
+        <h3>Možnosti úspor s podmínkami</h3>
 
 <?php
 $podm_ar = array();
@@ -322,7 +325,25 @@ $vyj_karta_ar[] = $r_vyj_karta;
 }
 ?>
 
+                </div>
+
+                <div id='vystup' class='col'>
+                    Předpokládaný <u>měsíční poplatek</u> je <br />
+                <span style='font-size:60;margin:5'><?php echo "<span id='js' style='font-size:80'>0</span> $mena"; ?></span>
+                <br />
+                <span style='color:gray'>Předpokládaný roční úrok je <?php echo "<span id='urok'>$urok</span> %"; ?></span><br />
+
+                    <div style="padding-top:10px;font-size:small;"><span id='rozdil' style='font-size:x-large'>0</span><br />hodnota poslední změny</div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
+</form>
+
+<script type="text/javascript">
+    document.body.onload = rekalkul();
+</script>
 
 <script language='javascript'>
 var pokr = document.getElementById('pokr');
@@ -439,7 +460,7 @@ var filtr = document.getElementById('filtr').firstElementChild;
     if(duplic == 1) {continue;}
 
     var blok = document.createElement("div");
-    blok.setAttribute('class', 'col-md-5 pb-1 mb-2 mx-lg-1 border border-3');
+    blok.setAttribute('class', 'col pb-1 mb-2 mx-lg-1 border border-3');
     var blok_radek = document.createElement("div");
     blok_radek.setAttribute('class', 'row');
     blok.appendChild(blok_radek);
@@ -470,20 +491,4 @@ var filtr = document.getElementById('filtr').firstElementChild;
   }
 }
 
-</script>
-</form>
-
-<div id='vystup' class='col-4'>
-Předpokládaný <u>měsíční poplatek</u> je <br />
-<span style='font-size:60;margin:5'><?php echo "<span id='js' style='font-size:80'>0</span> $mena"; ?></span>
-<br />
-<span style='color:gray'>Předpokládaný roční úrok je <?php echo "<span id='urok'>$urok</span> %"; ?></span><br />
-
-<div style="padding-top:10px;font-size:small;"><span id='rozdil' style='font-size:x-large'>0</span><br />hodnota poslední změny</div>
-</div>    
-    </div>
-</div>
-
-<script type="text/javascript">
-    document.body.onload = rekalkul();
 </script>
