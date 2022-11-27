@@ -481,23 +481,7 @@ Předpokládaný <u>měsíční poplatek</u> je <br />
 
 <div style="padding-top:10px;font-size:small;"><span id='rozdil' style='font-size:x-large'>0</span><br />hodnota poslední změny</div>
 </div>    
-
-<?php 
-$sql_balicky = "SELECT * FROM balicky WHERE bal_cena_id = $cena_id";
-$balicky = vystup_sql($sql_balicky);
-?>      
-
-<div id='bal'<?php echo (mysqli_num_rows($balicky) == 0 ? " style='display:none;'" : ""); ?>>
-<H3>Balíčky výhod</H3>
-<p>K účtu jsou nabízeny tyto výhodné balíčky, které zatím nejsou zahrnuty do výpočtu celkového měsíčního poplatku:</p>
-<?php
-$i = 0; 
-while($r_balicky = mysqli_fetch_assoc($balicky)){
-echo "<div style='margin:5px 1px 5px 1px;'>";
-echo "<b>".++$i.". ".$r_balicky['bal_nazev']."</b> (".$r_balicky['bal_cena']." $mena)<br />".$r_balicky['bal_koment'];
-echo "</div>";
-} 
-?>
+    </div>
 </div>
 
 <script type="text/javascript">
