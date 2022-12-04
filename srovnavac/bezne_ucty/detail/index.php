@@ -130,7 +130,7 @@ console.log('ucet id = ' + ucetId + '\ncena id = ' + cenaId);
         <a href="javascript:activateTab('page4')">Výpis ze sazebníku</a> |
         <a href="javascript:activateTab('page5')">Detaily účtu</a>
 
-<div id="tabCtrl">
+<div id="tabCtrl" class='mb-5'>
 
     <div id="page1" style="display: block;padding-top:30;text-align:center">
         <?php include "kalkulacka.php"; ?>

@@ -254,8 +254,8 @@
     </div>
 </div>
 <div id='pokr' class='col'>
-    <div class='row-cols-1'>
-        <div class='col'>
+    <div class='row'>
+        <div class='col-12 mt-5'>
     
         <h3>Možnosti úspor s podmínkami</h3>
 
@@ -327,7 +327,7 @@ $vyj_karta_ar[] = $r_vyj_karta;
 
                 </div>
 
-                <div id='vystup' class='col'>
+                <div id='vystup' class='col order-first'>
                     Předpokládaný <u>měsíční poplatek</u> je <br />
                 <span style='font-size:60;margin:5'><?php echo "<span id='js' style='font-size:80'>0</span> $mena"; ?></span>
                 <br />
