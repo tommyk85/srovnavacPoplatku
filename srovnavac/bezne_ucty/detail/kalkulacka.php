@@ -327,9 +327,9 @@ $vyj_karta_ar[] = $r_vyj_karta;
 
                 </div>
 
-                <div id='vystup' class='col order-first'>
+                <div id='vystup' class='col order-first border border-3 mx-2'>
                     Předpokládaný <u>měsíční poplatek</u> je <br />
-                <span style='font-size:60;margin:5'><?php echo "<span id='js' style='font-size:80'>0</span> $mena"; ?></span>
+                <span class='fs-4 fw-normal'><?php echo "<span id='js' class='fs-2 fw-bolder'>0</span> $mena"; ?></span>
                 <br />
                 <span style='color:gray'>Předpokládaný roční úrok je <?php echo "<span id='urok'>$urok</span> %"; ?></span><br />
 
